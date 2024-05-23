@@ -28,6 +28,12 @@ class BaseEntity
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deletedAt = null;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->isActif = true;
+    }
+
     public function getId(): ?Uuid
     {
         return $this->id;
