@@ -14,6 +14,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    public const ROLES = [
+        'Administrateur' => 'ROLE_ADMIN',
+        'Propriétaire' => 'ROLE_OWNER',
+        'Locataire' => 'ROLE_TENANT',
+    ];
     #[ORM\Column(length: 180)]
     private ?string $email = null;
 
