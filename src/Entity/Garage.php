@@ -48,12 +48,19 @@ class Garage extends BaseEntity
     #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'garage')]
     private Collection $reviews;
 
+    /**
+     * @var Collection<int, Image>
+     */
+    #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'garage')]
+    private Collection $images;
+
     public function __construct()
     {
         parent::__construct();
         $this->availability = new ArrayCollection();
         $this->reservations = new ArrayCollection();
         $this->reviews = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getAddress(): ?string
@@ -212,6 +219,36 @@ class Garage extends BaseEntity
             // set the owning side to null (unless already changed)
             if ($review->getGarage() === $this) {
                 $review->setGarage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Image>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): static
+    {
+        if (!$this->images->contains($image)) {
+            $this->images->add($image);
+            $image->setGarage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Image $image): static
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getGarage() === $this) {
+                $image->setGarage(null);
             }
         }
 
