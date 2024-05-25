@@ -6,13 +6,8 @@ use App\Repository\GarageAvailabilityRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: GarageAvailabilityRepository::class)]
-class GarageAvailability
+class GarageAvailability extends BaseEntity
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
     #[ORM\Column]
     private ?\DateTimeImmutable $startAt = null;
 
@@ -25,10 +20,8 @@ class GarageAvailability
     #[ORM\Column]
     private ?\DateTimeImmutable $endTime = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    #[ORM\ManyToOne(inversedBy: 'availability')]
+    private ?Garage $garage = null;
 
     public function getStartAt(): ?\DateTimeImmutable
     {
@@ -74,6 +67,18 @@ class GarageAvailability
     public function setEndTime(\DateTimeImmutable $endTime): static
     {
         $this->endTime = $endTime;
+
+        return $this;
+    }
+
+    public function getGarage(): ?Garage
+    {
+        return $this->garage;
+    }
+
+    public function setGarage(?Garage $garage): static
+    {
+        $this->garage = $garage;
 
         return $this;
     }
