@@ -1,45 +1,72 @@
-name: Run Symfony Tests
+name: "Tests"
 
 on:
+  pull_request:
   push:
     branches:
       - main
-      - 'feature/*'
-  pull_request:
-    branches:
-      - main
+
+env:
+  fail-fast: true
+  PHPUNIT_FLAGS: "-v"
+  SYMFONY_PHPUNIT_DIR: "$HOME/symfony-bridge/.phpunit"
+  SYMFONY_DEPRECATIONS_HELPER: 0
+
+permissions:
+  contents: read
 
 jobs:
-  tests:
-    runs-on: ubuntu-latest
+  test:
+    name: "${{ matrix.operating-system }} / PHP ${{ matrix.php-version }}"
+    runs-on: ${{ matrix.operating-system }}
+    continue-on-error: false
 
     strategy:
       matrix:
-        php-version: [8.2, 8.3]
+        operating-system: ['ubuntu-latest']
+        php-version: ['8.2', '8.3']
+        include:
+          # TODO: change this to 'macos-latest' on June 2024, when '14' will become 'latest'
+          - operating-system: 'macos-14'
+            php-version: '8.2'
+          - operating-system: 'windows-latest'
+            php-version: '8.2'
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: "Checkout code"
+        uses: actions/checkout@v4
 
-      - name: Set up PHP
+      - name: "Install PHP with extensions"
         uses: shivammathur/setup-php@v2
         with:
+          coverage: "none"
+          extensions: "intl, mbstring, pdo_sqlite, zip"
           php-version: ${{ matrix.php-version }}
-          extensions: mbstring, intl
-          ini-values: |
-            memory_limit = 512M
-          coverage: none
+          tools: composer:v2
 
-      - name: Cache Composer dependencies
-        uses: actions/cache@v2
+      - name: "Add PHPUnit matcher"
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: "Set composer cache directory"
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: "Cache composer"
+        uses: actions/cache@v4
         with:
-          path: vendor
-          key: composer-${{ matrix.php-version }}-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            composer-${{ matrix.php-version }}-
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
 
-      - name: Install Composer dependencies
+      - name: "Install dependencies"
         run: composer install --ansi --no-interaction --no-progress
+
+      - name: "Build and compile assets"
+        run: |
+          php bin/console importmap:install
+          php bin/console sass:build
+          php bin/console asset-map:compile
 
       - name: "Install PHPUnit"
         run: vendor/bin/simple-phpunit install
@@ -48,4 +75,4 @@ jobs:
         run: vendor/bin/simple-phpunit --version
 
       - name: "Run tests"
-        run: vendor/bin/simple-phpunit
+        run: vendor/bin/simple-phpunit ${{ env.PHPUNIT_FLAGS }}
