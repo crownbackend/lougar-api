@@ -39,7 +39,7 @@ class TenantRegisterType extends AbstractType
                 ]
             ])
             ->add('lastName', TextType::class, [
-                'label' => 'Prenom',
+                'label' => 'Prénom',
                 'label_attr' => ['class' => 'col-form-label'],
                 'attr' => [
                     'placeholder' => 'Doe',
@@ -48,12 +48,10 @@ class TenantRegisterType extends AbstractType
             ])
             ->add('birthday', null, [
                 'widget' => 'single_text',
-
-                // prevents rendering it as type="date", to avoid HTML5 date pickers
                 'html5' => false,
-
-                // adds a class that can be selected in JavaScript
-                'attr' => ['class' => 'js-datepicker'],
+                'required' => false,
+                'input' => 'datetime_immutable',
+                'format' => 'dd-MM-yyyy',
             ])
             ->add('phone', TextType::class, [
                 'label' => 'Téléphone',

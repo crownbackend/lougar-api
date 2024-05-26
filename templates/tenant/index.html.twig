@@ -54,11 +54,17 @@
                                 {{ form_widget(form.lastName) }}
                                 {{ form_errors(form.lastName) }}
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" id="input_birthday">
                                 {{ form_label(form.birthday) }}
                                 {{ form_widget(form.birthday) }}
                                 {{ form_errors(form.birthday) }}
                             </div>
+                         <div class="form-group">
+                            <div class="book-title">
+                                <label class="col-form-label required">Date de naissance</label>
+                                <div id="datetimepickershow"></div>
+                            </div>
+                         </div>
                             <div class="form-group">
                                 {{ form_label(form.phone) }}
                                 {{ form_widget(form.phone) }}
@@ -104,10 +110,25 @@
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script>
         $(document).ready(function() {
-            // you may need to change this code if you are not using Bootstrap Datepicker
-            $('.js-datepicker').datepicker({
-                format: 'yyyy-mm-dd'
-            });
+            $('#input_birthday').hide()
+            if ($('#datetimepickershow').length > 0) {
+                $('#datetimepickershow').datetimepicker({
+                    inline: true,
+                    sideBySide: true,
+                    format: 'yyyy-mm-dd',
+                    icons: {
+                        up: "fas fa-angle-up",
+                        down: "fas fa-angle-down",
+                        next: 'fas fa-angle-right',
+                        previous: 'fas fa-angle-left'
+                    }
+
+                });
+               $('form').on('submit',function () {
+                   var valDate = $('#datetimepickershow').data().date
+                   $('#tenant_register_birthday').val(valDate)
+               })
+            }
         });
     </script>
 {% endblock %}

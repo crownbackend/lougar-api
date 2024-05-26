@@ -6,12 +6,14 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[UniqueEntity("email", message: 'Mail déja utiliser')]
 class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public const ROLES = [
@@ -75,6 +77,12 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
      */
     #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'users')]
     private Collection $messages;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $validationToken = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $createdAtValidateToken = null;
 
     public function __construct()
     {
@@ -350,6 +358,30 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
                 $message->setUsers(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getValidationToken(): ?string
+    {
+        return $this->validationToken;
+    }
+
+    public function setValidationToken(?string $validationToken): static
+    {
+        $this->validationToken = $validationToken;
+
+        return $this;
+    }
+
+    public function getCreatedAtValidateToken(): ?\DateTimeImmutable
+    {
+        return $this->createdAtValidateToken;
+    }
+
+    public function setCreatedAtValidateToken(?\DateTimeImmutable $createdAtValidateToken): static
+    {
+        $this->createdAtValidateToken = $createdAtValidateToken;
 
         return $this;
     }
