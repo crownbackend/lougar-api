@@ -1,37 +1,78 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connexion - espace client{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+
+
+    <div class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-6 mx-auto">
+                    <div class="login-wrap">
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+
+                        {% if app.user %}
+                            <div class="mb-3">
+                                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                            </div>
+                        {% endif %}
+                        <!-- Login Form -->
+                        <form method="post">
+                            <div class="log-form">
+                                <div class="form-group">
+                                    <label class="col-form-label">Mail</label>
+                                    <input type="text" value="{{ last_username }}" name="email" class="form-control" autocomplete="email" required autofocus placeholder="johndoe@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col">
+                                            <label class="col-form-label">Mot de passe</label>
+                                        </div>
+                                        <div class="col-auto">
+                                            <a class="forgot-link" href="password-recovery.html">
+                                               Mot de passe oublié ?
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="pass-group">
+                                        <input type="password" class="form-control pass-input" autocomplete="current-password" required name="password" placeholder="*************">
+                                        <span class="toggle-password feather-eye-off"></span>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="_csrf_token"
+                                       value="{{ csrf_token('authenticate') }}"
+                                >
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label class="custom_check">
+                                            <input type="checkbox"  name="_remember_me"  class="rememberme">
+                                            <span class="checkmark"></span>Se sevounir de moi
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary w-100 login-btn" type="submit">Connexion</button>
+                            <div class="login-or">
+                                <span class="or-line"></span>
+                                <span class="span-or">OR</span>
+                            </div>
+                            <div class="social-login">
+                                <a href="#" class="btn btn-google w-100"><img src="assets/img/icons/google.svg" class="me-2" alt="img">Login with Google</a>
+                                <a href="#" class="btn btn-google w-100"><img src="assets/img/icons/fb.svg" class="me-2" alt="img">Login with Facebook</a>
+                            </div>
+                            <p class="no-acc">Don't have an account ?  <a href="choose-signup.html">Register</a></p>
+                        </form>
+                        <!-- /Login Form -->
+
+                    </div>
+                </div>
+            </div>
+
         </div>
-    {% endif %}
-
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" name="_remember_me"> Remember me
-        </label>
     </div>
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
 {% endblock %}
