@@ -4,7 +4,7 @@ namespace App\Tests\Controller\Tenant;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class RegisterControllerTest extends WebTestCase
+class RegisterTenantControllerTest extends WebTestCase
 {
     public function testSomething(): void
     {

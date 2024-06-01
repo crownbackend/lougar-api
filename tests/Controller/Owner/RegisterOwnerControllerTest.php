@@ -4,7 +4,7 @@ namespace App\Tests\Controller\Owner;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class RegisterControllerTest extends WebTestCase
+class RegisterOwnerControllerTest extends WebTestCase
 {
     public function testSomething(): void
     {
