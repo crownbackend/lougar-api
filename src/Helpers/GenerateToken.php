@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 class GenerateToken
 {
-    public function registerToken(int $length = 150): string {
+    public function registerToken(int $length = 70): string {
         $numBytes = ceil($length / 2);
 
         $randomBytes = random_bytes($numBytes);

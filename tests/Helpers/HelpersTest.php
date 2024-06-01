@@ -8,14 +8,14 @@ class HelpersTest extends TestCase
 {
     public function testRegisterToken(): void
     {
-        $length = 150;
+        $length = 70;
         $token = $this->registerToken($length);
 
         // Vérifie que la longueur du token est correcte
         $this->assertEquals($length, strlen($token));
     }
 
-    private function registerToken(int $length = 150): string {
+    private function registerToken(int $length = 70): string {
         $numBytes = ceil($length / 2);
 
         $randomBytes = random_bytes($numBytes);

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Tenant;
 
 use App\Entity\User;
-use App\Form\Tenant\TenantRegisterType;
+use App\Form\RegisterType;
 use App\Manager\Tenant\TenantManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +23,7 @@ class RegisterController extends AbstractController
     public function index(Request $request): Response
     {
         $tenant = new User();
-        $form = $this->createForm(TenantRegisterType::class, $tenant);
+        $form = $this->createForm(RegisterType::class, $tenant);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->manager->create($tenant, $form->get('password')->getData());
