@@ -29,7 +29,7 @@ class RegisterController extends AbstractController
             $this->manager->create($tenant, $form->get('password')->getData());
             return $this->redirectToRoute('app_login');
         }
-        return $this->render('tenant/index.html.twig', [
+        return $this->render('tenant/register.html.twig', [
             'form' => $form->createView(),
         ]);
     }

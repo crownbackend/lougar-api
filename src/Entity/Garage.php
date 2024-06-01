@@ -10,6 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: GarageRepository::class)]
 #[ORM\Index( name: 'address_idx', columns: ['address'])]
+#[ORM\Index( name: 'description_idx', columns: ['description'])]
+#[ORM\Index( name: 'price_per_day_idx', columns: ['price_per_day'])]
+#[ORM\Index( name: 'price_per_hour_idx', columns: ['price_per_hour'])]
 class Garage extends BaseEntity
 {
     #[ORM\Column(type: Types::TEXT)]

@@ -13,6 +13,6 @@ class RegisterController extends AbstractController
     #[Route('/register')]
     public function index(): Response
     {
-        return $this->render('register/index.html.twig');
+        return $this->render('owner/register.html.twig');
     }
 }

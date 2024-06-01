@@ -16,7 +16,7 @@ class TenantRegisterType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'label' => 'Email',
+                'label' => 'Email*',
                 'label_attr' => ['class' => 'col-form-label'],
                 'attr' => [
                     'placeholder' => 'johndoe@example.com',
@@ -24,14 +24,14 @@ class TenantRegisterType extends AbstractType
                 ]
             ])
             ->add('password', PasswordType::class, [
-                'label' => 'Mot de passe',
+                'label' => 'Mot de passe*',
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Mot de passe',
                 ]
             ])
             ->add('firstName', TextType::class, [
-                'label' => 'Nom',
+                'label' => 'Nom*',
                 'label_attr' => ['class' => 'col-form-label'],
                 'attr' => [
                     'placeholder' => 'John',
@@ -39,7 +39,7 @@ class TenantRegisterType extends AbstractType
                 ]
             ])
             ->add('lastName', TextType::class, [
-                'label' => 'Prénom',
+                'label' => 'Prénom*',
                 'label_attr' => ['class' => 'col-form-label'],
                 'attr' => [
                     'placeholder' => 'Doe',
@@ -54,7 +54,7 @@ class TenantRegisterType extends AbstractType
                 'format' => 'dd-MM-yyyy',
             ])
             ->add('phone', TextType::class, [
-                'label' => 'Téléphone',
+                'label' => 'Téléphone*',
                 'label_attr' => ['class' => 'col-form-label'],
                 'attr' => [
                     'placeholder' => '0612345678',
