@@ -7,7 +7,7 @@ use App\Helpers\GenerateToken;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class TenantManager
+readonly class TenantManager
 {
     public function __construct(private EntityManagerInterface $entityManager,
                                 private GenerateToken $generateToken,

@@ -6,6 +6,7 @@ namespace App\Controller\Owner;
 
 use App\Entity\User;
 use App\Form\RegisterType;
+use App\Helpers\Messages;
 use App\Manager\Owner\OwnerManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +28,7 @@ class RegisterOwnerController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->manager->create($tenant, $form->get('password')->getData());
+            $this->addFlash("success", Messages::REGISTER_CONFIRM);
             return $this->redirectToRoute('app_login');
         }
         return $this->render('owner/register.html.twig', [

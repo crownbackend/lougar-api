@@ -4,14 +4,17 @@ namespace App\Manager\Owner;
 
 use App\Entity\User;
 use App\Helpers\GenerateToken;
+use App\Helpers\Messages;
+use App\Service\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class OwnerManager
+readonly class OwnerManager
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager,
+    public function __construct(private readonly EntityManagerInterface      $entityManager,
                                 private readonly UserPasswordHasherInterface $passwordHasher,
-                                private readonly GenerateToken $generateToken)
+                                private readonly GenerateToken               $generateToken,
+                                private readonly Mailer                      $mailer)
     {
     }
 
@@ -24,5 +27,6 @@ class OwnerManager
         $tenant->setCreatedAtValidateToken(new \DateTimeImmutable());
         $this->entityManager->persist($tenant);
         $this->entityManager->flush();
+        $this->mailer->send($tenant->getEmail(), Messages::REGISTER_CONFIRM, 'emails/confirm.html.twig', ['token' => $tenant->getValidationToken()]);
     }
 }

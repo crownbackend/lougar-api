@@ -15,4 +15,10 @@ class HomeController extends AbstractController
     {
         return $this->render('index.html.twig');
     }
+
+    #[Route('/choisir', name: 'choses')]
+    public function choses(): Response
+    {
+        return $this->render('choses.html.twig');
+    }
 }
