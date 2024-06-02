@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class RegisterOwnerControllerTest extends WebTestCase
 {
-    public function testSomething(): void
+    public function testIndex(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/proprietaire/inscription');
