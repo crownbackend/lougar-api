@@ -27,7 +27,7 @@
                 <ul class="main-nav">
                     <li><a href="{{ path('home') }}">Accueil</a></li>
                     <li><a href="admin/index.html">Comment ça marche</a></li>
-                    {% if is_granted('ROLE_TENANT') or is_granted('ROLE_ADMIN') %}
+                    {% if is_granted('ROLE_TENANT') %}
                         <li class="has-submenu">
                             <a href="javascript:void(0);">Customers <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
@@ -41,7 +41,7 @@
                             </ul>
                         </li>
                     {% endif %}
-                    {% if is_granted('ROLE_OWNER') or is_granted('ROLE_ADMIN') %}
+                    {% if is_granted('ROLE_OWNER') %}
                         <li class="has-submenu">
                             <a href="javascript:void(0);">Providers <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
