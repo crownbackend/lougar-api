@@ -1,0 +1,159 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Tableau de bord
+{% endblock %}
+
+{% block stylesheets %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
+
+    <!-- Fearther CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/feather.css') }}">
+
+    <!-- select CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
+
+    <!-- Datetimepicker CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="content">
+        <div class="container">
+            <div class="row">
+
+                <!-- Customer Menu -->
+                <div class="col-lg-3 theiaStickySidebar">
+                    <div class="settings-widget">
+                        <div class="settings-header">
+                            <div class="settings-img">
+                                <img src="{{ asset('assets/img/profiles/avatar-02.jpg') }}" alt="user">
+                            </div>
+                            <h6>{{ app.user.firstName }} {{ app.user.lastName }}</h6>
+                            <p>Member Since Sep 2021</p>
+                        </div>
+                        <div class="settings-menu">
+                            <ul>
+                                <li>
+                                    <a href="{{ path('tenant_dashboard') }}" class="active">
+                                        <i class="feather-grid"></i> <span>Tableau de bord</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="customer-booking.html">
+                                        <i class="feather-smartphone"></i> <span>Réservation</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="customer-favourite.html">
+                                        <i class="feather-heart"></i> <span>Favoris</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="customer-reviews.html">
+                                        <i class="feather-star"></i> <span>Avis</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="customer-chat.html">
+                                        <i class="feather-message-circle"></i> <span>Chat</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('tenant_profile') }}">
+                                        <i class="feather-settings"></i> <span>Profil</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="index.html">
+                                        <i class="feather-log-out"></i> <span>Déconnexion</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Customer Menu -->
+
+                <div class="col-lg-9">
+                    <div class="widget-title">
+                        <h4>Tableau de bord</h4>
+                    </div>
+
+                    <div class="row">
+                        <!-- Recent Booking -->
+                        <div class="col-lg-12 d-flex flex-column">
+                            <h6 class="user-title">Recent Booking</h6>
+                            <div class="table-responsive recent-booking flex-fill">
+                                <table class="table mb-0">
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <h2 class="table-avatar">
+                                                <a href="#" class="avatar avatar-m me-2"><img class="avatar-img rounded" src="{{ asset('assets/img/services/service-06.jpg') }}" alt="User Image"></a>
+                                                <a href="#">Computer Repair<span><i class="feather-calendar"></i> 22 Sep 2023</span></a>
+                                            </h2>
+                                        </td>
+                                        <td>
+                                            <h2 class="table-avatar table-user">
+                                                <a href="#" class="avatar avatar-m me-2"><img class="avatar-img" src="{{ asset('assets/img/profiles/avatar-02.jpg') }}" alt="User Image"></a>
+                                                <a href="#">
+                                                    John Smith
+                                                    <span>john@example.com</span>
+                                                </a>
+                                            </h2>
+                                        </td>
+                                        <td class="text-end">
+                                            <a href="#" class="btn btn-light-danger">Cancel</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /Recent Booking -->
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <!-- jQuery -->
+    <script src="{{ asset('assets/js/jquery-3.7.0.min.js') }}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Fearther JS -->
+    <script src="{{ asset('assets/js/feather.min.js') }}"></script>
+
+    <!-- select CSS -->
+    <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
+
+    <script src="{{ asset('assets/plugins/aos/aos.js') }}"></script>
+
+    <!-- Datetimepicker JS -->
+    <script src="{{ asset('assets/js/moment.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script src="{{ asset('assets/plugins/theia-sticky-sidebar/ResizeSensor.js') }}"></script>
+    <script src="{{ asset('assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js') }}"></script>
+
+    <!-- Custom JS -->
+    <script src="{{ asset('assets/js/script.js') }}"></script>
+{% endblock %}
+

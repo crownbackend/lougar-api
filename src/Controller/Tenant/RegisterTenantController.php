@@ -21,7 +21,7 @@ class RegisterTenantController extends AbstractController
     }
 
     #[Route('/inscription', name: 'register', methods: ['GET', 'POST'])]
-    public function index(Request $request): Response
+    public function register(Request $request): Response
     {
         $tenant = new User();
         $form = $this->createForm(RegisterType::class, $tenant);
@@ -34,5 +34,17 @@ class RegisterTenantController extends AbstractController
         return $this->render('tenant/register.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/profil', name: 'profile', methods: ['GET', 'POST'])]
+    public function profile(): Response
+    {
+        return $this->render('tenant/profile.html.twig');
+    }
+
+    #[Route('/tableau-de-bord', name: 'dashboard', methods: ['GET', 'POST'])]
+    public function dashboard(): Response
+    {
+        return $this->render('tenant/dashboard.html.twig');
     }
 }

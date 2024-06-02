@@ -29,9 +29,9 @@
                     <li><a href="admin/index.html">Comment ça marche</a></li>
                     {% if is_granted('ROLE_TENANT') %}
                         <li class="has-submenu">
-                            <a href="javascript:void(0);">Customers <i class="fas fa-chevron-down"></i></a>
+                            <a href="javascript:void(0);">Loctaire<i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
-                                <li><a href="customer-dashboard.html">Dashboard</a></li>
+                                <li><a href="{{ path('tenant_dashboard') }}">Tableau de bord</a></li>
                                 <li><a href="customer-booking.html">Booking</a></li>
                                 <li><a href="customer-favourite.html">Favorites</a></li>
                                 <li><a href="customer-wallet.html">Wallet</a></li>
@@ -171,7 +171,7 @@
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end emp">
-                            <a class="dropdown-item" href="customer-profile.html">
+                            <a class="dropdown-item" href="{{ path('tenant_profile') }}">
                                 <i class="feather-user me-2"></i> Profil
                             </a>
                             <a class="dropdown-item" href="{{ path('app_logout') }}">
