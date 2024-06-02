@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
+#[ORM\Index( name: 'content_idx', columns: ['content'])]
 class Message extends BaseEntity
 {
     #[ORM\Column(type: Types::TEXT)]

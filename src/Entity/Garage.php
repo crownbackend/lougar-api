@@ -9,14 +9,14 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: GarageRepository::class)]
+#[ORM\Index( name: 'address_idx', columns: ['address'])]
+#[ORM\Index( name: 'description_idx', columns: ['description'])]
+#[ORM\Index( name: 'price_per_day_idx', columns: ['price_per_day'])]
+#[ORM\Index( name: 'price_per_hour_idx', columns: ['price_per_hour'])]
 class Garage extends BaseEntity
 {
-
     #[ORM\Column(type: Types::TEXT)]
     private ?string $address = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $city = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
@@ -54,6 +54,12 @@ class Garage extends BaseEntity
     #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'garage')]
     private Collection $images;
 
+    #[ORM\ManyToOne(inversedBy: 'garages')]
+    private ?City $city = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
     public function __construct()
     {
         parent::__construct();
@@ -71,18 +77,6 @@ class Garage extends BaseEntity
     public function setAddress(string $address): static
     {
         $this->address = $address;
-
-        return $this;
-    }
-
-    public function getCity(): ?string
-    {
-        return $this->city;
-    }
-
-    public function setCity(string $city): static
-    {
-        $this->city = $city;
 
         return $this;
     }
@@ -251,6 +245,30 @@ class Garage extends BaseEntity
                 $image->setGarage(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): static
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
 
         return $this;
     }

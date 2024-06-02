@@ -6,14 +6,21 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[UniqueEntity("email", message: 'Mail déja utiliser')]
 class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    public const ROLES = [
+        'Administrateur' => 'ROLE_ADMIN',
+        'Propriétaire' => 'ROLE_OWNER',
+        'Locataire' => 'ROLE_TENANT',
+    ];
     #[ORM\Column(length: 180)]
     private ?string $email = null;
 
@@ -60,16 +67,22 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     private Collection $reviews;
 
     /**
-     * @var Collection<int, Conversation>
-     */
-    #[ORM\OneToMany(targetEntity: Conversation::class, mappedBy: 'user1')]
-    private Collection $conversations;
-
-    /**
      * @var Collection<int, Message>
      */
     #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'users')]
     private Collection $messages;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $validationToken = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $createdAtValidateToken = null;
+
+    /**
+     * @var Collection<int, Conversation>
+     */
+    #[ORM\ManyToMany(targetEntity: Conversation::class, mappedBy: 'users')]
+    private Collection $conversations;
 
     public function __construct()
     {
@@ -78,8 +91,8 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         $this->garages = new ArrayCollection();
         $this->reservations = new ArrayCollection();
         $this->reviews = new ArrayCollection();
-        $this->conversations = new ArrayCollection();
         $this->messages = new ArrayCollection();
+        $this->conversations = new ArrayCollection();
     }
 
     public function getEmail(): ?string
@@ -290,36 +303,6 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     }
 
     /**
-     * @return Collection<int, Conversation>
-     */
-    public function getConversations(): Collection
-    {
-        return $this->conversations;
-    }
-
-    public function addConversation(Conversation $conversation): static
-    {
-        if (!$this->conversations->contains($conversation)) {
-            $this->conversations->add($conversation);
-            $conversation->setUser1($this);
-        }
-
-        return $this;
-    }
-
-    public function removeConversation(Conversation $conversation): static
-    {
-        if ($this->conversations->removeElement($conversation)) {
-            // set the owning side to null (unless already changed)
-            if ($conversation->getUser1() === $this) {
-                $conversation->setUser1(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Message>
      */
     public function getMessages(): Collection
@@ -344,6 +327,57 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
             if ($message->getUsers() === $this) {
                 $message->setUsers(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getValidationToken(): ?string
+    {
+        return $this->validationToken;
+    }
+
+    public function setValidationToken(?string $validationToken): static
+    {
+        $this->validationToken = $validationToken;
+
+        return $this;
+    }
+
+    public function getCreatedAtValidateToken(): ?\DateTimeImmutable
+    {
+        return $this->createdAtValidateToken;
+    }
+
+    public function setCreatedAtValidateToken(?\DateTimeImmutable $createdAtValidateToken): static
+    {
+        $this->createdAtValidateToken = $createdAtValidateToken;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Conversation>
+     */
+    public function getConversations(): Collection
+    {
+        return $this->conversations;
+    }
+
+    public function addConversation(Conversation $conversation): static
+    {
+        if (!$this->conversations->contains($conversation)) {
+            $this->conversations->add($conversation);
+            $conversation->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConversation(Conversation $conversation): static
+    {
+        if ($this->conversations->removeElement($conversation)) {
+            $conversation->removeUser($this);
         }
 
         return $this;
