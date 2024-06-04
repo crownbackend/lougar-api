@@ -31,120 +31,42 @@ Profil
         <div class="container">
             <div class="row">
 
-                <!-- Customer Menu -->
-                <div class="col-lg-3 theiaStickySidebar">
-                    <div class="settings-widget">
-                        <div class="settings-header">
-                            <div class="settings-img">
-                                <img src="{{ asset('assets/img/profiles/avatar-02.jpg') }}" alt="user">
-                            </div>
-                            <h6>John Smith</h6>
-                            <p>Member Since Sep 2021</p>
-                        </div>
-                        <div class="settings-menu">
-                            <ul>
-                                <li>
-                                    <a href="customer-dashboard.html">
-                                        <i class="feather-grid"></i> <span>Dashboard</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="customer-booking.html">
-                                        <i class="feather-smartphone"></i> <span>Bookings</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="customer-favourite.html">
-                                        <i class="feather-heart"></i> <span>Favorites</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="customer-wallet.html">
-                                        <i class="feather-credit-card"></i>  <span>Wallet</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="customer-reviews.html">
-                                        <i class="feather-star"></i> <span>Reviews</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="customer-chat.html">
-                                        <i class="feather-message-circle"></i> <span>Chat</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="customer-profile.html"  class="active">
-                                        <i class="feather-settings"></i> <span>Settings</span>
-                                    </a>
-                                    <ul class="setting-submenu">
-                                        <li>
-                                            <a href="customer-profile.html" class="active">Account</a>
-                                        </li>
-                                        <li>
-                                            <a href="security-settings.html">Security</a>
-                                        </li>
-                                        <li>
-                                            <a href="customer-notifications.html">Notifications</a>
-                                        </li>
-                                        <li>
-                                            <a href="connected-apps.html">Connected Apps</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#del-account">Delete Account</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="index.html">
-                                        <i class="feather-log-out"></i> <span>Logout</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Customer Menu -->
+                {{ include('partials/custom-menu-tenant.html.twig') }}
 
                 <div class="col-lg-9">
                     <div class="widget-title">
                         <h4>Information compte</h4>
                     </div>
 
+                    {{ form_start(form) }}
                     <div class="general-info">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-form-label">Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Enter Your Name">
+                                    <label class="col-form-label">Nom <span class="text-danger">*</span></label>
+                                    {{ form_widget(form.firstName) }}
+                                    {{ form_errors(form.firstName) }}
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-form-label">User Name</label>
-                                    <input type="text" class="form-control" placeholder="Enter Your User Name">
+                                    <label class="col-form-label">Prénom <span class="text-danger">*</span></label>
+                                    {{ form_widget(form.lastName) }}
+                                    {{ form_errors(form.lastName) }}
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-form-label">Email <span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" placeholder="Enter Email Address">
+                                    <label class="col-form-label">Mail <span class="text-danger">*</span></label>
+                                    {{ form_widget(form.email) }}
+                                    {{ form_errors(form.email) }}
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-form-label">Mobile Number <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="Enter Mobile Number">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="col-form-label">Gender</label>
-                                    <select class="select">
-                                        <option>Select Gender</option>
-                                        <option>Male</option>
-                                        <option>Female</option>
-                                    </select>
+                                    <label class="col-form-label">Téléphone <span class="text-danger">*</span></label>
+                                    {{ form_widget(form.phone) }}
+                                    {{ form_errors(form.phone) }}
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -156,67 +78,13 @@ Profil
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label class="col-form-label d-block">Your Bio <span class="brief-bio float-end">Brief description for your profile. URLs are hyperlinked.</span></label>
-                                    <textarea class="form-control" rows="5" placeholder="Add a Short Bio....."></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <h6 class="user-title">Address </h6>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="col-form-label">Address</label>
-                                <input type="text" class="form-control" placeholder="Enter Your Address">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Country</label>
-                                <input type="text" class="form-control" placeholder="Enter Your Country">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="col-form-label">State</label>
-                                <input type="email" class="form-control" placeholder="Enter Your State">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="col-form-label">City</label>
-                                <input type="text" class="form-control" placeholder="Enter Your City">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Postal Code</label>
-                                <input type="text" class="form-control" placeholder="Enter Your Postal Code">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Currency Code</label>
-                                <select class="select">
-                                    <option>Choose Currency</option>
-                                    <option>Eur</option>
-                                    <option>Aud</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="col-form-label">Language</label>
-                                <input class="input-tags form-control" type="text" data-role="tagsinput"  name="specialist" value="English,French" id="specialist">
-                            </div>
                         </div>
                     </div>
                     <div class="acc-submit">
                         <a href="#" class="btn btn-secondary">Cancel</a>
                         <a href="#" class="btn btn-primary">Save Changes</a>
                     </div>
+                    {{ form_end(form) }}
                 </div>
 
             </div>

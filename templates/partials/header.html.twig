@@ -25,51 +25,13 @@
                     <a id="menu_close" class="menu-close" href="javascript:void(0);"> <i class="fas fa-times"></i></a>
                 </div>
                 <ul class="main-nav">
-                    <li><a href="{{ path('home') }}">Accueil</a></li>
+                    <li {% if app.request.attributes.get('_route') == 'home' %}class="active"{% endif %}><a href="{{ path('home') }}">Accueil</a></li>
                     <li><a href="admin/index.html">Comment ça marche</a></li>
                     {% if is_granted('ROLE_TENANT') %}
-                        <li class="has-submenu">
-                            <a href="javascript:void(0);">Loctaire<i class="fas fa-chevron-down"></i></a>
-                            <ul class="submenu">
-                                <li><a href="{{ path('tenant_dashboard') }}">Tableau de bord</a></li>
-                                <li><a href="customer-booking.html">Booking</a></li>
-                                <li><a href="customer-favourite.html">Favorites</a></li>
-                                <li><a href="customer-wallet.html">Wallet</a></li>
-                                <li><a href="customer-reviews.html">Reviews</a></li>
-                                <li><a href="customer-chat.html">Chat</a></li>
-                                <li><a href="customer-profile.html">Settings</a></li>
-                            </ul>
-                        </li>
+                        <li {% if app.request.attributes.get('_route') == 'tenant_dashboard' %}class="active"{% endif %}><a href="{{ path('tenant_dashboard') }}">Locataire</a></li>
                     {% endif %}
                     {% if is_granted('ROLE_OWNER') %}
-                        <li class="has-submenu">
-                            <a href="javascript:void(0);">Providers <i class="fas fa-chevron-down"></i></a>
-                            <ul class="submenu">
-                                <li><a href="provider-dashboard.html">Dashboard</a></li>
-                                <li><a href="provider-services.html">My Services</a></li>
-                                <li><a href="provider-booking.html">Booking</a></li>
-                                <li><a href="provider-payout.html">Payout</a></li>
-                                <li class="has-submenu">
-                                    <a href="javascript:void(0);">Settings</a>
-                                    <ul class="submenu">
-                                        <li><a href="provider-appointment-settings.html">Appointment Settings</a></li>
-                                        <li><a href="provider-profile-settings.html">Account Settings</a></li>
-                                        <li><a href="provider-social-profile.html">Social Profiles</a></li>
-                                        <li><a href="provider-security-settings.html">Security</a></li>
-                                        <li><a href="provider-plan.html">Plan & Billings</a></li>
-                                        <li><a href="provider-notifcations.html">Notifications</a></li>
-                                        <li><a href="provider-connected-apps.html">Connected Apps</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="provider-availability.html">Availability</a></li>
-                                <li><a href="provider-holiday.html">Holidays & Leave</a></li>
-                                <li><a href="provider-coupons.html">Coupons</a></li>
-                                <li><a href="provider-offers.html">Offers</a></li>
-                                <li><a href="provider-reviews.html">Reviews</a></li>
-                                <li><a href="provider-earnings.html">Earnings</a></li>
-                                <li><a href="provider-chat.html">Chat</a></li>
-                            </ul>
-                        </li>
+                        <li><a href="#">Propriétaire</a></li>
                     {% endif %}
 
                 </ul>

@@ -30,58 +30,7 @@ Tableau de bord
         <div class="container">
             <div class="row">
 
-                <!-- Customer Menu -->
-                <div class="col-lg-3 theiaStickySidebar">
-                    <div class="settings-widget">
-                        <div class="settings-header">
-                            <div class="settings-img">
-                                <img src="{{ asset('assets/img/profiles/avatar-02.jpg') }}" alt="user">
-                            </div>
-                            <h6>{{ app.user.firstName }} {{ app.user.lastName }}</h6>
-                            <p>Member Since Sep 2021</p>
-                        </div>
-                        <div class="settings-menu">
-                            <ul>
-                                <li>
-                                    <a href="{{ path('tenant_dashboard') }}" class="active">
-                                        <i class="feather-grid"></i> <span>Tableau de bord</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="customer-booking.html">
-                                        <i class="feather-smartphone"></i> <span>Réservation</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="customer-favourite.html">
-                                        <i class="feather-heart"></i> <span>Favoris</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="customer-reviews.html">
-                                        <i class="feather-star"></i> <span>Avis</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="customer-chat.html">
-                                        <i class="feather-message-circle"></i> <span>Chat</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('tenant_profile') }}">
-                                        <i class="feather-settings"></i> <span>Profil</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="index.html">
-                                        <i class="feather-log-out"></i> <span>Déconnexion</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Customer Menu -->
+                {{ include('partials/custom-menu-tenant.html.twig') }}
 
                 <div class="col-lg-9">
                     <div class="widget-title">
