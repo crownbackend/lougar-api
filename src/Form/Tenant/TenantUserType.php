@@ -25,13 +25,6 @@ class TenantUserType extends AbstractType
                     'class' => 'form-control',
                 ]
             ])
-            ->add('password', PasswordType::class, [
-                'label' => 'Mot de passe*',
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Mot de passe',
-                ]
-            ])
             ->add('firstName', TextType::class, [
                 'label' => 'Nom*',
                 'label_attr' => ['class' => 'col-form-label'],
