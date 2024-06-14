@@ -21,10 +21,10 @@ class RegisterOwnerController extends AbstractController
     }
 
     #[Route('/inscription', name: 'register', methods: ['GET', 'POST'])]
-    public function index(Request $request): Response
+    public function register(Request $request): Response
     {
         $tenant = new User();
-        $form = $this->createForm(RegisterType::class, $tenant);
+        $form = $this->createForm(RegisterType::class, $tenant, ['is_registration' => true]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->manager->create($tenant, $form->get('password')->getData());

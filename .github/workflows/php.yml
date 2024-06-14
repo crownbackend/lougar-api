@@ -12,6 +12,20 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: app
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     strategy:
       matrix:
@@ -25,7 +39,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: mbstring, intl
+          extensions: mbstring, intl, pdo_pgsql
           ini-values: |
             memory_limit = 512M
           coverage: none
@@ -40,6 +54,15 @@ jobs:
 
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-progress --no-suggest --optimize-autoloader
+
+      - name: Run Create database
+        run: php bin/console doctrine:database:create --no-interaction
+
+      - name: Run Migrations
+        run: php bin/console doctrine:migrations:migrate --no-interaction
+
+      - name: Load Fixtures
+        run: php bin/console doctrine:fixtures:load --no-interaction
 
       - name: Run unit and functional tests
         run: php bin/phpunit --testdox --coverage-text

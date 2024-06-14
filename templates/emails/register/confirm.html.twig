@@ -57,7 +57,7 @@
     <h1>Confirmation de compte</h1>
     <p>Merci de vous être inscrit ! Pour activer votre compte, veuillez cliquer sur le bouton ci-dessous :</p>
     <div class="text-center">
-        <a href="{{ absolute_url('assets/plugins/aos/aos.js') }}" class="btn">Confirmer mon compte</a>
+        <a href="{{ absolute_url(path('user_confirm_account', {'token': token})) }}" class="btn">Confirmer mon compte</a>
     </div>
 </div>
 
