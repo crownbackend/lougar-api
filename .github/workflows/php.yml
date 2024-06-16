@@ -28,6 +28,7 @@ jobs:
     env:
       NODE_ENV: test
       DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/app?serverVersion=16&charset=utf8
+      DATABASE_TEST_URL: postgresql://postgres:postgres@127.0.0.1:5432/app_test?serverVersion=16&charset=utf8
     strategy:
       matrix:
         php-version: [8.3]
@@ -56,14 +57,15 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-progress --no-suggest --optimize-autoloader
 
-      - name: Run Create database
-        run: php bin/console doctrine:database:create --no-interaction
+      - name: Create test database
+        run: |
+          psql -h 127.0.0.1 -U postgres -c 'CREATE DATABASE app_test;'
 
-      - name: Run Migrations
-        run: php bin/console doctrine:migrations:migrate --no-interaction
+      - name: Run migrations on test database
+        run: php bin/console doctrine:migrations:migrate --env=test --no-interaction
 
-      - name: Load Fixtures
-        run: php bin/console doctrine:fixtures:load --no-interaction
+      - name: Load fixtures on test database
+        run: php bin/console doctrine:fixtures:load --env=test --no-interaction
 
       - name: Run unit and functional tests
         run: php bin/phpunit --testdox --coverage-text
