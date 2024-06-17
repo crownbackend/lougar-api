@@ -33,7 +33,14 @@
                     {% if is_granted('ROLE_OWNER') %}
                         <li><a href="{{ path('owner_dashboard') }}">Propriétaire</a></li>
                     {% endif %}
-
+                    {% if app.user == null %}
+                        <li class="login-link">
+                            <a href="{{ path('choses') }}">TROUVER/LOUER</a>
+                        </li>
+                        <li class="login-link">
+                            <a href="{{ path('app_login') }}">ESPACE CLIENT</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
             <ul class="nav header-navbar-rht">
