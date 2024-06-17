@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Form\TenantUserType;
 use App\Form\UserType;
 use App\Helpers\Messages;
 use App\Manager\UserManager;
