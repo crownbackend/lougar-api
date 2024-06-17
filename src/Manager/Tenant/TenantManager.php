@@ -29,10 +29,4 @@ readonly class TenantManager
         $this->entityManager->flush();
         $this->mailer->send($tenant->getEmail(), Messages::EMAIL_REGISTER_SUBJECT, 'emails/register/confirm.html.twig', ['token' => $tenant->getValidationToken()]);
     }
-
-    public function edit(User $tenant): void
-    {
-        $this->entityManager->persist($tenant);
-        $this->entityManager->flush();
-    }
 }
