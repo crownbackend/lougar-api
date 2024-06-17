@@ -11,9 +11,10 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/proprietaire', name: 'owner_')]
 class OwnerController extends AbstractController
 {
-    #[Route('/profil', name: 'profile', methods: ['GET', 'POST'])]
-    public function profile(): Response
+
+    #[Route('/tableau-de-bord', name: 'dashboard', methods: ['GET', 'POST'])]
+    public function dashboard(): Response
     {
-        return $this->render('owner/profile.html.twig');
+        return $this->render('owner/dashboard.html.twig');
     }
 }

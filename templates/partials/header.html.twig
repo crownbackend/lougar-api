@@ -26,12 +26,12 @@
                 </div>
                 <ul class="main-nav">
                     <li {% if app.request.attributes.get('_route') == 'home' %}class="active"{% endif %}><a href="{{ path('home') }}">Accueil</a></li>
-                    <li><a href="admin/index.html">Comment ça marche</a></li>
+                    <li><a href="#">Comment ça marche</a></li>
                     {% if is_granted('ROLE_TENANT') %}
                         <li {% if app.request.attributes.get('_route') == 'tenant_dashboard' %}class="active"{% endif %}><a href="{{ path('tenant_dashboard') }}">Locataire</a></li>
                     {% endif %}
                     {% if is_granted('ROLE_OWNER') %}
-                        <li><a href="#">Propriétaire</a></li>
+                        <li><a href="{{ path('owner_dashboard') }}">Propriétaire</a></li>
                     {% endif %}
 
                 </ul>
@@ -133,7 +133,7 @@
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end emp">
-                            <a class="dropdown-item" href="{{ path('tenant_profile') }}">
+                            <a class="dropdown-item" href="{{ path('user_profile') }}">
                                 <i class="feather-user me-2"></i> Profil
                             </a>
                             <a class="dropdown-item" href="{{ path('app_logout') }}">

@@ -1,4 +1,3 @@
-
 <!-- Customer Menu -->
 <div class="col-lg-3 theiaStickySidebar">
     <div class="settings-widget">
@@ -12,7 +11,7 @@
         <div class="settings-menu">
             <ul>
                 <li>
-                    <a href="{{ path('tenant_dashboard') }}" {% if app.request.attributes.get('_route') == 'tenant_dashboard' %}class="active"{% endif %}>
+                    <a href="{{ path('owner_dashboard') }}" {% if app.request.attributes.get('_route') == 'owner_dashboard' %}class="active"{% endif %}>
                         <i class="feather-grid"></i> <span>Tableau de bord</span>
                     </a>
                 </li>
@@ -20,6 +19,9 @@
                     <a href="customer-booking.html">
                         <i class="feather-smartphone"></i> <span>Réservation</span>
                     </a>
+                </li>
+                <li>
+                    <a href="provider-coupons.html"><i class="feather-briefcase"></i> <span>Garages</span></a>
                 </li>
                 <li>
                     <a href="customer-reviews.html">

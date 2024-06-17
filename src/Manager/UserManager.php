@@ -2,13 +2,15 @@
 
 namespace App\Manager;
 
+use App\Entity\User;
 use App\Helpers\Messages;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 readonly class UserManager
 {
-    public function __construct(private UserRepository $repository)
+    public function __construct(private UserRepository $repository, private EntityManagerInterface $entityManager)
     {
     }
 
@@ -22,5 +24,11 @@ readonly class UserManager
         $user->setValidationToken(null);
         $user->setIsActif(true);
         $this->repository->save($user);
+    }
+
+    public function edit(User $tenant): void
+    {
+        $this->entityManager->persist($tenant);
+        $this->entityManager->flush();
     }
 }
