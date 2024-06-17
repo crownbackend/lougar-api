@@ -31,7 +31,7 @@ class UserControllerTest extends WebTestCase
         $this->client->loginUser($user);
 
         // Accéder à la page sécurisée
-        $this->client->request('GET', '/locataire/profil');
+        $this->client->request('GET', '/utilisateurs/profil');
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h4', 'Information compte');
