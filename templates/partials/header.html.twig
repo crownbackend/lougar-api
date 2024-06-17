@@ -28,10 +28,12 @@
                     <li {% if app.request.attributes.get('_route') == 'home' %}class="active"{% endif %}><a href="{{ path('home') }}">Accueil</a></li>
                     <li><a href="#">Comment ça marche</a></li>
                     {% if is_granted('ROLE_TENANT') %}
-                        <li {% if app.request.attributes.get('_route') == 'tenant_dashboard' %}class="active"{% endif %}><a href="{{ path('tenant_dashboard') }}">Locataire</a></li>
+                        <li {% if app.request.attributes.get('_route') == 'tenant_dashboard' %}class="active"{% endif %}><a href="{{ path('tenant_dashboard') }}">Tableau de bord locataire</a></li>
                     {% endif %}
                     {% if is_granted('ROLE_OWNER') %}
-                        <li><a href="{{ path('owner_dashboard') }}">Propriétaire</a></li>
+                        <li {% if app.request.attributes.get('_route') == 'owner_dashboard' %}class="active"{% endif %}>
+                            <a href="{{ path('owner_dashboard') }}">Tableau de bord propriétaire</a>
+                        </li>
                     {% endif %}
                     {% if app.user == null %}
                         <li class="login-link">
