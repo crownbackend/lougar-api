@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Mes garages
+{% endblock %}
+
+{% block body %}
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+
+                {{ include('partials/custom-menu-owner.html.twig') }}
+
+                <div class="col-lg-10">
+                    <!-- Page Header -->
+                    <div class="page-header">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="provider-subtitle">
+                                    <h6>Mes garages</h6>
+                                </div>
+                            </div>
+                            <div class="col-md-8 d-flex align-items-center justify-content-md-end flex-wrap">
+                                <a href="create-service.html" class="btn btn-primary add-set"><i class="feather-plus me-2"></i>Ajouter un garage</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Page Header -->
+
+
+                    <div class="tab-content pt-0">
+                        <div class="tab-pane active" id="active-service">
+                            <div class="row">
+
+                                <!-- Favorite Item -->
+                                <div class="col-xl-4 col-md-6">
+                                    <div class="service-widget pro-service">
+                                        <div class="service-img">
+                                            <a href="service-details.html">
+                                                <img class="img-fluid serv-img" alt="Service Image" src="{{ asset('assets/img/services/service-04.jpg') }}">
+                                            </a>
+                                        </div>
+                                        <div class="service-content">
+                                            <h3 class="title">
+                                                <a href="service-details.html">Car Repair Services</a>
+                                            </h3>
+                                            <div class="addrs-item">
+                                                <p><i class="feather-map-pin"></i>Maryland City, MD, USA</p>
+                                                <h6 class="price">$20.00<span class="old-price">$35.00</span><span class="price-hr">/hr</span></h6>
+                                            </div>
+                                            <div class="serv-info">
+                                                <div>
+                                                    <a href="provider-edit-service.html" class="serv-edit"><i class="feather-edit"></i>Modifier</a>
+                                                    <a href="provider-edit-service.html" class="serv-edit"><i class="feather-trash"></i>Supprimer</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /Favorite Item -->
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Pagination -->
+                    <div class="row">
+
+                        <div class="col-sm-6">
+                            <div class="review-pagination">
+
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">1</a>
+                                    </li>
+                                    <li class="page-item active">
+                                        <a class="page-link" href="#">2 <span class="visually-hidden">(current)</span></a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">3</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Pagination -->
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <!-- jQuery -->
+    <script src="{{ asset('assets/js/jquery-3.7.0.min.js') }}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Fearther JS -->
+    <script src="{{ asset('assets/js/feather.min.js') }}"></script>
+
+    <!-- select CSS -->
+    <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
+
+    <script src="{{ asset('assets/plugins/aos/aos.js') }}"></script>
+
+    <!-- Datetimepicker JS -->
+    <script src="{{ asset('assets/js/moment.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script src="{{ asset('assets/plugins/theia-sticky-sidebar/ResizeSensor.js') }}"></script>
+    <script src="{{ asset('assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js') }}"></script>
+
+    <!-- Custom JS -->
+    <script src="{{ asset('assets/js/script.js') }}"></script>
+{% endblock %}
