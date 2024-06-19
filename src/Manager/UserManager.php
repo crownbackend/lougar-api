@@ -23,12 +23,14 @@ readonly class UserManager
         // TODO : check createdAtToken
         $user->setValidationToken(null);
         $user->setIsActif(true);
+        $user->setUpdatedAt(new \DateTimeImmutable());
         $this->repository->save($user);
     }
 
-    public function edit(User $tenant): void
+    public function edit(User $user): void
     {
-        $this->entityManager->persist($tenant);
+        $user->setUpdatedAt(new \DateTimeImmutable());
+        $this->entityManager->persist($user);
         $this->entityManager->flush();
     }
 }

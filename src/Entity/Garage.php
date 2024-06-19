@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Constraints;
 
 #[ORM\Entity(repositoryClass: GarageRepository::class)]
 #[ORM\Index( name: 'address_idx', columns: ['address'])]
@@ -16,15 +17,20 @@ use Doctrine\ORM\Mapping as ORM;
 class Garage extends BaseEntity
 {
     #[ORM\Column(type: Types::TEXT)]
+    #[Constraints\NotBlank]
     private ?string $address = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Constraints\NotBlank]
+    #[Constraints\Length(min: 10)]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Constraints\NotBlank]
     private ?string $pricePerHour = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Constraints\NotBlank]
     private ?string $pricePerDay = null;
 
     #[ORM\ManyToOne(inversedBy: 'garages')]
@@ -58,6 +64,8 @@ class Garage extends BaseEntity
     private ?City $city = null;
 
     #[ORM\Column(length: 255)]
+    #[Constraints\NotBlank]
+    #[Constraints\Length(min: 3, max: 255)]
     private ?string $name = null;
 
     public function __construct()

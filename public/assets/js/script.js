@@ -1531,7 +1531,7 @@ Version      : 1.0
 			});
 			// Adding Class Active To Show Steps Forward;
 			$('#progressbar .active').removeClass('active').addClass('activated').next().addClass('active');
-			
+			console.log('ici')
 
 		});
 		$(".service-inform-fieldset .prev_btn").on('click', function () { // Function Runs On NEXT Button Click

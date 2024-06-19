@@ -1,0 +1,649 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Créer un garage
+{% endblock %}
+
+{% block stylesheets %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
+
+    <!-- Fearther CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/feather.css') }}">
+
+    <!-- select CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
+
+    <!-- Datetimepicker CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+{% endblock %}
+
+{% block body  %}
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-bar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-12">
+                    <h2 class="breadcrumb-title">Ajouter un garage</h2>
+                    <nav aria-label="breadcrumb" class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ path('owner_garage_myGarage') }}">Mes garages</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Ajouter un garage</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Breadcrumb -->
+
+    <div class="page-wrapper">
+        <div class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mx-auto">
+
+                        <!-- Service List -->
+                        <div class="service-wizard">
+                            <ul id="progressbar">
+                                <li class="active">
+                                    <div class="multi-step-icon span-info">
+                                        <span><i class="fa-regular fa-circle-check"></i></span>
+                                    </div>
+                                    <div class="multi-step-info">
+                                        <h6>Information</h6>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="multi-step-icon">
+                                        <span><i class="fa-regular fa-clock"></i></span>
+                                    </div>
+                                    <div class="multi-step-info">
+                                        <h6>Disponibilités</h6>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="multi-step-icon">
+                                        <span><i class="fa-regular fa-map"></i></span>
+                                    </div>
+                                    <div class="multi-step-info">
+                                        <h6>Location</h6>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="multi-step-icon">
+                                        <span><i class="feather-image"></i></span>
+                                    </div>
+                                    <div class="multi-step-info">
+                                        <h6>Images</h6>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /Service List -->
+
+                        <div class="service-inform-fieldset">
+                            <!-- Service Information -->
+                            <fieldset id="first-field">
+                                <div class="card add-service">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="sub-title">
+                                                <h6>Service Information</h6>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-form-label">Service Title</label>
+                                                <input type="text" class="form-control" placeholder="Enter Service Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label d-block">Price<span class="brief-bio float-end">Set 0 for free</span></label>
+                                                <input type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label d-block">Duration</label>
+                                                <div class="form-duration">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-0">
+                                                <label class="col-form-label">Description</label>
+                                                <textarea class="form-control"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="field-bottom-btns">
+                                            <!-- <div class="field-btns">
+                                                <button class="btn btn-primary prev_btn" type="button"><i class="fa-solid fa-arrow-left"></i>Prev</button>
+                                            </div>  -->
+                                            <div class="field-btns">
+                                                <button class="btn btn-primary next_btn" type="button">Next <i class="fa-solid fa-arrow-right"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <!-- /Service Information -->
+
+                            <!-- Availability -->
+                            <fieldset>
+                                <div class="card add-service">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="sub-title">
+                                                <h6>Availability</h6>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+
+                                            <!-- Timeslot -->
+                                            <div class="timeslot-sec availablt-time-slots">
+                                                <!-- Schedule Nav -->
+                                                <label class="col-form-label">Configure Time Slots</label>
+                                                <div class="schedule-nav">
+                                                    <ul class="nav">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link active" data-bs-toggle="tab" href="#all_days">All Days</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" data-bs-toggle="tab" href="#slot_monday">Monday</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" data-bs-toggle="tab" href="#slot_tuesday">Tuesday</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" data-bs-toggle="tab" href="#slot_wednesday">Wednesday</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" data-bs-toggle="tab" href="#slot_thursday">Thursday</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" data-bs-toggle="tab" href="#slot_friday">Friday</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" data-bs-toggle="tab" href="#slot_saturday">Saturday</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" data-bs-toggle="tab" href="#slot_sunday">Sunday</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <!-- /Schedule Nav -->
+
+                                                <div class="tab-content pt-0">
+                                                    <div class="tab-pane active" id="all_days">
+                                                        <div class="hours-info">
+                                                            <h4 class="nameof-day">All Days</h4>
+                                                            <div class="row hours-cont">
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">From</label>
+                                                                        <div class="form-icon">
+                                                                            <input type="text" class="form-control timepicker" placeholder="Select Time">
+                                                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">To</label>
+                                                                        <div class="form-icon">
+                                                                            <input type="text" class="form-control timepicker" placeholder="Select Time">
+                                                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">Slots</label>
+                                                                        <input type="text" class="form-control" placeholder="Enter Slot">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <a href="#" class="add-text add-hours"><i class="feather-plus-circle"></i> Add More</a>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="slot_monday">
+                                                        <div class="hours-info">
+                                                            <h4 class="nameof-day">Monday</h4>
+                                                            <div class="row hours-cont">
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">From</label>
+                                                                        <div class="form-icon">
+                                                                            <input type="text" class="form-control timepicker" placeholder="Select Time">
+                                                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">To</label>
+                                                                        <div class="form-icon">
+                                                                            <input type="text" class="form-control timepicker" placeholder="Select Time">
+                                                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">Slots</label>
+                                                                        <input type="text" class="form-control" placeholder="Enter Slot">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <a href="#" class="add-text add-hours"><i class="feather-plus-circle"></i> Add More</a>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="slot_tuesday">
+                                                        <div class="hours-info">
+                                                            <h4 class="nameof-day">Tuesday</h4>
+                                                            <div class="row hours-cont">
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">From</label>
+                                                                        <div class="form-icon">
+                                                                            <input type="text" class="form-control timepicker" placeholder="Select Time">
+                                                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">To</label>
+                                                                        <div class="form-icon">
+                                                                            <input type="text" class="form-control timepicker" placeholder="Select Time">
+                                                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">Slots</label>
+                                                                        <input type="text" class="form-control" placeholder="Enter Slot">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <a href="#" class="add-text add-hours"><i class="feather-plus-circle"></i> Add More</a>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="slot_wednesday">
+                                                        <div class="hours-info">
+                                                            <h4 class="nameof-day">Wednesday</h4>
+                                                            <div class="row hours-cont">
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">From</label>
+                                                                        <div class="form-icon">
+                                                                            <input type="text" class="form-control timepicker" placeholder="Select Time">
+                                                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">To</label>
+                                                                        <div class="form-icon">
+                                                                            <input type="text" class="form-control timepicker" placeholder="Select Time">
+                                                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">Slots</label>
+                                                                        <input type="text" class="form-control" placeholder="Enter Slot">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <a href="#" class="add-text add-hours"><i class="feather-plus-circle"></i> Add More</a>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="slot_thursday">
+                                                        <div class="hours-info">
+                                                            <h4 class="nameof-day">Thursday</h4>
+                                                            <div class="row hours-cont">
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">From</label>
+                                                                        <div class="form-icon">
+                                                                            <input type="text" class="form-control timepicker" placeholder="Select Time">
+                                                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">To</label>
+                                                                        <div class="form-icon">
+                                                                            <input type="text" class="form-control timepicker" placeholder="Select Time">
+                                                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">Slots</label>
+                                                                        <input type="text" class="form-control" placeholder="Enter Slot">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <a href="#" class="add-text add-hours"><i class="feather-plus-circle"></i> Add More</a>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="slot_friday">
+                                                        <div class="hours-info">
+                                                            <h4 class="nameof-day">Friday</h4>
+                                                            <div class="row hours-cont">
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">From</label>
+                                                                        <div class="form-icon">
+                                                                            <input type="text" class="form-control timepicker" placeholder="Select Time">
+                                                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">To</label>
+                                                                        <div class="form-icon">
+                                                                            <input type="text" class="form-control timepicker" placeholder="Select Time">
+                                                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">Slots</label>
+                                                                        <input type="text" class="form-control" placeholder="Enter Slot">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <a href="#" class="add-text add-hours"><i class="feather-plus-circle"></i> Add More</a>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="slot_saturday">
+                                                        <div class="hours-info">
+                                                            <h4 class="nameof-day">Saturday</h4>
+                                                            <div class="row hours-cont">
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">From</label>
+                                                                        <div class="form-icon">
+                                                                            <input type="text" class="form-control timepicker" placeholder="Select Time">
+                                                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">To</label>
+                                                                        <div class="form-icon">
+                                                                            <input type="text" class="form-control timepicker" placeholder="Select Time">
+                                                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">Slots</label>
+                                                                        <input type="text" class="form-control" placeholder="Enter Slot">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <a href="#" class="add-text add-hours"><i class="feather-plus-circle"></i> Add More</a>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="slot_sunday">
+                                                        <div class="hours-info">
+                                                            <h4 class="nameof-day">Sunday</h4>
+                                                            <div class="row hours-cont">
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">From</label>
+                                                                        <div class="form-icon">
+                                                                            <input type="text" class="form-control timepicker" placeholder="Select Time">
+                                                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-form-label">To</label>
+                                                                        <div class="form-icon">
+                                                                            <input type="text" class="form-control timepicker" placeholder="Select Time">
+                                                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group ">
+                                                                        <label class="col-form-label">Slots</label>
+                                                                        <input type="text" class="form-control" placeholder="Enter Slot">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <a href="#" class="add-text add-hours"><i class="feather-plus-circle"></i> Add More</a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!-- Timeslot -->
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="field-bottom-btns">
+                                            <div class="field-btns">
+                                                <button class="btn btn-primary prev_btn" type="button"><i class="fa-solid fa-arrow-left"></i>Prev</button>
+                                            </div>
+                                            <div class="field-btns">
+                                                <button class="btn btn-primary next_btn" type="button">Next <i class="fa-solid fa-arrow-right"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <!-- /Availability -->
+
+                            <!-- Location -->
+                            <fieldset>
+                                <div class="card add-service">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="sub-title">
+                                                <h6>Location</h6>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label">Address</label>
+                                                <input type="text" class="form-control" placeholder="Enter Your Address">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label">Country</label>
+                                                <input type="text" class="form-control" placeholder="Enter Country">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label">City</label>
+                                                <input type="text" class="form-control" placeholder="Enter Your City">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label">State</label>
+                                                <input type="text" class="form-control" placeholder="Enter Your State">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label">Pincode</label>
+                                                <input type="text" class="form-control" placeholder="Enter Your Pincode">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label">Google Maps Place ID</label>
+                                                <input type="text" class="form-control" placeholder="Enter Maps Place ID">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label">Latitude</label>
+                                                <input type="text" class="form-control" placeholder="Enter Latitude Number">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label">Longitude</label>
+                                                <input type="text" class="form-control" placeholder="Enter Longitude Number">
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-0">
+                                            <div class="map-grid">
+                                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6509170.989457427!2d-123.80081967108484!3d37.192957227641294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb9fe5f285e3d%3A0x8b5109a227086f55!2sCalifornia%2C%20USA!5e0!3m2!1sen!2sin!4v1669181581381!5m2!1sen!2sin" allowfullscreen="" aria-hidden="false" tabindex="0" class="contact-map"></iframe>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="field-bottom-btns">
+                                            <div class="field-btns">
+                                                <button class="btn btn-primary prev_btn" type="button"><i class="fa-solid fa-arrow-left"></i>Prev</button>
+                                            </div>
+                                            <div class="field-btns">
+                                                <button class="btn btn-primary next_btn" type="button">Next <i class="fa-solid fa-arrow-right"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <!-- /Location -->
+
+                            <!-- Gallery -->
+                            <fieldset>
+                                <div class="card add-service">
+                                    <div class="sub-title">
+                                        <h6>Gallery</h6>
+                                    </div>
+                                    <div class="file-upload">
+                                        <img src="assets/img/icons/upload-icon.svg" alt="image">
+                                        <h6>Drag & drop files or <span>Browse</span></h6>
+                                        <p>Supported formates: JPEG, PNG</p>
+                                        <input type="file" accept="video/image">
+                                    </div>
+                                    <div class="file-preview">
+                                        <label>Select Default Image</label>
+                                        <ul class="gallery-selected-img">
+                                            <li>
+                                                <div class="img-preview">
+                                                    <img src="assets/img/services/service-01.jpg" alt="Service Image">
+                                                    <a href="javascript:void(0);" class="remove-gallery"><i class="feather-trash-2"></i></a>
+                                                </div>
+                                                <label class="custom_check">
+                                                    <input type="radio" name="gallery" checked>
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </li>
+                                            <li>
+                                                <div class="img-preview">
+                                                    <img src="assets/img/services/service-02.jpg" alt="Service">
+                                                    <a href="javascript:void(0);" class="remove-gallery"><i class="feather-trash-2"></i></a>
+                                                </div>
+                                                <label class="custom_check">
+                                                    <input type="radio" name="gallery">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </li>
+                                            <li>
+                                                <div class="img-preview">
+                                                    <img src="assets/img/services/service-03.jpg" alt="Service Image">
+                                                    <a href="javascript:void(0);" class="remove-gallery"><i class="feather-trash-2"></i></a>
+                                                </div>
+                                                <label class="custom_check">
+                                                    <input type="radio" name="gallery">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </li>
+                                            <li>
+                                                <div class="img-preview">
+                                                    <img src="assets/img/services/service-04.jpg" class="img-fluid thumbnail" alt="image">
+                                                    <a href="javascript:void(0);" class="remove-gallery"><i class="feather-trash-2"></i></a>
+                                                </div>
+                                                <label class="custom_check">
+                                                    <input type="radio" name="gallery">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="field-bottom-btns">
+                                    <div class="field-btns">
+                                        <button class="btn btn-primary prev_btn" type="button"><i class="fa-solid fa-arrow-left"></i>Prev</button>
+                                    </div>
+                                    <div class="field-btns">
+                                        <button class="btn btn-primary next_btn" type="button">Next <i class="fa-solid fa-arrow-right"></i></button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <!-- /Gallery -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <!-- jQuery -->
+    <script src="{{ asset('assets/js/jquery-3.7.0.min.js') }}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Fearther JS -->
+    <script src="{{ asset('assets/js/feather.min.js') }}"></script>
+
+    <!-- select CSS -->
+    <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/aos/aos.js') }}"></script>
+
+    <!-- Datetimepicker JS -->
+    <script src="{{ asset('assets/js/moment.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+
+    <!-- Custom JS -->
+    <script src="{{ asset('assets/js/script.js') }}"></script>
+
+{% endblock %}
+
