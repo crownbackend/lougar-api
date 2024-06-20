@@ -64,18 +64,18 @@
                                 </li>
                                 <li>
                                     <div class="multi-step-icon">
-                                        <span><i class="fa-regular fa-clock"></i></span>
-                                    </div>
-                                    <div class="multi-step-info">
-                                        <h6>Disponibilités</h6>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="multi-step-icon">
                                         <span><i class="fa-regular fa-map"></i></span>
                                     </div>
                                     <div class="multi-step-info">
                                         <h6>Location</h6>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="multi-step-icon">
+                                        <span><i class="fa-regular fa-clock"></i></span>
+                                    </div>
+                                    <div class="multi-step-info">
+                                        <h6>Disponibilités</h6>
                                     </div>
                                 </li>
                                 <li>
@@ -92,37 +92,40 @@
                         <!-- /Service List -->
 
                         <div class="service-inform-fieldset">
+                            {{ form_start(form) }}
                             <!-- Service Information -->
                             <fieldset id="first-field">
                                 <div class="card add-service">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="sub-title">
-                                                <h6>Service Information</h6>
+                                                <h6>Garage Information</h6>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-form-label">Service Title</label>
-                                                <input type="text" class="form-control" placeholder="Enter Service Name">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="col-form-label d-block">Price<span class="brief-bio float-end">Set 0 for free</span></label>
-                                                <input type="text" class="form-control">
+                                                <label class="col-form-label">Nom</label>
+                                                {{ form_widget(form.name) }}
+                                                {{ form_errors(form.name) }}
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="col-form-label d-block">Duration</label>
-                                                <div class="form-duration">
-                                                    <input type="text" class="form-control">
-                                                </div>
+                                                <label class="col-form-label d-block">Prix<span class="brief-bio float-end">Indiquée prix par heure</span></label>
+                                                {{ form_widget(form.pricePerHour) }}
+                                                {{ form_errors(form.pricePerHour) }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label d-block">Prix<span class="brief-bio float-end">Indiquée prix par jour</span></label>
+                                                {{ form_widget(form.pricePerDay) }}
+                                                {{ form_errors(form.pricePerDay) }}
                                             </div>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group mb-0">
                                                 <label class="col-form-label">Description</label>
-                                                <textarea class="form-control"></textarea>
+                                                {{ form_widget(form.description) }}
+                                                {{ form_errors(form.description) }}
                                             </div>
                                         </div>
                                     </div>
@@ -141,6 +144,65 @@
                                 </div>
                             </fieldset>
                             <!-- /Service Information -->
+
+                            <!-- Location -->
+                            <fieldset>
+                                <div class="card add-service">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="sub-title">
+                                                <h6>Location</h6>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label">Address</label>
+                                                {{ form_widget(form.address) }}
+                                                {{ form_errors(form.address) }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label d-block">Ville<span class="brief-bio float-end">Rechercher par ville</span></label>
+                                                {{ form_widget(form.city.name) }}
+                                                {{ form_errors(form.city.name) }}
+                                                <div class="service-widget servicecontent" style="display: none">
+                                                    <div class="service-content">
+                                                        <h3 class="title">
+                                                            <a href="#">Computer & Server AMC Service</a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label d-block">Code postale<span class="brief-bio float-end">Rechercher par code postale</span></label>
+                                                {{ form_widget(form.city.postalCode) }}
+                                                {{ form_errors(form.city.postalCode) }}
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-0">
+                                            <div class="map-grid">
+                                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6509170.989457427!2d-123.80081967108484!3d37.192957227641294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb9fe5f285e3d%3A0x8b5109a227086f55!2sCalifornia%2C%20USA!5e0!3m2!1sen!2sin!4v1669181581381!5m2!1sen!2sin" allowfullscreen="" aria-hidden="false" tabindex="0" class="contact-map"></iframe>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="field-bottom-btns">
+                                            <div class="field-btns">
+                                                <button class="btn btn-primary prev_btn" type="button"><i class="fa-solid fa-arrow-left"></i>Précédent</button>
+                                            </div>
+                                            <div class="field-btns">
+                                                <button class="btn btn-primary next_btn" type="button">Suivant <i class="fa-solid fa-arrow-right"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <!-- /Location -->
 
                             <!-- Availability -->
                             <fieldset>
@@ -467,103 +529,24 @@
                             </fieldset>
                             <!-- /Availability -->
 
-                            <!-- Location -->
-                            <fieldset>
-                                <div class="card add-service">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="sub-title">
-                                                <h6>Location</h6>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="col-form-label">Address</label>
-                                                <input type="text" class="form-control" placeholder="Enter Your Address">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="col-form-label">Country</label>
-                                                <input type="text" class="form-control" placeholder="Enter Country">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="col-form-label">City</label>
-                                                <input type="text" class="form-control" placeholder="Enter Your City">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="col-form-label">State</label>
-                                                <input type="text" class="form-control" placeholder="Enter Your State">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="col-form-label">Pincode</label>
-                                                <input type="text" class="form-control" placeholder="Enter Your Pincode">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="col-form-label">Google Maps Place ID</label>
-                                                <input type="text" class="form-control" placeholder="Enter Maps Place ID">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="col-form-label">Latitude</label>
-                                                <input type="text" class="form-control" placeholder="Enter Latitude Number">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="col-form-label">Longitude</label>
-                                                <input type="text" class="form-control" placeholder="Enter Longitude Number">
-                                            </div>
-                                        </div>
-                                        <div class="form-group mb-0">
-                                            <div class="map-grid">
-                                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6509170.989457427!2d-123.80081967108484!3d37.192957227641294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb9fe5f285e3d%3A0x8b5109a227086f55!2sCalifornia%2C%20USA!5e0!3m2!1sen!2sin!4v1669181581381!5m2!1sen!2sin" allowfullscreen="" aria-hidden="false" tabindex="0" class="contact-map"></iframe>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="field-bottom-btns">
-                                            <div class="field-btns">
-                                                <button class="btn btn-primary prev_btn" type="button"><i class="fa-solid fa-arrow-left"></i>Prev</button>
-                                            </div>
-                                            <div class="field-btns">
-                                                <button class="btn btn-primary next_btn" type="button">Next <i class="fa-solid fa-arrow-right"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </fieldset>
-                            <!-- /Location -->
-
                             <!-- Gallery -->
                             <fieldset>
                                 <div class="card add-service">
                                     <div class="sub-title">
-                                        <h6>Gallery</h6>
+                                        <h6>Vos images</h6>
                                     </div>
                                     <div class="file-upload">
-                                        <img src="assets/img/icons/upload-icon.svg" alt="image">
-                                        <h6>Drag & drop files or <span>Browse</span></h6>
-                                        <p>Supported formates: JPEG, PNG</p>
+                                        <img src="{{ asset('assets/img/icons/upload-icon.svg') }}" alt="image">
+                                        <h6>Sélectionnez des images de votre garage</h6>
+                                        <p>Format supporter: JPEG, PNG</p>
                                         <input type="file" accept="video/image">
                                     </div>
                                     <div class="file-preview">
-                                        <label>Select Default Image</label>
+                                        <label>Sélectionner l'image par défaut</label>
                                         <ul class="gallery-selected-img">
                                             <li>
                                                 <div class="img-preview">
-                                                    <img src="assets/img/services/service-01.jpg" alt="Service Image">
+                                                    <img src="{{ asset('assets/img/services/service-01.jpg') }}" alt="Service Image">
                                                     <a href="javascript:void(0);" class="remove-gallery"><i class="feather-trash-2"></i></a>
                                                 </div>
                                                 <label class="custom_check">
@@ -573,27 +556,7 @@
                                             </li>
                                             <li>
                                                 <div class="img-preview">
-                                                    <img src="assets/img/services/service-02.jpg" alt="Service">
-                                                    <a href="javascript:void(0);" class="remove-gallery"><i class="feather-trash-2"></i></a>
-                                                </div>
-                                                <label class="custom_check">
-                                                    <input type="radio" name="gallery">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </li>
-                                            <li>
-                                                <div class="img-preview">
-                                                    <img src="assets/img/services/service-03.jpg" alt="Service Image">
-                                                    <a href="javascript:void(0);" class="remove-gallery"><i class="feather-trash-2"></i></a>
-                                                </div>
-                                                <label class="custom_check">
-                                                    <input type="radio" name="gallery">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </li>
-                                            <li>
-                                                <div class="img-preview">
-                                                    <img src="assets/img/services/service-04.jpg" class="img-fluid thumbnail" alt="image">
+                                                    <img src="{{ asset('assets/img/services/service-02.jpg') }}" alt="Service">
                                                     <a href="javascript:void(0);" class="remove-gallery"><i class="feather-trash-2"></i></a>
                                                 </div>
                                                 <label class="custom_check">
@@ -610,12 +573,12 @@
                                         <button class="btn btn-primary prev_btn" type="button"><i class="fa-solid fa-arrow-left"></i>Prev</button>
                                     </div>
                                     <div class="field-btns">
-                                        <button class="btn btn-primary next_btn" type="button">Next <i class="fa-solid fa-arrow-right"></i></button>
+                                        <button type="submit" class="btn btn-primary">Envoyer<i class="fa-solid fa-arrow-right"></i></button>
                                     </div>
                                 </div>
                             </fieldset>
                             <!-- /Gallery -->
-
+                            {{ form_end(form) }}
                         </div>
                     </div>
                 </div>

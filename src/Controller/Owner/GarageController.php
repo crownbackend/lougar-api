@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller\Owner;
 
+use App\Entity\Garage;
+use App\Form\Garage\GarageType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -18,8 +21,16 @@ class GarageController extends AbstractController
     }
 
     #[Route('/ajouter-un-garage', name: 'add', methods: ['GET', 'POST'])]
-    public function add(): Response
+    public function add(Request $request): Response
     {
-        return $this->render("owner/garage/add.html.twig");
+        $garage = new Garage();
+        $form = $this->createForm(GarageType::class, $garage);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            dd($form->getData());
+        }
+        return $this->render("owner/garage/add.html.twig", [
+            'form' => $form->createView(),
+        ]);
     }
 }
