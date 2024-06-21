@@ -537,7 +537,7 @@
                                         <img src="{{ asset('assets/img/icons/upload-icon.svg') }}" alt="image">
                                         <h6>Sélectionnez des images de votre garage</h6>
                                         <p>Format supporter: JPEG, PNG</p>
-                                        <input type="file" accept="video/image">
+                                        {{ form_widget(form.images) }}
                                     </div>
                                     <div class="file-preview">
                                         <label>Sélectionner l'image par défaut</label>
