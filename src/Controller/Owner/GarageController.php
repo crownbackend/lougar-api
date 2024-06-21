@@ -6,6 +6,7 @@ namespace App\Controller\Owner;
 
 use App\Entity\Garage;
 use App\Form\Garage\GarageType;
+use App\Manager\Owner\GarageManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,10 +15,16 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/proprietaire', name: 'owner_garage_')]
 class GarageController extends AbstractController
 {
+    public function __construct(private GarageManager $manager)
+    {
+    }
+
     #[Route('/mes-garage', name: 'myGarage', methods: ['GET'])]
     public function myGarage(): Response
     {
-        return $this->render('owner/garage/index.html.twig');
+        return $this->render('owner/garage/index.html.twig', [
+            'garages' => $this->manager->index($this->getUser())
+        ]);
     }
 
     #[Route('/ajouter-un-garage', name: 'add', methods: ['GET', 'POST'])]
