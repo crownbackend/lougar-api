@@ -14,6 +14,9 @@ class Image extends BaseEntity
     #[ORM\ManyToOne(inversedBy: 'images')]
     private ?Garage $garage = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isPrincipal = null;
+
     public function getName(): ?string
     {
         return $this->name;
@@ -34,6 +37,18 @@ class Image extends BaseEntity
     public function setGarage(?Garage $garage): static
     {
         $this->garage = $garage;
+
+        return $this;
+    }
+
+    public function isPrincipal(): ?bool
+    {
+        return $this->isPrincipal;
+    }
+
+    public function setPrincipal(?bool $isPrincipal): static
+    {
+        $this->isPrincipal = $isPrincipal;
 
         return $this;
     }

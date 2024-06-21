@@ -167,11 +167,8 @@
                                                 {{ form_widget(form.city.name) }}
                                                 {{ form_errors(form.city.name) }}
                                                 <div class="service-widget servicecontent" id="city_content" style="display: none">
-                                                    <div class="service-content" id="result_city">
+                                                    <div class="service-content" id="result_city" style="overflow-y: auto; max-height: 50vh">
                                                     </div>
-                                                    <h3 class="title">
-                                                        <a href="service-details.html">Si vous ne trouvez pas votre ville, cherchez par code postal pour plus de précision</a>
-                                                    </h3>
                                                 </div>
                                             </div>
                                         </div>
@@ -182,6 +179,7 @@
                                                 {{ form_errors(form.city.postalCode) }}
                                             </div>
                                         </div>
+                                        {{ form_widget(form.city.id) }}
                                         <div class="form-group mb-0">
                                             <div class="map-grid">
                                                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6509170.989457427!2d-123.80081967108484!3d37.192957227641294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb9fe5f285e3d%3A0x8b5109a227086f55!2sCalifornia%2C%20USA!5e0!3m2!1sen!2sin!4v1669181581381!5m2!1sen!2sin" allowfullscreen="" aria-hidden="false" tabindex="0" class="contact-map"></iframe>
@@ -610,8 +608,9 @@
 
     <script type="text/javascript">
         let timeout = null;
-
-        document.querySelector('#garage_city_name').addEventListener('keyup', function() {
+        const city = document.querySelector('#garage_city_name')
+        const postalCode = document.querySelector('#garage_city_postalCode')
+        city.addEventListener('keyup', function() {
             clearTimeout(timeout);
 
             timeout = setTimeout(function() {
@@ -620,7 +619,7 @@
             }, 500); // délai de 500 ms
         });
 
-        document.querySelector('#garage_city_postalCode').addEventListener('keyup', function() {
+        postalCode.addEventListener('keyup', function() {
             clearTimeout(timeout);
 
             timeout = setTimeout(function() {
@@ -640,13 +639,25 @@
                 .then(response => response.json())
                 .then(data => {
                     let resultsHtml = ''
-                    data.forEach(v => {
-                        resultsHtml += '<p><i class="feather-map-pin"></i>' + v.name + ' (' + v.postalCode +')</p>'
-                    });
+                    if(data.length > 0) {
+                        data.forEach(v => {
+                            const vJson = JSON.stringify(v).replace(/"/g, '&quot;');
+                            resultsHtml += '<p style="cursor: pointer" onclick="selectCity('+vJson+')"><i class="feather-map-pin"></i>' + v.name + ' (' + v.postalCode +')</p>'
+                        });
+                    } else {
+                        resultsHtml += '<p><i class="feather-map-pin"></i>Aucun résultat </p>'
+                    }
+
                     document.getElementById('result_city').innerHTML = resultsHtml
                     document.querySelector('#city_content').style.display = 'block'
                 })
                 .catch(error => console.error('Error:', error));
+        }
+        function selectCity(value) {
+            city.value = value.name
+            postalCode.value = value.postalCode
+            document.querySelector('#garage_city_id').value = value.id
+            document.querySelector('#city_content').style.display = 'none'
         }
     </script>
 

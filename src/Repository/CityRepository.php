@@ -27,24 +27,19 @@ class CityRepository extends ServiceEntityRepository
             'WHEN c.slug LIKE :prefix THEN 2 '.
             'ELSE 1 '.
             'END) as HIDDEN relevance'
-        )
-            ->where($qb->expr()->like('c.slug', ':query'))
-            ->setParameter('exact', $normalized)
+        )->where($qb->expr()->orX(
+            $qb->expr()->like('c.slug', ':query')
+        ));
+        if (ctype_digit($query)) {
+            $qb->orWhere('c.postalCode LIKE :postalCode')
+                ->setParameter('postalCode', $query . '%');
+        }
+        $qb->setParameter('exact', $normalized)
             ->setParameter('prefix', $normalized . '%')
             ->setParameter('query', '%' . $normalized . '%')
             ->orderBy('relevance', 'DESC')
-            ->addOrderBy('c.name', 'ASC')
-            ->setMaxResults(5);
+            ->addOrderBy('c.name', 'ASC');
 
         return $qb->getQuery()->getResult();
-    }
-
-    public function findByPostalCode(string $query): array
-    {
-        return $this->createQueryBuilder('c')
-            ->where('c.postalCode LIKE :query')
-            ->setParameter('query', '%' . $query . '%')
-            ->getQuery()
-            ->getResult();
     }
 }
