@@ -166,12 +166,12 @@
                                                 <label class="col-form-label d-block">Ville<span class="brief-bio float-end">Rechercher par ville</span></label>
                                                 {{ form_widget(form.city.name) }}
                                                 {{ form_errors(form.city.name) }}
-                                                <div class="service-widget servicecontent" style="display: none">
-                                                    <div class="service-content">
-                                                        <h3 class="title">
-                                                            <a href="#">Computer & Server AMC Service</a>
-                                                        </h3>
+                                                <div class="service-widget servicecontent" id="city_content" style="display: none">
+                                                    <div class="service-content" id="result_city">
                                                     </div>
+                                                    <h3 class="title">
+                                                        <a href="service-details.html">Si vous ne trouvez pas votre ville, cherchez par code postal pour plus de précision</a>
+                                                    </h3>
                                                 </div>
                                             </div>
                                         </div>
@@ -607,6 +607,48 @@
 
     <!-- Custom JS -->
     <script src="{{ asset('assets/js/script.js') }}"></script>
+
+    <script type="text/javascript">
+        let timeout = null;
+
+        document.querySelector('#garage_city_name').addEventListener('keyup', function() {
+            clearTimeout(timeout);
+
+            timeout = setTimeout(function() {
+                const query = document.querySelector('#garage_city_name').value;
+                performSearch(query);
+            }, 500); // délai de 500 ms
+        });
+
+        document.querySelector('#garage_city_postalCode').addEventListener('keyup', function() {
+            clearTimeout(timeout);
+
+            timeout = setTimeout(function() {
+                const query = document.querySelector('#garage_city_postalCode').value;
+                performSearch(query);
+            }, 500); // délai de 500 ms
+        });
+
+        function performSearch(query) {
+            if (query.length < 3) {
+                document.querySelector('#city_content').style.display = 'none'
+                return
+            }
+            console.log('Performing search for:', query);
+
+            fetch(`/city/search?query=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    let resultsHtml = ''
+                    data.forEach(v => {
+                        resultsHtml += '<p><i class="feather-map-pin"></i>' + v.name + ' (' + v.postalCode +')</p>'
+                    });
+                    document.getElementById('result_city').innerHTML = resultsHtml
+                    document.querySelector('#city_content').style.display = 'block'
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
 
 {% endblock %}
 
