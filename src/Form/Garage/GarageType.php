@@ -6,6 +6,7 @@ use App\Entity\Garage;
 use App\Form\CityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -60,6 +61,9 @@ class GarageType extends AbstractType
                 'multiple' => true,
                 'mapped' => false,
                 'required' => false,
+            ])
+            ->add('defaultImage', HiddenType::class, [
+                'mapped' => false,
             ])
         ;
     }

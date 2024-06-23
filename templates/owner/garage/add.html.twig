@@ -18,6 +18,9 @@
     <!-- select CSS -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
 
+    <!-- leaflet CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/leaflet/leaflet.css') }}">
+
     <!-- Datetimepicker CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
 
@@ -72,18 +75,18 @@
                                 </li>
                                 <li>
                                     <div class="multi-step-icon">
-                                        <span><i class="fa-regular fa-clock"></i></span>
-                                    </div>
-                                    <div class="multi-step-info">
-                                        <h6>Disponibilités</h6>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="multi-step-icon">
                                         <span><i class="feather-image"></i></span>
                                     </div>
                                     <div class="multi-step-info">
                                         <h6>Images</h6>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="multi-step-icon">
+                                        <span><i class="fa-regular fa-clock"></i></span>
+                                    </div>
+                                    <div class="multi-step-info">
+                                        <h6>Disponibilités</h6>
                                     </div>
                                 </li>
                             </ul>
@@ -182,7 +185,7 @@
                                         {{ form_widget(form.city.id) }}
                                         <div class="form-group mb-0">
                                             <div class="map-grid">
-                                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6509170.989457427!2d-123.80081967108484!3d37.192957227641294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb9fe5f285e3d%3A0x8b5109a227086f55!2sCalifornia%2C%20USA!5e0!3m2!1sen!2sin!4v1669181581381!5m2!1sen!2sin" allowfullscreen="" aria-hidden="false" tabindex="0" class="contact-map"></iframe>
+                                                <div id="map" class="contact-map"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -201,6 +204,38 @@
                                 </div>
                             </fieldset>
                             <!-- /Location -->
+
+                            <!-- Gallery -->
+                            <fieldset>
+                                <div class="card add-service">
+                                    <div class="sub-title">
+                                        <h6>Vos images</h6>
+                                    </div>
+                                    <div class="file-upload">
+                                        <img src="{{ asset('assets/img/icons/upload-icon.svg') }}" alt="image">
+                                        <h6>Sélectionnez des images de votre garage</h6>
+                                        <p>Format supporter: JPEG, PNG</p>
+                                        {{ form_widget(form.images) }}
+                                        {{ form_widget(form.defaultImage) }}
+                                    </div>
+                                    <div class="file-preview">
+                                        <label>Sélectionner l'image par défaut</label>
+                                        <ul class="gallery-selected-img" id="image_preview">
+
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="field-bottom-btns">
+                                    <div class="field-btns">
+                                        <button class="btn btn-primary prev_btn" type="button"><i class="fa-solid fa-arrow-left"></i>Prev</button>
+                                    </div>
+                                    <div class="field-btns">
+                                        <button class="btn btn-primary next_btn" type="button">Next <i class="fa-solid fa-arrow-right"></i></button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <!-- /Gallery -->
 
                             <!-- Availability -->
                             <fieldset>
@@ -519,63 +554,13 @@
                                                 <button class="btn btn-primary prev_btn" type="button"><i class="fa-solid fa-arrow-left"></i>Prev</button>
                                             </div>
                                             <div class="field-btns">
-                                                <button class="btn btn-primary next_btn" type="button">Next <i class="fa-solid fa-arrow-right"></i></button>
+                                                <button type="submit" class="btn btn-primary">Envoyer<i class="fa-solid fa-arrow-right"></i></button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </fieldset>
                             <!-- /Availability -->
-
-                            <!-- Gallery -->
-                            <fieldset>
-                                <div class="card add-service">
-                                    <div class="sub-title">
-                                        <h6>Vos images</h6>
-                                    </div>
-                                    <div class="file-upload">
-                                        <img src="{{ asset('assets/img/icons/upload-icon.svg') }}" alt="image">
-                                        <h6>Sélectionnez des images de votre garage</h6>
-                                        <p>Format supporter: JPEG, PNG</p>
-                                        {{ form_widget(form.images) }}
-                                    </div>
-                                    <div class="file-preview">
-                                        <label>Sélectionner l'image par défaut</label>
-                                        <ul class="gallery-selected-img">
-                                            <li>
-                                                <div class="img-preview">
-                                                    <img src="{{ asset('assets/img/services/service-01.jpg') }}" alt="Service Image">
-                                                    <a href="javascript:void(0);" class="remove-gallery"><i class="feather-trash-2"></i></a>
-                                                </div>
-                                                <label class="custom_check">
-                                                    <input type="radio" name="gallery" checked>
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </li>
-                                            <li>
-                                                <div class="img-preview">
-                                                    <img src="{{ asset('assets/img/services/service-02.jpg') }}" alt="Service">
-                                                    <a href="javascript:void(0);" class="remove-gallery"><i class="feather-trash-2"></i></a>
-                                                </div>
-                                                <label class="custom_check">
-                                                    <input type="radio" name="gallery">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="field-bottom-btns">
-                                    <div class="field-btns">
-                                        <button class="btn btn-primary prev_btn" type="button"><i class="fa-solid fa-arrow-left"></i>Prev</button>
-                                    </div>
-                                    <div class="field-btns">
-                                        <button type="submit" class="btn btn-primary">Envoyer<i class="fa-solid fa-arrow-right"></i></button>
-                                    </div>
-                                </div>
-                            </fieldset>
-                            <!-- /Gallery -->
                             {{ form_end(form) }}
                         </div>
                     </div>
@@ -588,6 +573,9 @@
 {% block javascripts %}
     <!-- jQuery -->
     <script src="{{ asset('assets/js/jquery-3.7.0.min.js') }}"></script>
+
+    <!-- leaflet -->
+    <script src="{{ asset('assets/leaflet/leaflet-src.js') }}"></script>
 
     <!-- Bootstrap Core JS -->
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
@@ -605,61 +593,7 @@
 
     <!-- Custom JS -->
     <script src="{{ asset('assets/js/script.js') }}"></script>
-
-    <script type="text/javascript">
-        let timeout = null;
-        const city = document.querySelector('#garage_city_name')
-        const postalCode = document.querySelector('#garage_city_postalCode')
-        city.addEventListener('keyup', function() {
-            clearTimeout(timeout);
-
-            timeout = setTimeout(function() {
-                const query = document.querySelector('#garage_city_name').value;
-                performSearch(query);
-            }, 500); // délai de 500 ms
-        });
-
-        postalCode.addEventListener('keyup', function() {
-            clearTimeout(timeout);
-
-            timeout = setTimeout(function() {
-                const query = document.querySelector('#garage_city_postalCode').value;
-                performSearch(query);
-            }, 500); // délai de 500 ms
-        });
-
-        function performSearch(query) {
-            if (query.length < 3) {
-                document.querySelector('#city_content').style.display = 'none'
-                return
-            }
-            console.log('Performing search for:', query);
-
-            fetch(`/city/search?query=${query}`)
-                .then(response => response.json())
-                .then(data => {
-                    let resultsHtml = ''
-                    if(data.length > 0) {
-                        data.forEach(v => {
-                            const vJson = JSON.stringify(v).replace(/"/g, '&quot;');
-                            resultsHtml += '<p style="cursor: pointer" onclick="selectCity('+vJson+')"><i class="feather-map-pin"></i>' + v.name + ' (' + v.postalCode +')</p>'
-                        });
-                    } else {
-                        resultsHtml += '<p><i class="feather-map-pin"></i>Aucun résultat </p>'
-                    }
-
-                    document.getElementById('result_city').innerHTML = resultsHtml
-                    document.querySelector('#city_content').style.display = 'block'
-                })
-                .catch(error => console.error('Error:', error));
-        }
-        function selectCity(value) {
-            city.value = value.name
-            postalCode.value = value.postalCode
-            document.querySelector('#garage_city_id').value = value.id
-            document.querySelector('#city_content').style.display = 'none'
-        }
-    </script>
+    <script src="{{ asset('assets/js/add-garage.js') }}"></script>
 
 {% endblock %}
 

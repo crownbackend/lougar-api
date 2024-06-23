@@ -38,7 +38,8 @@ class CityRepository extends ServiceEntityRepository
             ->setParameter('prefix', $normalized . '%')
             ->setParameter('query', '%' . $normalized . '%')
             ->orderBy('relevance', 'DESC')
-            ->addOrderBy('c.name', 'ASC');
+            ->addOrderBy('c.name', 'ASC')
+            ->setMaxResults(20);
 
         return $qb->getQuery()->getResult();
     }

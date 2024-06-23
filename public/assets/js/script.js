@@ -1525,15 +1525,36 @@ Version      : 1.0
 	$(document).ready(function () {
 		/*---------------------------------------------------------*/
 		$(".service-inform-fieldset .next_btn").on('click', function () { // Function Runs On NEXT Button Click
-			$(this).closest('fieldset').next().fadeIn('slow');
-			$(this).closest('fieldset').css({
-				'display': 'none'
+
+			const currentFieldset = $(this).closest('fieldset');
+			let isValid = true;
+
+			// Validation des champs du fieldset actuel
+			currentFieldset.find('input[type="text"], input[type="number"], textarea, input[type="file"]').each(function () {
+				const field = $(this);
+				const errorElement = field.next('.invalid-feedback');
+				if (field.val().trim() === '') {
+					field.addClass('is-invalid');
+					errorElement.text('Ce champ est requis.');
+					isValid = false;
+				} else {
+					field.removeClass('is-invalid');
+					errorElement.text('');
+				}
 			});
-			// Adding Class Active To Show Steps Forward;
-			$('#progressbar .active').removeClass('active').addClass('activated').next().addClass('active');
-			console.log('ici')
+
+			if (isValid) {
+
+				$(this).closest('fieldset').next().fadeIn('slow');
+				$(this).closest('fieldset').css({
+					'display': 'none'
+				});
+				// Adding Class Active To Show Steps Forward;
+				$('#progressbar .active').removeClass('active').addClass('activated').next().addClass('active');
+			}
 
 		});
+
 		$(".service-inform-fieldset .prev_btn").on('click', function () { // Function Runs On NEXT Button Click
 			$(this).closest('fieldset').prev().fadeIn('slow');
 			$(this).closest('fieldset').css({

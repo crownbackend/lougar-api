@@ -38,7 +38,7 @@ class GarageController extends AbstractController
             $cityForm = $form->get('city');
             $cityId = $cityForm->get('id')->getData();
 
-            dd($request->files);
+            dd($request, $formData);
         }
         return $this->render("owner/garage/add.html.twig", [
             'form' => $form->createView(),
