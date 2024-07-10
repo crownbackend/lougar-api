@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\File;
 
 class GarageType extends AbstractType
 {
@@ -60,7 +62,20 @@ class GarageType extends AbstractType
                 'label' => 'Images',
                 'multiple' => true,
                 'mapped' => false,
-                'required' => false,
+                'required' => true,
+                'constraints' => [
+                    new All([
+                        new File([
+                            'maxSize' => '5M',
+                            'mimeTypes' => [
+                                'image/jpeg',
+                                'image/png',
+                                'image/gif',
+                            ],
+                            'mimeTypesMessage' => 'Les formats accepté son les suivants : gif, jpeg, jpg, png',
+                        ]),
+                    ]),
+                ],
             ])
             ->add('defaultImage', HiddenType::class, [
                 'mapped' => false,

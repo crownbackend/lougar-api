@@ -34,11 +34,10 @@ class GarageController extends AbstractController
         $form = $this->createForm(GarageType::class, $garage);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $formData = $form->getData();
             $cityForm = $form->get('city');
             $cityId = $cityForm->get('id')->getData();
-
-            dd($request, $formData);
+            $this->manager->create($garage, $this->getUser(), $cityId, $form, $form->get('defaultImage')->getData());
+            return $this->redirectToRoute('owner_garage_myGarage');
         }
         return $this->render("owner/garage/add.html.twig", [
             'form' => $form->createView(),
