@@ -32,7 +32,7 @@ class GarageManager
      * @return void
      * @throws \Exception
      */
-    public function create(Garage  $garage, User $user, string $cityId, Form $form ,string $defaultImage = null): void
+    public function create(Garage $garage, User $user, string $cityId, Form $form ,string $defaultImage = null): void
     {
         try {
             $city = $this->cityRepository->findOneBy(['id' => $cityId]);

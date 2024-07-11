@@ -32,32 +32,38 @@
                         <div class="tab-pane active" id="active-service">
                             <div class="row">
 
-                                <!-- Favorite Item -->
-                                <div class="col-xl-4 col-md-6">
-                                    <div class="service-widget pro-service">
-                                        <div class="service-img">
-                                            <a href="service-details.html">
-                                                <img class="img-fluid serv-img" alt="Service Image" src="{{ asset('assets/img/services/service-04.jpg') }}">
-                                            </a>
-                                        </div>
-                                        <div class="service-content">
-                                            <h3 class="title">
-                                                <a href="service-details.html">Car Repair Services</a>
-                                            </h3>
-                                            <div class="addrs-item">
-                                                <p><i class="feather-map-pin"></i>Maryland City, MD, USA</p>
-                                                <h6 class="price">$20.00<span class="old-price">$35.00</span><span class="price-hr">/hr</span></h6>
+                                {% for garage in garages %}
+                                    <!-- Favorite Item -->
+                                    <div class="col-xl-4 col-md-6">
+                                        <div class="service-widget pro-service">
+                                            <div class="service-img">
+                                                <a href="service-details.html">
+                                                    {% for image in garage.images %}
+                                                        {% if image.isPrincipal %}
+                                                            <img class="img-fluid serv-img" alt="Service Image" src="{{ asset('uploads/images/' ~ image.name) }}">
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </a>
                                             </div>
-                                            <div class="serv-info">
-                                                <div>
-                                                    <a href="provider-edit-service.html" class="serv-edit"><i class="feather-edit"></i>Modifier</a>
-                                                    <a href="provider-edit-service.html" class="serv-edit"><i class="feather-trash"></i>Supprimer</a>
+                                            <div class="service-content">
+                                                <h3 class="title">
+                                                    <a href="service-details.html">{{ garage.name }}</a>
+                                                </h3>
+                                                <div class="addrs-item">
+                                                    <p><i class="feather-map-pin"></i>{{ garage.city.name }}</p>
+                                                    <h6 class="price">€{{ garage.pricePerHour }}/h</h6>
+                                                </div>
+                                                <div class="serv-info">
+                                                    <div>
+                                                        <a href="provider-edit-service.html" class="serv-edit"><i class="feather-edit"></i>Modifier</a>
+                                                        <a href="provider-edit-service.html" class="serv-edit"><i class="feather-trash"></i>Supprimer</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- /Favorite Item -->
+                                    <!-- /Favorite Item -->
+                                {% endfor %}
 
                             </div>
                         </div>
