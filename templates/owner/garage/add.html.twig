@@ -1,0 +1,267 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Créer un garage
+{% endblock %}
+
+{% block stylesheets %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
+
+    <!-- Fearther CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/feather.css') }}">
+
+    <!-- select CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
+
+    <!-- leaflet CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/leaflet/leaflet.css') }}">
+
+    <!-- Datetimepicker CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+{% endblock %}
+
+{% block body  %}
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-bar">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-12">
+                    <h2 class="breadcrumb-title">Ajouter un garage</h2>
+                    <nav aria-label="breadcrumb" class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ path('owner_garage_myGarage') }}">Mes garages</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Ajouter un garage</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Breadcrumb -->
+
+    <div class="page-wrapper">
+        <div class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mx-auto">
+
+                        <!-- Service List -->
+                        <div class="service-wizard">
+                            <ul id="progressbar">
+                                <li class="active">
+                                    <div class="multi-step-icon span-info">
+                                        <span><i class="fa-regular fa-circle-check"></i></span>
+                                    </div>
+                                    <div class="multi-step-info">
+                                        <h6>Information</h6>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="multi-step-icon">
+                                        <span><i class="fa-regular fa-map"></i></span>
+                                    </div>
+                                    <div class="multi-step-info">
+                                        <h6>Location</h6>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="multi-step-icon">
+                                        <span><i class="feather-image"></i></span>
+                                    </div>
+                                    <div class="multi-step-info">
+                                        <h6>Images</h6>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- /Service List -->
+
+                        <div class="service-inform-fieldset">
+                            {{ form_start(form) }}
+                            <!-- Service Information -->
+                            <fieldset id="first-field">
+                                <div class="card add-service">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="sub-title">
+                                                <h6>Garage Information</h6>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-form-label">Nom</label>
+                                                {{ form_widget(form.name) }}
+                                                {{ form_errors(form.name) }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label d-block">Prix<span class="brief-bio float-end">Indiquée prix par heure</span></label>
+                                                {{ form_widget(form.pricePerHour) }}
+                                                {{ form_errors(form.pricePerHour) }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label d-block">Prix<span class="brief-bio float-end">Indiquée prix par jour</span></label>
+                                                {{ form_widget(form.pricePerDay) }}
+                                                {{ form_errors(form.pricePerDay) }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-0">
+                                                <label class="col-form-label">Description</label>
+                                                {{ form_widget(form.description) }}
+                                                {{ form_errors(form.description) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="field-bottom-btns">
+                                            <!-- <div class="field-btns">
+                                                <button class="btn btn-primary prev_btn" type="button"><i class="fa-solid fa-arrow-left"></i>Prev</button>
+                                            </div>  -->
+                                            <div class="field-btns">
+                                                <button class="btn btn-primary next_btn" type="button">Suivant <i class="fa-solid fa-arrow-right"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <!-- /Service Information -->
+
+                            <!-- Location -->
+                            <fieldset>
+                                <div class="card add-service">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="sub-title">
+                                                <h6>Location</h6>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label">Address</label>
+                                                {{ form_widget(form.address) }}
+                                                {{ form_errors(form.address) }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label d-block">Ville<span class="brief-bio float-end">Rechercher par ville</span></label>
+                                                {{ form_widget(form.city.name) }}
+                                                {{ form_errors(form.city.name) }}
+                                                <div class="service-widget servicecontent" id="city_content" style="display: none">
+                                                    <div class="service-content" id="result_city" style="overflow-y: auto; max-height: 50vh">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label d-block">Code postale<span class="brief-bio float-end">Rechercher par code postale</span></label>
+                                                {{ form_widget(form.city.postalCode) }}
+                                                {{ form_errors(form.city.postalCode) }}
+                                            </div>
+                                        </div>
+                                        {{ form_widget(form.city.id) }}
+                                        <div class="form-group mb-0">
+                                            <div class="map-grid">
+                                                <div id="map" class="contact-map"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="field-bottom-btns">
+                                            <div class="field-btns">
+                                                <button class="btn btn-primary prev_btn" type="button"><i class="fa-solid fa-arrow-left"></i>Précédent</button>
+                                            </div>
+                                            <div class="field-btns">
+                                                <button class="btn btn-primary next_btn" type="button">Suivant <i class="fa-solid fa-arrow-right"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <!-- /Location -->
+
+                            <!-- Gallery -->
+                            <fieldset>
+                                <div class="card add-service">
+                                    <div class="sub-title">
+                                        <h6>Vos images</h6>
+                                    </div>
+                                    <div class="file-upload">
+                                        <img src="{{ asset('assets/img/icons/upload-icon.svg') }}" alt="image">
+                                        <h6>Sélectionnez des images de votre garage</h6>
+                                        <p>Format supporter: JPEG, PNG</p>
+                                        {{ form_widget(form.images) }}
+                                        {{ form_widget(form.defaultImage) }}
+                                    </div>
+                                    <div class="file-preview">
+                                        <label>Sélectionner l'image par défaut</label>
+                                        <ul class="gallery-selected-img" id="image_preview">
+
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="field-bottom-btns">
+                                    <div class="field-btns">
+                                        <button class="btn btn-primary prev_btn" type="button"><i class="fa-solid fa-arrow-left"></i>Précédent</button>
+                                    </div>
+                                    <div class="field-btns">
+                                        <button type="submit" class="btn btn-primary">Envoyer<i class="fa-solid fa-arrow-right"></i></button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <!-- /Gallery -->
+
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <!-- jQuery -->
+    <script src="{{ asset('assets/js/jquery-3.7.0.min.js') }}"></script>
+
+    <!-- leaflet -->
+    <script src="{{ asset('assets/leaflet/leaflet-src.js') }}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Fearther JS -->
+    <script src="{{ asset('assets/js/feather.min.js') }}"></script>
+
+    <!-- select CSS -->
+    <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/aos/aos.js') }}"></script>
+
+    <!-- Datetimepicker JS -->
+    <script src="{{ asset('assets/js/moment.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+
+    <!-- Custom JS -->
+    <script src="{{ asset('assets/js/script.js') }}"></script>
+    <script src="{{ asset('assets/js/add-garage.js') }}"></script>
+
+{% endblock %}
+

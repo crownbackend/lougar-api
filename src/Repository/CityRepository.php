@@ -16,28 +16,31 @@ class CityRepository extends ServiceEntityRepository
         parent::__construct($registry, City::class);
     }
 
-//    /**
-//     * @return City[] Returns an array of City objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findByName(string $query): array
+    {
+        $normalized = str_replace(' ', '-', strtolower($query));
+        $qb = $this->createQueryBuilder('c');
 
-//    public function findOneBySomeField($value): ?City
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $qb->addSelect(
+            '(CASE '.
+            'WHEN c.slug LIKE :exact THEN 3 '.
+            'WHEN c.slug LIKE :prefix THEN 2 '.
+            'ELSE 1 '.
+            'END) as HIDDEN relevance'
+        )->where($qb->expr()->orX(
+            $qb->expr()->like('c.slug', ':query')
+        ));
+        if (ctype_digit($query)) {
+            $qb->orWhere('c.postalCode LIKE :postalCode')
+                ->setParameter('postalCode', $query . '%');
+        }
+        $qb->setParameter('exact', $normalized)
+            ->setParameter('prefix', $normalized . '%')
+            ->setParameter('query', '%' . $normalized . '%')
+            ->orderBy('relevance', 'DESC')
+            ->addOrderBy('c.name', 'ASC')
+            ->setMaxResults(20);
+
+        return $qb->getQuery()->getResult();
+    }
 }

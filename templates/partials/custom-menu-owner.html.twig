@@ -1,5 +1,5 @@
 <!-- Customer Menu -->
-<div class="col-lg-3 theiaStickySidebar">
+<div class="col-lg-2 theiaStickySidebar">
     <div class="settings-widget">
         <div class="settings-header">
             <h6>{{ app.user.firstName }} {{ app.user.lastName }}</h6>
@@ -18,7 +18,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="provider-coupons.html"><i class="feather-briefcase"></i> <span>Garages</span></a>
+                    <a href="{{ path('owner_garage_myGarage') }}" {% if app.request.attributes.get('_route') == 'owner_garage_myGarage' %}class="active"{% endif %}>
+                        <i class="feather-briefcase"></i> <span>Garages</span>
+                    </a>
                 </li>
                 <li>
                     <a href="customer-reviews.html">

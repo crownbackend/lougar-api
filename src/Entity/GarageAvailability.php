@@ -27,6 +27,9 @@ class GarageAvailability extends BaseEntity
     #[ORM\ManyToOne(inversedBy: 'availability')]
     private ?Garage $garage = null;
 
+    #[ORM\Column(length: 30, nullable: true)]
+    private ?string $dayOfWeek = null;
+
     public function getStartAt(): ?\DateTimeImmutable
     {
         return $this->startAt;
@@ -83,6 +86,18 @@ class GarageAvailability extends BaseEntity
     public function setGarage(?Garage $garage): static
     {
         $this->garage = $garage;
+
+        return $this;
+    }
+
+    public function getDayOfWeek(): ?string
+    {
+        return $this->dayOfWeek;
+    }
+
+    public function setDayOfWeek(?string $dayOfWeek): static
+    {
+        $this->dayOfWeek = $dayOfWeek;
 
         return $this;
     }
