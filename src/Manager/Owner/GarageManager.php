@@ -9,6 +9,7 @@ use App\Repository\CityRepository;
 use App\Repository\GarageRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -19,9 +20,9 @@ class GarageManager
     {
     }
 
-    public function index(User $user): array
+    public function index(User $user): Query
     {
-        return $this->garageRepository->findBy(['owner' => $user], ['createdAt' => 'DESC']);
+        return $this->garageRepository->findByOwner($user);
     }
 
     /**
