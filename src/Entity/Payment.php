@@ -7,6 +7,9 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
+#[ORM\Index( name: 'amount_idx', columns: ['amount'])]
+#[ORM\Index( name: 'commission_idx', columns: ['commission'])]
+#[ORM\Index( name: 'status_idx', columns: ['status'])]
 class Payment extends BaseEntity
 {
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
