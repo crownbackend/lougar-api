@@ -6,3 +6,5 @@ down:
 	docker compose --env-file ${ENV_FILE} down
 logs:
 	docker compose --env-file ${ENV_FILE} logs
+api:
+	docker exec -it  api-php-fpm-1 bash

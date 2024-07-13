@@ -21,6 +21,9 @@ class GarageRepository extends ServiceEntityRepository
     public function findByOwner(User $owner): Query
     {
         return $this->createQueryBuilder('g')
+            ->select('g', 'i', 'c')
+            ->leftJoin('g.images', 'i')
+            ->leftJoin('g.city', 'c')
             ->where('g.owner = :owner')
             ->setParameter('owner', $owner)
             ->orderBy('g.createdAt', 'DESC')
