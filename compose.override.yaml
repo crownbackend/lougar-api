@@ -4,6 +4,13 @@ services:
     ports:
       - "5432:5432"
   ###< doctrine/doctrine-bundle ###
+  php-fpm:
+    ports:
+      - "9001:9000"
+
+  caddy:
+    ports:
+      - "8080:80"
 
   ###> symfony/mailer ###
   mailer:
