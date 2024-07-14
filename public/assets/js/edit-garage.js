@@ -1,6 +1,8 @@
 let timeout = null;
 const city = document.querySelector('#garage_city_name')
 const postalCode = document.querySelector('#garage_city_postalCode')
+document.querySelector('#garage_images').removeAttribute('required')
+
 city.addEventListener('keyup', function() {
     clearTimeout(timeout);
 
@@ -49,7 +51,6 @@ function performSearch(query) {
         document.querySelector('#city_content').style.display = 'none'
         return
     }
-    console.log('Performing search for:', query);
 
     fetch(`/city/search?query=${query}`)
         .then(response => response.json())
@@ -67,7 +68,7 @@ function performSearch(query) {
             document.getElementById('result_city').innerHTML = resultsHtml
             document.querySelector('#city_content').style.display = 'block'
         })
-        .catch(error => console.error('Error:', error));
+        .catch(() => alert('Erreur serveur'));
 }
 function selectCity(value) {
     city.value = value.name
