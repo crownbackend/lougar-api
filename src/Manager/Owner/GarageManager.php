@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class GarageManager
 {
     public function __construct(private GarageRepository $garageRepository, private CityRepository $cityRepository,
-                                private FileUploader $uploader, private EntityManagerInterface $manager)
+                                private FileUploader $uploader, private EntityManagerInterface $entityManager)
     {
     }
 
@@ -64,15 +64,22 @@ class GarageManager
                             }
                         }
 
-                        $this->manager->persist($image);
+                        $this->entityManager->persist($image);
                     }
                 }
             }
-            $this->manager->persist($garage);
-            $this->manager->flush();
+            $this->entityManager->persist($garage);
+            $this->entityManager->flush();
 
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
+    }
+
+    public function delete(Garage $garage): void
+    {
+        $garage->setDeletedAt(new \DateTimeImmutable());
+        $this->entityManager->persist($garage);
+        $this->entityManager->flush();
     }
 }

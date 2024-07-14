@@ -1,0 +1,225 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Edition {{ garage.name }}
+{% endblock %}
+
+{% block stylesheets %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
+
+    <!-- Fearther CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/feather.css') }}">
+
+    <!-- select CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
+
+    <!-- leaflet CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/leaflet/leaflet.css') }}">
+
+    <!-- Datetimepicker CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <!-- Page Header -->
+                    <div class="page-header">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="provider-subtitle">
+                                    <h6>Mes garages</h6>
+                                </div>
+                            </div>
+                            <div class="col-md-8 d-flex align-items-center justify-content-md-end flex-wrap">
+                                <a href="{{ path('owner_garage_myGarage') }}" class="btn btn-primary add-set"><i class="feather-skip-back me-2"></i>Revenir a la liste des garage</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Page Header -->
+
+
+                    <div class="tab-content pt-0">
+                        <div class="tab-pane active" id="active-service"
+                             data-city-long="{{ garage.city.longitude }}" data-city-lat="{{ garage.city.latitude }}"
+                             data-city-postal="{{ garage.city.postalCode }}" data-city-name="{{ garage.city.name }}">
+                            <div class="row">
+                                {{ form_start(form) }}
+                                <div class="card add-service">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="sub-title">
+                                                <h6>Garage Information</h6>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-form-label">Nom</label>
+                                                {{ form_widget(form.name) }}
+                                                {{ form_errors(form.name) }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label d-block">Prix<span class="brief-bio float-end">Indiquée prix par heure</span></label>
+                                                {{ form_widget(form.pricePerHour) }}
+                                                {{ form_errors(form.pricePerHour) }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label d-block">Prix<span class="brief-bio float-end">Indiquée prix par jour</span></label>
+                                                {{ form_widget(form.pricePerDay) }}
+                                                {{ form_errors(form.pricePerDay) }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group mb-0">
+                                                <label class="col-form-label">Description</label>
+                                                {{ form_widget(form.description) }}
+                                                {{ form_errors(form.description) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="card add-service">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="sub-title">
+                                                <h6>Location</h6>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="col-form-label">Address</label>
+                                                {{ form_widget(form.address) }}
+                                                {{ form_errors(form.address) }}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label d-block">Ville<span class="brief-bio float-end">Rechercher par ville</span></label>
+                                                {{ form_widget(form.city.name) }}
+                                                {{ form_errors(form.city.name) }}
+                                                <div class="service-widget servicecontent" id="city_content" style="display: none">
+                                                    <div class="service-content" id="result_city" style="overflow-y: auto; max-height: 50vh">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label d-block">Code postale<span class="brief-bio float-end">Rechercher par code postale</span></label>
+                                                {{ form_widget(form.city.postalCode) }}
+                                                {{ form_errors(form.city.postalCode) }}
+                                            </div>
+                                        </div>
+                                        {{ form_widget(form.city.id) }}
+                                        <div class="form-group mb-0">
+                                            <div class="map-grid">
+                                                <div id="map" class="contact-map"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="card add-service">
+                                    <div class="sub-title">
+                                        <h6>Vos images</h6>
+                                    </div>
+                                    <div id="carouselExample" class="carousel slide">
+                                        <div class="carousel-inner">
+                                            {% for image in garage.images %}
+                                                {% if image.isPrincipal %}
+                                                    <div class="carousel-item active">
+                                                        <img src="{{ asset('uploads/images/' ~ image.name) }}" class="d-block w-100" alt="{{ image.name }}">
+                                                    </div>
+                                                {% else %}
+                                                    <div class="carousel-item">
+                                                        <img src="{{ asset('uploads/images/' ~ image.name) }}" class="d-block w-100" alt="{{ image.name }}">
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+
+                                        </div>
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>
+                                    <hr>
+                                    <div class="file-upload">
+                                        <img src="{{ asset('assets/img/icons/upload-icon.svg') }}" alt="image">
+                                        <h6>Sélectionnez des images de votre garage</h6>
+                                        <p>Format supporter: JPEG, PNG</p>
+                                        {{ form_widget(form.images) }}
+                                        {{ form_widget(form.defaultImage) }}
+                                    </div>
+                                    <div class="file-preview">
+                                        <label>Sélectionner l'image par défaut</label>
+                                        <ul class="gallery-selected-img" id="image_preview">
+
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card add-service">
+                                    <div class="sub-title">
+                                        <h6>Vos images</h6>
+                                    </div>
+
+                                </div>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <!-- jQuery -->
+    <script src="{{ asset('assets/js/jquery-3.7.0.min.js') }}"></script>
+
+    <!-- leaflet -->
+    <script src="{{ asset('assets/leaflet/leaflet-src.js') }}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Fearther JS -->
+    <script src="{{ asset('assets/js/feather.min.js') }}"></script>
+
+    <!-- select CSS -->
+    <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/aos/aos.js') }}"></script>
+
+    <!-- Datetimepicker JS -->
+    <script src="{{ asset('assets/js/moment.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+
+    <!-- Custom JS -->
+    <script src="{{ asset('assets/js/script.js') }}"></script>
+    <script src="{{ asset('assets/js/edit-garage.js') }}"></script>
+
+{% endblock %}
+

@@ -6,6 +6,7 @@ use App\Repository\CityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: CityRepository::class)]
 #[ORM\Index( name: 'name_idx', columns: ['name'])]
@@ -14,18 +15,22 @@ use Doctrine\ORM\Mapping as ORM;
 class City extends BaseEntity
 {
     #[ORM\Column(length: 255)]
+    #[Groups(['search.city'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['search.city'])]
     private ?string $postalCode = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['search.city'])]
     private ?string $longitude = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['search.city'])]
     private ?string $latitude = null;
 
     /**
@@ -36,6 +41,7 @@ class City extends BaseEntity
 
     public function __construct()
     {
+        parent::__construct();
         $this->garages = new ArrayCollection();
     }
 

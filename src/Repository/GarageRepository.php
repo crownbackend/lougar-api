@@ -25,6 +25,7 @@ class GarageRepository extends ServiceEntityRepository
             ->leftJoin('g.images', 'i')
             ->leftJoin('g.city', 'c')
             ->where('g.owner = :owner')
+            ->andWhere('g.deletedAt IS NULL')
             ->setParameter('owner', $owner)
             ->orderBy('g.createdAt', 'DESC')
             ->getQuery();
