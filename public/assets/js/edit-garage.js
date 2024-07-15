@@ -135,7 +135,6 @@ function deleteImage(imageId) {
         })
             .then(response => response.text())
             .then(data => {
-                console.log(data)
                 imageContent.innerHTML = data
             })
             .catch(error => {
@@ -151,7 +150,6 @@ function setPrincipal(imageId) {
         })
             .then(response => response.text())
             .then(data => {
-                console.log(data)
                 imageContent.innerHTML = data
             })
             .catch(error => {
