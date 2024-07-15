@@ -1,0 +1,46 @@
+<div class="row">
+    {% for image in garage.images %}
+        {% if image.deletedAt is null %}
+            <!-- Favorite Item -->
+            {% if image.isPrincipal %}
+                <div class="col-xl-4 col-md-6">
+                    <div class="service-widget pro-service">
+                        <div class="service-img">
+                            <a href="javascript:void(0)">
+                                <img class="img-fluid serv-img"  alt="{{ image.name }}" src="{{ asset('uploads/images/' ~ image.name) }}">
+                            </a>
+                            <div class="fav-item">
+                                <div class="item-info">
+                                    <a onclick="deleteImage('{{ image.id }}')" href="javascript:void(0)"><span class="btn btn-danger"><i class="feather-trash"></i></span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-content">
+                            <h3 class="title">
+                                <a href="javascript:void(0)">Image princiaple</a>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            {% else  %}
+                <div class="col-xl-4 col-md-6">
+                    <div class="service-widget pro-service">
+                        <div class="service-img">
+                            <a href="javascript:void(0)">
+                                <img class="img-fluid serv-img" alt="{{ image.name }}" src="{{ asset('uploads/images/' ~ image.name) }}">
+                            </a>
+                            <div class="fav-item">
+                                <div class="item-info">
+                                    <a onclick="deleteImage('{{ image.id }}')" href="javascript:void(0)"><span class="btn btn-danger"><i class="feather-trash"></i></span></a>
+                                </div>
+                                <span onclick="setPrincipal('{{ image.id }}')" class="serv-rating pointer">Principale ?</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <!-- /Favorite Item -->
+        {% endif %}
+    {% endfor %}
+
+</div>

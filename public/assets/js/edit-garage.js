@@ -2,6 +2,7 @@ let timeout = null;
 const city = document.querySelector('#garage_city_name')
 const postalCode = document.querySelector('#garage_city_postalCode')
 document.querySelector('#garage_images').removeAttribute('required')
+const imageContent = document.querySelector('#images_all')
 
 city.addEventListener('keyup', function() {
     clearTimeout(timeout);
@@ -123,4 +124,38 @@ function removeImage(element) {
 
 function setDefaultImage(imageName) {
     document.getElementById('garage_defaultImage').value = imageName;
+}
+
+// delete image  and set principal
+function deleteImage(imageId) {
+    if (confirm('Êtes vous sur de supprimer cette image ?')) {
+        // Implement the AJAX request to delete the image
+        fetch(`/image/${imageId}/delete`, {
+            method: 'DELETE',
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data)
+                imageContent.innerHTML = data
+            })
+            .catch(error => {
+                alert('Erreur de suppréssion');
+            });
+    }
+}
+
+function setPrincipal(imageId) {
+    if (confirm('Êtes vous sur de mettre cette image en tant que image princpale ?')) {
+        fetch(`/image/${imageId}/principal`, {
+            method: 'POST',
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data)
+                imageContent.innerHTML = data
+            })
+            .catch(error => {
+                alert('Erreur de suppréssion');
+            });
+    }
 }
