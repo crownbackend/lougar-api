@@ -55,9 +55,12 @@
                                                 </div>
                                                 <div class="serv-info">
                                                     <div>
-                                                        <a href="provider-edit-service.html" class="serv-edit"><i class="feather-edit"></i>Modifier</a>
-                                                        <a href="provider-edit-service.html" class="serv-edit"><i class="feather-trash"></i>Supprimer</a>
+                                                        <a href="{{ path('owner_garage_edit', {'id': garage.id}) }}" class="serv-edit"><i class="feather-edit"></i>Modifier</a>
+                                                        <a href="{{ path('owner_garage_delete', {'id': garage.id}) }}" onclick="return confirm('Être vous sur de supprimer ce garage ?')" class="serv-edit"><i class="feather-trash"></i>Supprimer</a>
                                                     </div>
+                                                    {% if garage.availability|length >= 0 %}
+                                                        <span class="badge badge-danger">Disponibilité manquante</span>
+                                                    {% endif %}
                                                 </div>
                                             </div>
                                         </div>

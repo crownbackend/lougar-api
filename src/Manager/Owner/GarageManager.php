@@ -15,8 +15,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class GarageManager
 {
-    public function __construct(private GarageRepository $garageRepository, private CityRepository $cityRepository,
-                                private FileUploader $uploader, private EntityManagerInterface $manager)
+    public function __construct(private readonly GarageRepository $garageRepository, private readonly CityRepository $cityRepository,
+                                private readonly FileUploader $uploader, private readonly EntityManagerInterface $entityManager)
     {
     }
 
@@ -41,38 +41,89 @@ class GarageManager
             $garage->setOwner($user);
             $imagesFiles = $form->get("images")->getData();
             if ($imagesFiles) {
-                $isFirst = true; // Variable de contrôle pour le premier élément
+                $isFirst = true;
                 foreach ($imagesFiles as $datum) {
                     /** @var UploadedFile $datum */
-                    if ($datum) {
-                        $imageFileName = $this->uploader->upload($datum);
-                        $image = new Image();
-                        $image->setName($imageFileName);
-                        $image->setGarage($garage);
-                        if ($defaultImage !== null) {
-                            if ($defaultImage === $datum->getClientOriginalName()) {
-                                $image->setPrincipal(true);
-                            } else {
-                                $image->setPrincipal(false);
-                            }
+                    $imageFileName = $this->uploader->upload($datum);
+                    $image = new Image();
+                    $image->setName($imageFileName);
+                    $image->setGarage($garage);
+                    if ($defaultImage !== null) {
+                        if ($defaultImage === $datum->getClientOriginalName()) {
+                            $image->setPrincipal(true);
                         } else {
-                            if ($isFirst) {
-                                $image->setPrincipal(true);
-                                $isFirst = false;
-                            } else {
-                                $image->setPrincipal(false);
-                            }
+                            $image->setPrincipal(false);
                         }
-
-                        $this->manager->persist($image);
+                    } else {
+                        if ($isFirst) {
+                            $image->setPrincipal(true);
+                            $isFirst = false;
+                        } else {
+                            $image->setPrincipal(false);
+                        }
                     }
+
+                    $this->entityManager->persist($image);
                 }
             }
-            $this->manager->persist($garage);
-            $this->manager->flush();
+            $this->entityManager->persist($garage);
+            $this->entityManager->flush();
 
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
+    }
+
+    public function edit(Garage $garage, Form $form, string $cityId = null ,string $defaultImage = null): void
+    {
+        if($cityId) {
+            $city = $this->cityRepository->findOneBy(['id' => $cityId]);
+            $garage->setCity($city);
+        }
+
+        $imagesFiles = $form->get("images")->getData();
+        if ($imagesFiles) {
+            foreach ($imagesFiles as $datum) {
+                /** @var UploadedFile $datum */
+                $imageFileName = $this->uploader->upload($datum);
+                $image = new Image();
+                $image->setName($imageFileName);
+                $image->setGarage($garage);
+                if($defaultImage) {
+                    $this->setImagesFalse($garage);
+                    if ($defaultImage === $datum->getClientOriginalName()) {
+                        $image->setPrincipal(true);
+                    } else {
+                        $image->setPrincipal(false);
+                    }
+                } else {
+                    $image->setPrincipal(false);
+                }
+                $this->entityManager->persist($image);
+            }
+        }
+        $this->entityManager->persist($garage);
+        $this->entityManager->flush();
+    }
+
+    public function delete(Garage $garage): void
+    {
+        $garage->setDeletedAt(new \DateTimeImmutable());
+        foreach ($garage->getImages() as $image) {
+            $image->setDeletedAt(new \DateTimeImmutable());
+            $this->entityManager->persist($image);
+        }
+        $this->entityManager->persist($garage);
+        $this->entityManager->flush();
+    }
+
+    private function setImagesFalse(Garage $garage): void
+    {
+        $images = $garage->getImages();
+        foreach ($images as $image) {
+            $image->setPrincipal(false);
+            $this->entityManager->persist($image);
+        }
+        $this->entityManager->flush();
     }
 }

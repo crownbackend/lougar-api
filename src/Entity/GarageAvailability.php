@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index( name: 'end_at_idx', columns: ['end_at'])]
 #[ORM\Index( name: 'start_time_idx', columns: ['start_time'])]
 #[ORM\Index( name: 'end_time_idx', columns: ['end_time'])]
+#[ORM\Index( name: 'day_of_week_idx', columns: ['day_of_week'])]
 class GarageAvailability extends BaseEntity
 {
     #[ORM\Column]

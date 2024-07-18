@@ -39,7 +39,7 @@ class Garage extends BaseEntity
     /**
      * @var Collection<int, GarageAvailability>
      */
-    #[ORM\OneToMany(targetEntity: GarageAvailability::class, mappedBy: 'garage')]
+    #[ORM\OneToMany(targetEntity: GarageAvailability::class, mappedBy: 'garage', cascade: ['persist'])]
     private Collection $availability;
 
     /**

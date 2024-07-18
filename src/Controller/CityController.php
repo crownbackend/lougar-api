@@ -8,6 +8,7 @@ use App\Manager\CityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/city', name: 'city_')]
@@ -21,7 +22,7 @@ class CityController extends AbstractController
     public function index(Request $request): JsonResponse
     {
         if($request->query->get('query')) {
-            return $this->json($this->cityManager->search($request->query->get('query')));
+            return $this->json($this->cityManager->search($request->query->get('query')), Response::HTTP_OK, [], ['groups' => 'search.city']);
         }
         return $this->json('error not found', 400);
     }

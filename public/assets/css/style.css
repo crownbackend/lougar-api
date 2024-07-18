@@ -25118,3 +25118,7 @@ header.header nav ul li a:hover {
 		height: 100%;	
 	}
 }
+
+.pointer {
+    cursor: pointer;
+}
