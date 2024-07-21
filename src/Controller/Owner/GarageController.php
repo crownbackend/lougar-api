@@ -53,8 +53,9 @@ class GarageController extends AbstractController
     }
 
     #[Route('/{id}/edition', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Garage $garage, Request $request): Response
+    public function edit(string $id, Request $request): Response
     {
+        $garage = $this->manager->show($id);
         if($garage->getOwner() !== $this->getUser()) {
             throw $this->createAccessDeniedException();
         }

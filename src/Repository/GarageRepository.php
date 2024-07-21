@@ -21,13 +21,28 @@ class GarageRepository extends ServiceEntityRepository
     public function findByOwner(User $owner): Query
     {
         return $this->createQueryBuilder('g')
-            ->select('g', 'i', 'c')
+            ->select('g', 'i', 'c', 'a')
             ->leftJoin('g.images', 'i')
             ->leftJoin('g.city', 'c')
+            ->leftJoin('g.availability', 'a')
             ->where('g.owner = :owner')
             ->andWhere('g.deletedAt IS NULL')
             ->setParameter('owner', $owner)
             ->orderBy('g.createdAt', 'DESC')
             ->getQuery();
+    }
+
+    public function findById(string $id): Garage
+    {
+        return $this->createQueryBuilder('g')
+            ->select('g', 'i', 'c', 'a')
+            ->leftJoin('g.images', 'i')
+            ->leftJoin('g.city', 'c')
+            ->leftJoin('g.availability', 'a')
+            ->where('g.id = :id')
+            ->andWhere('g.deletedAt IS NULL')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }
