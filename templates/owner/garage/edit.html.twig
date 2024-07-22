@@ -101,7 +101,7 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label class="col-form-label">Address</label>
+                                                <label class="col-form-label">Adresse</label>
                                                 {{ form_widget(form.address) }}
                                                 {{ form_errors(form.address) }}
                                             </div>
@@ -203,6 +203,44 @@
                                         </ul>
                                     </div>
                                 </div>
+
+                                <div class="card add-service">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="sub-title">
+                                                <h6>Disponibilités</h6>
+                                            </div>
+                                        </div>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_availability">
+                                            {% if garage.availability|length == 0 %}
+                                                Ajouter les disponibilités
+                                            {% elseif garage.availability|length > 1 %}
+                                                Modifier les disponibilités
+                                            {% endif %}
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="modal_availability" tabindex="-1" aria-labelledby="modal_availability_label" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="modal_availability_label">Disponibilités</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        {{ include('owner/garage/availability.html.twig') }}
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
 
                                 <div class="field-bottom-btns">
                                     <div class="field-btns">
