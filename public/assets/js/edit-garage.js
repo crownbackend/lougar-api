@@ -157,3 +157,89 @@ function setPrincipal(imageId) {
             });
     }
 }
+
+
+
+$(document).ready(function () {
+
+    if ($('#datetimepickershow_start').length > 0) {
+        $('#datetimepickershow_start').datetimepicker({
+            inline: true,
+            sideBySide: true,
+            format: 'DD-MM-YYYY',
+            icons: {
+                up: "fas fa-angle-up",
+                down: "fas fa-angle-down",
+                next: 'fas fa-angle-right',
+                previous: 'fas fa-angle-left'
+            }
+        });
+
+        var valDate = $('#datetimepickershow_start').data().date
+        console.log(valDate)
+    }
+
+    if ($('#datetimepickershow_end').length > 0) {
+        $('#datetimepickershow_end').datetimepicker({
+            inline: true,
+            sideBySide: true,
+            format: 'DD-MM-YYYY',
+            icons: {
+                up: "fas fa-angle-up",
+                down: "fas fa-angle-down",
+                next: 'fas fa-angle-right',
+                previous: 'fas fa-angle-left'
+            }
+        });
+        $('#datetimepickershow_end').data("DateTimePicker").clear();
+    }
+
+
+
+    $('#submit-btn').on('click', function(e) {
+        e.preventDefault();
+
+        let availabilityData = [];
+
+        // Get start and end dates
+        let startDate = $('#datetimepickershow_start').data('DateTimePicker').date();
+        let endDate = $('#datetimepickershow_end').data('DateTimePicker').date();
+
+        // Iterate over each day section
+        $('.availability-sec .day-info').each(function(index) {
+            let dayOfWeek = index; // Assuming order in HTML is Sunday to Saturday
+            let times = [];
+
+            $(this).find('.day-cont').each(function() {
+                let startTime = $(this).find('input').eq(0).val();
+                let endTime = $(this).find('input').eq(1).val();
+                times.push({
+                    start: startTime,
+                    end: endTime
+                });
+            });
+
+            availabilityData.push({
+                day: dayOfWeek,
+                times: times
+            });
+        });
+
+        const idGarage = $('#submit-btn').attr('data-garage-id')
+        $.ajax({
+            url: '/availability/update/' + idGarage,
+            method: 'POST',
+            data: JSON.stringify({
+                startDate: startDate ? startDate.format('DD-MM-YYYY') : null,
+                endDate: endDate ? endDate.format('DD-MM-YYYY') : null,
+                availability: availabilityData
+            }),
+            contentType: 'application/json',
+            success: function(response) {
+                console.log(response)
+            }
+        });
+    });
+
+
+});

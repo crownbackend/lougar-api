@@ -1850,7 +1850,7 @@ Version      : 1.0
 			'<div class="form-group">' +
 			'<label class="col-form-label">De</label>' +
 			'<div class="form-icon">' +
-			'<input type="text" class="form-control timepicker" placeholder="Select Time">' +
+			'<input type="text" class="form-control timepicker" placeholder="Choisir l\'heure">' +
 			'<span class="cus-icon"><i class="feather-clock"></i></span>' +
 			'</div>' +
 			'</div>' +
@@ -1860,7 +1860,7 @@ Version      : 1.0
 			'<div class="form-group w-100">' +
 			'<label class="col-form-label">Jusqu\'a</label>' +
 			'<div class="form-icon">' +
-			'<input type="text" class="form-control timepicker" placeholder="Select Time">' +
+			'<input type="text" class="form-control timepicker" placeholder="Choisir l\'heure">' +
 			'<span class="cus-icon"><i class="feather-clock"></i></span>' +
 			'</div>' +
 			'</div>' +
@@ -2145,6 +2145,7 @@ Version      : 1.0
 
 		});
 	}
+
 
 	// Chat sidebar overlay
 
