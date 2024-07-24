@@ -35,10 +35,11 @@ class GarageRepository extends ServiceEntityRepository
     public function findById(string $id): Garage
     {
         return $this->createQueryBuilder('g')
-            ->select('g', 'i', 'c', 'a')
+            ->select('g', 'i', 'c', 'a', 'am')
             ->leftJoin('g.images', 'i')
             ->leftJoin('g.city', 'c')
             ->leftJoin('g.availability', 'a')
+            ->leftJoin('a.availabilityTimes', 'am')
             ->where('g.id = :id')
             ->andWhere('g.deletedAt IS NULL')
             ->setParameter('id', $id)

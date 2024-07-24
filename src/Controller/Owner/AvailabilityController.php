@@ -23,6 +23,6 @@ class AvailabilityController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
         $this->manager->update($garage, $data);
-        return $this->json('ld');
+        return $this->json('ok');
     }
 }

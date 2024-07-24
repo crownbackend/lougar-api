@@ -195,19 +195,24 @@ $(document).ready(function () {
     }
 
 
-
     $('#submit-btn').on('click', function(e) {
         e.preventDefault();
 
         let availabilityData = [];
+        let startDate = null;
+        let endDate = null;
 
         // Get start and end dates
-        let startDate = $('#datetimepickershow_start').data('DateTimePicker').date();
-        let endDate = $('#datetimepickershow_end').data('DateTimePicker').date();
+        if ($('#datetimepickershow_start').length > 0) {
+            startDate = $('#datetimepickershow_start').data('DateTimePicker').date();
+        }
+        if ($('#datetimepickershow_end').length > 0) {
+            endDate = $('#datetimepickershow_end').data('DateTimePicker').date();
+        }
 
         // Iterate over each day section
-        $('.availability-sec .day-info').each(function(index) {
-            let dayOfWeek = index; // Assuming order in HTML is Sunday to Saturday
+        $('.availability-sec .day-info').each(function() {
+            let dayOfWeek = $(this).data('day-of-week');
             let times = [];
 
             $(this).find('.day-cont').each(function() {
@@ -219,13 +224,15 @@ $(document).ready(function () {
                 });
             });
 
-            availabilityData.push({
-                day: dayOfWeek,
-                times: times
-            });
+            if (times.length > 0) {
+                availabilityData.push({
+                    day: dayOfWeek,
+                    times: times
+                });
+            }
         });
 
-        const idGarage = $('#submit-btn').attr('data-garage-id')
+        const idGarage = $('#submit-btn').attr('data-garage-id');
         $.ajax({
             url: '/availability/update/' + idGarage,
             method: 'POST',
@@ -236,10 +243,11 @@ $(document).ready(function () {
             }),
             contentType: 'application/json',
             success: function(response) {
-                console.log(response)
+                console.log(response);
             }
         });
     });
+
 
 
 });
