@@ -3,6 +3,7 @@ const city = document.querySelector('#garage_city_name')
 const postalCode = document.querySelector('#garage_city_postalCode')
 document.querySelector('#garage_images').removeAttribute('required')
 const imageContent = document.querySelector('#images_all')
+const availabilityContent = document.querySelector('#availability_content')
 
 city.addEventListener('keyup', function() {
     clearTimeout(timeout);
@@ -243,7 +244,7 @@ $(document).ready(function () {
             }),
             contentType: 'application/json',
             success: function(response) {
-                console.log(response);
+                availabilityContent.innerHTML = response
             }
         });
     });

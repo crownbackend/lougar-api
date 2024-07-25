@@ -211,6 +211,9 @@
                                                 <h6>Disponibilités</h6>
                                             </div>
                                         </div>
+
+                                        {{ include('owner/garage/availability-show.html.twig') }}
+
                                         <!-- Button trigger modal -->
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_availability">
                                             Modifier les disponibilités
@@ -224,7 +227,7 @@
                                                         <h1 class="modal-title fs-5" id="modal_availability_label">Disponibilités</h1>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
-                                                    <div class="modal-body">
+                                                    <div class="modal-body" id="availability_content">
                                                         {{ include('owner/garage/availability.html.twig') }}
                                                     </div>
                                                     <div class="modal-footer">
