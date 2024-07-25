@@ -4,6 +4,12 @@
             <div class="card-body">
                 <div class="available-widget">
                     <div class="available-info">
+
+                        <span class="text-danger"> Pour supprimer un créneau de la semaine, cliquez sur l'heure souhaitée.</span>
+                        <br>
+                        <span class="text-danger">Si vous supprimez la disponibilité, cela supprimera tous les créneaux de la semaine. Il faudra recréer les disponibilités.</span>
+                        <br>
+                        <hr>
                         {% if garage.availability[0].startAt is not null %}
                             <h5>Date de début : {{ garage.availability[0].startAt|date('d-m-Y') }}</h5>
                         {% endif %}
@@ -35,7 +41,7 @@
                                         {{ dayName }}
                                         {% for time in garage.availability[0].availabilityTimes %}
                                             {% if time.dayOfWeek == day %}
-                                                <span class="ps-3">{{ time.startTime|date('H:i') }} - {{ time.endTime|date('H:i') }}</span>
+                                                <span onclick="deleteAvailabilityTime('{{ time.id }}')" class="ps-3 pointer">{{ time.startTime|date('H:i') }} - {{ time.endTime|date('H:i') }}</span>
                                             {% endif %}
                                         {% endfor %}
                                     {% else %}

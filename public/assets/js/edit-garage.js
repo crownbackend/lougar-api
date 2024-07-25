@@ -4,6 +4,7 @@ const postalCode = document.querySelector('#garage_city_postalCode')
 document.querySelector('#garage_images').removeAttribute('required')
 const imageContent = document.querySelector('#images_all')
 const availabilityContent = document.querySelector('#availability_content')
+const availabilityShowContent = document.querySelector('#availability_show_content')
 
 city.addEventListener('keyup', function() {
     clearTimeout(timeout);
@@ -159,6 +160,42 @@ function setPrincipal(imageId) {
     }
 }
 
+function deleteAvailabilityTime(id) {
+
+    // $("#confirm-delete-time-" + id).on("click", function () {
+    //     Swal.fire({
+    //         title: "Are you sure?",
+    //         text: "You won't be able to revert this!",
+    //         type: "warning",
+    //         showCancelButton: !0,
+    //         confirmButtonColor: "#3085d6",
+    //         cancelButtonColor: "#d33",
+    //         confirmButtonText: "Yes, delete it!",
+    //         confirmButtonClass: "btn btn-primary",
+    //         cancelButtonClass: "btn btn-danger ml-1",
+    //         buttonsStyling: !1,
+    //     }).then(function (t) {
+    //         t.value &&
+    //         Swal.fire({
+    //             type: "success",
+    //             title: "Deleted!",
+    //             text: "Your file has been deleted.",
+    //             confirmButtonClass: "btn btn-success",
+    //         });
+    //     });
+    // })
+
+    if (confirm('Êtes vous sur de supprimer ce créneaux ?')) {
+        fetch(`/availability/time/delete/${id}`, {
+            method: 'POST',
+        }).then(response => response.text())
+        .then(data => {
+            availabilityShowContent.innerHTML = data
+            window.location.reload()
+        })
+    }
+}
+
 
 
 $(document).ready(function () {
@@ -194,7 +231,6 @@ $(document).ready(function () {
         });
         $('#datetimepickershow_end').data("DateTimePicker").clear();
     }
-
 
     $('#submit-btn').on('click', function(e) {
         e.preventDefault();
@@ -244,11 +280,15 @@ $(document).ready(function () {
             }),
             contentType: 'application/json',
             success: function(response) {
+
                 availabilityContent.innerHTML = response
+
+                window.location.reload()
+            },
+            error: function(response) {
+                alert("Erreur serveur !");
             }
         });
     });
-
-
 
 });

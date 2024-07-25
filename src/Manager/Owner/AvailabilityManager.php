@@ -50,4 +50,10 @@ class AvailabilityManager
         $this->entityManager->persist($garageAvailability);
         $this->entityManager->flush();
     }
+
+    public function deleteAvailabilityTime(AvailabilityTime $availabilityTime): void
+    {
+        $this->entityManager->remove($availabilityTime);
+        $this->entityManager->flush();
+    }
 }

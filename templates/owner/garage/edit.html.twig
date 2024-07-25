@@ -151,14 +151,6 @@
                                                 {% endif %}
                                             {% endfor %}
                                         </div>
-                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Previous</span>
-                                        </button>
-                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Next</span>
-                                        </button>
                                     </div>
                                     <br>
                                     <!-- Button trigger modal -->
@@ -171,7 +163,7 @@
                                         <div class="modal-dialog modal-xl">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Images</h1>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
@@ -212,7 +204,9 @@
                                             </div>
                                         </div>
 
-                                        {{ include('owner/garage/availability-show.html.twig') }}
+                                        <div id="availability_show_content">
+                                            {{ include('owner/garage/availability-show.html.twig') }}
+                                        </div>
 
                                         <!-- Button trigger modal -->
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_availability">
@@ -280,6 +274,10 @@
     <!-- Datetimepicker JS -->
     <script src="{{ asset('assets/js/moment.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+
+
+    <!-- Sweetalert 2 -->
+    <script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
 
     <!-- Custom JS -->
     <script src="{{ asset('assets/js/script.js') }}"></script>
