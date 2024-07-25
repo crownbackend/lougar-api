@@ -6,13 +6,15 @@ namespace App\Controller\Owner;
 
 use App\Entity\AvailabilityTime;
 use App\Entity\Garage;
+use App\Entity\GarageAvailability;
 use App\Manager\Owner\AvailabilityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/availability', name: 'owner_availability')]
+#[Route('/availability', name: 'owner_availability_')]
 class AvailabilityController extends AbstractController
 {
     public function __construct(private readonly AvailabilityManager $manager)
@@ -37,5 +39,12 @@ class AvailabilityController extends AbstractController
         return $this->render('owner/garage/availability-show.html.twig', [
             'garage' => $garage,
         ]);
+    }
+
+    #[Route('/delete/{id}', name: 'delete', methods: ['GET'])]
+    public function deleteAvailability(GarageAvailability $garageAvailability): RedirectResponse
+    {
+        $this->manager->deleteAvailability($garageAvailability);
+        return $this->redirectToRoute('owner_garage_edit', ['id' => $garageAvailability->getGarage()->getId()]);
     }
 }

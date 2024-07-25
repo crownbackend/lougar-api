@@ -1,5 +1,4 @@
 <!-- Availability Days -->
-
 {% set Monday = true %}
 {% set Tuesday = true %}
 {% set Wednesday = true %}
@@ -8,37 +7,40 @@
 {% set Saturday = true %}
 {% set Sunday = true %}
 
-{% for time in garage.availability[0].availabilityTimes %}
+{% if garage.availability|length == 1 %}
 
-    {% if time.dayOfWeek == 0 %}
-        {% set Monday = false %}
-    {% endif %}
+    {% for time in garage.availability[0].availabilityTimes %}
 
-    {% if time.dayOfWeek == 1 %}
-        {% set Tuesday = false %}
-    {% endif %}
+        {% if time.dayOfWeek == 0 %}
+            {% set Monday = false %}
+        {% endif %}
 
-    {% if time.dayOfWeek == 2 %}
-        {% set Wednesday = false %}
-    {% endif %}
+        {% if time.dayOfWeek == 1 %}
+            {% set Tuesday = false %}
+        {% endif %}
 
-    {% if time.dayOfWeek == 3 %}
-        {% set Thursday = false %}
-    {% endif %}
+        {% if time.dayOfWeek == 2 %}
+            {% set Wednesday = false %}
+        {% endif %}
 
-    {% if time.dayOfWeek == 4 %}
-        {% set Friday = false %}
-    {% endif %}
+        {% if time.dayOfWeek == 3 %}
+            {% set Thursday = false %}
+        {% endif %}
 
-    {% if time.dayOfWeek == 5 %}
-        {% set Saturday = false %}
-    {% endif %}
+        {% if time.dayOfWeek == 4 %}
+            {% set Friday = false %}
+        {% endif %}
 
-    {% if time.dayOfWeek == 6 %}
-        {% set Sunday = false %}
-    {% endif %}
+        {% if time.dayOfWeek == 5 %}
+            {% set Saturday = false %}
+        {% endif %}
 
-{% endfor %}
+        {% if time.dayOfWeek == 6 %}
+            {% set Sunday = false %}
+        {% endif %}
+
+    {% endfor %}
+{% endif %}
 
 <div class="availability-sec">
     <div class="row">

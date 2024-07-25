@@ -162,29 +162,6 @@ function setPrincipal(imageId) {
 
 function deleteAvailabilityTime(id) {
 
-    // $("#confirm-delete-time-" + id).on("click", function () {
-    //     Swal.fire({
-    //         title: "Are you sure?",
-    //         text: "You won't be able to revert this!",
-    //         type: "warning",
-    //         showCancelButton: !0,
-    //         confirmButtonColor: "#3085d6",
-    //         cancelButtonColor: "#d33",
-    //         confirmButtonText: "Yes, delete it!",
-    //         confirmButtonClass: "btn btn-primary",
-    //         cancelButtonClass: "btn btn-danger ml-1",
-    //         buttonsStyling: !1,
-    //     }).then(function (t) {
-    //         t.value &&
-    //         Swal.fire({
-    //             type: "success",
-    //             title: "Deleted!",
-    //             text: "Your file has been deleted.",
-    //             confirmButtonClass: "btn btn-success",
-    //         });
-    //     });
-    // })
-
     if (confirm('Êtes vous sur de supprimer ce créneaux ?')) {
         fetch(`/availability/time/delete/${id}`, {
             method: 'POST',
@@ -214,7 +191,6 @@ $(document).ready(function () {
         });
 
         var valDate = $('#datetimepickershow_start').data().date
-        console.log(valDate)
     }
 
     if ($('#datetimepickershow_end').length > 0) {
@@ -290,5 +266,31 @@ $(document).ready(function () {
             }
         });
     });
+
+    $("#delete_availability").on("click", function (e) {
+
+        let availabilityId = $(this).data('availability-id');
+
+        e.preventDefault();
+        Swal.fire({
+            title: "Êtes vous sur ?",
+            text: "Vous allez supprimer les disponibilités !",
+            type: "warning",
+            showCancelButton: !0,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Oui, supprimer",
+            cancelButtonText: "Non, annuler",
+            confirmButtonClass: "btn btn-primary",
+            cancelButtonClass: "btn btn-danger ml-1",
+            buttonsStyling: !1,
+        }).then(function (t) {
+            if (t.isConfirmed) {
+                window.location.href = "/availability/delete/" + availabilityId;
+            } else {
+                return false;
+            }
+        });
+    })
 
 });

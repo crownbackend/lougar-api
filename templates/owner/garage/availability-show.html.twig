@@ -1,4 +1,4 @@
-{% if garage.availability[0]|length == 1 %}
+{% if garage.availability|length == 1 %}
     <div class="col-md-12">
         <div class="card card-available">
             <div class="card-body">
@@ -8,6 +8,7 @@
                         <span class="text-danger"> Pour supprimer un créneau de la semaine, cliquez sur l'heure souhaitée.</span>
                         <br>
                         <span class="text-danger">Si vous supprimez la disponibilité, cela supprimera tous les créneaux de la semaine. Il faudra recréer les disponibilités.</span>
+                        <button type="button" data-availability-id="{{ garage.availability[0].id }}" id="delete_availability" class="btn btn-danger">Supprimer la disponibilité</button>
                         <br>
                         <hr>
                         {% if garage.availability[0].startAt is not null %}

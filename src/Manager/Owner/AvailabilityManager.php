@@ -51,6 +51,12 @@ class AvailabilityManager
         $this->entityManager->flush();
     }
 
+    public function deleteAvailability(GarageAvailability $garageAvailability): void
+    {
+        $this->entityManager->remove($garageAvailability);
+        $this->entityManager->flush();
+    }
+
     public function deleteAvailabilityTime(AvailabilityTime $availabilityTime): void
     {
         $this->entityManager->remove($availabilityTime);
