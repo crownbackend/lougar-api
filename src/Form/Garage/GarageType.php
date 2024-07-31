@@ -32,6 +32,8 @@ class GarageType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Description',
                     'class' => 'form-control',
+                    'rows' => 30,
+                    'cols' => 50
                 ]
             ])
             ->add('pricePerHour', MoneyType::class, [

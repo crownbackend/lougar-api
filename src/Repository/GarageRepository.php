@@ -28,7 +28,7 @@ class GarageRepository extends ServiceEntityRepository
             ->where('g.owner = :owner')
             ->andWhere('g.deletedAt IS NULL')
             ->setParameter('owner', $owner)
-            ->orderBy('g.createdAt', 'DESC')
+            ->orderBy('c.name', 'ASC')
             ->getQuery();
     }
 
