@@ -17,7 +17,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[AsCommand(
     name: 'app:import-city',
-    description: 'Add a short description for your command',
+    description: 'Import all city france in csv data',
 )]
 class ImportCityCommand extends Command
 {

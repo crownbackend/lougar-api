@@ -26,7 +26,7 @@ class GarageFixtures extends Fixture
 
         $cites = $this->cityRepository->findByName('par');
         foreach ($cites as $cite) {
-            for ($i = 0; $i < 5; $i++) {
+            for ($i = 0; $i < 1; $i++) {
                 $garage = new Garage();
                 $garage->setCity($cite);
                 $garage->setName($faker->word);
@@ -43,7 +43,7 @@ class GarageFixtures extends Fixture
                 $manager->persist($garage);
             }
 
-            for ($i = 0; $i < 5; $i++) {
+            for ($i = 0; $i < 1; $i++) {
                 $garage1 = new Garage();
                 $garage1->setCity($cite);
                 $garage1->setName($faker->word);
@@ -60,7 +60,7 @@ class GarageFixtures extends Fixture
                 $manager->persist($garage1);
             }
 
-            for ($i = 0; $i < 5; $i++) {
+            for ($i = 0; $i < 1; $i++) {
                 $garage2 = new Garage();
                 $garage2->setCity($cite);
                 $garage2->setName($faker->word);
