@@ -19,6 +19,7 @@ class AvailabilityManager
 
         if($garage->getAvailability()->first()) {
             $garageAvailability = $garage->getAvailability()->first();
+            $garageAvailability->setUpdatedAt($now);
         } else {
             $garageAvailability = new GarageAvailability();
         }

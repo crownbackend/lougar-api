@@ -86,6 +86,8 @@ readonly class GarageManager
             $garage->setCity($city);
         }
 
+        $garage->setUpdatedAt(new \DateTimeImmutable());
+
         $imagesFiles = $form->get("images")->getData();
         if ($imagesFiles) {
             foreach ($imagesFiles as $datum) {
@@ -128,6 +130,7 @@ readonly class GarageManager
         foreach ($images as $image) {
             $image->setPrincipal(false);
             $this->entityManager->persist($image);
+            $image->setUpdatedAt(new \DateTimeImmutable());
         }
         $this->entityManager->flush();
     }
