@@ -40,7 +40,7 @@
                                                 <a href="#">
                                                     {% for image in garage.images %}
                                                         {% if image.isPrincipal %}
-                                                            <img class="img-fluid serv-img" alt="Service Image" src="{{ asset('uploads/images/' ~ image.name) }}">
+                                                            <img class="img-fluid serv-img" style="width: 500px; height: 400px" alt="Service Image" src="{{ asset('uploads/images/' ~ image.name) }}">
                                                         {% endif %}
                                                     {% endfor %}
                                                 </a>
