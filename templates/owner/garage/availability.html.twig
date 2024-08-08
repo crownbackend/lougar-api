@@ -46,7 +46,7 @@
     <div class="row">
         <div class="col-lg-10 mx-auto">
             <div class="row">
-
+                {% if garage.availability|length != 1 %}
                     <div class="col-md-6">
                         <div class="form-group">
                             <div class="book-title">
@@ -55,7 +55,7 @@
                             </div>
                         </div>
                     </div>
-
+                {% endif %}
                     <div class="col-md-6">
                         <div class="form-group">
                             <div class="book-title">

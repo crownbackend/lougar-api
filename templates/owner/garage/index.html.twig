@@ -37,7 +37,7 @@
                                     <div class="col-xl-4 col-md-6">
                                         <div class="service-widget pro-service">
                                             <div class="service-img">
-                                                <a href="#">
+                                                <a href="{{ path('garage_show', {'id': garage.id}) }}">
                                                     {% for image in garage.images %}
                                                         {% if image.isPrincipal %}
                                                             <img class="img-fluid serv-img" style="width: 500px; height: 400px" alt="Service Image" src="{{ asset('uploads/images/' ~ image.name) }}">
@@ -47,7 +47,7 @@
                                             </div>
                                             <div class="service-content">
                                                 <h3 class="title">
-                                                    <a href="#">{{ garage.name }}</a>
+                                                    <a href="{{ path('garage_show', {'id': garage.id}) }}">{{ garage.name }}</a>
                                                 </h3>
                                                 <div class="addrs-item">
                                                     <p><i class="feather-map-pin"></i>{{ garage.city.name }}</p>

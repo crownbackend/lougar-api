@@ -190,7 +190,6 @@ $(document).ready(function () {
             }
         });
 
-        var valDate = $('#datetimepickershow_start').data().date
     }
 
     if ($('#datetimepickershow_end').length > 0) {

@@ -26,6 +26,7 @@ class ImageManager
     {
         $garage = $image->getGarage();
         foreach ($garage->getImages() as $datum) {
+            $datum->setUpdatedAt(new \DateTimeImmutable());
             $datum->setPrincipal(false);
             $this->entityManager->persist($datum);
         }
