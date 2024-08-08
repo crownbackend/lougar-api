@@ -1,0 +1,310 @@
+<!-- Availability Days -->
+{% set Monday = true %}
+{% set Tuesday = true %}
+{% set Wednesday = true %}
+{% set Thursday = true %}
+{% set Friday = true %}
+{% set Saturday = true %}
+{% set Sunday = true %}
+
+{% if garage.availability|length == 1 %}
+
+    {% for time in garage.availability[0].availabilityTimes %}
+
+        {% if time.dayOfWeek == 0 %}
+            {% set Monday = false %}
+        {% endif %}
+
+        {% if time.dayOfWeek == 1 %}
+            {% set Tuesday = false %}
+        {% endif %}
+
+        {% if time.dayOfWeek == 2 %}
+            {% set Wednesday = false %}
+        {% endif %}
+
+        {% if time.dayOfWeek == 3 %}
+            {% set Thursday = false %}
+        {% endif %}
+
+        {% if time.dayOfWeek == 4 %}
+            {% set Friday = false %}
+        {% endif %}
+
+        {% if time.dayOfWeek == 5 %}
+            {% set Saturday = false %}
+        {% endif %}
+
+        {% if time.dayOfWeek == 6 %}
+            {% set Sunday = false %}
+        {% endif %}
+
+    {% endfor %}
+{% endif %}
+
+<div class="availability-sec">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="row">
+                {% if garage.availability|length != 1 %}
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="book-title">
+                                <label class="col-form-label required">Date de début*</label>
+                                <div id="datetimepickershow_start"></div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="book-title">
+                                <label class="col-form-label required">Date de fin (facultative)</label>
+                                <div id="datetimepickershow_end"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+
+                {% if Monday %}
+                    <div class="col-sm-6">
+                        <h6>Lundi</h6>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="day-info" data-day-of-week="0">
+                            <div class="row day-cont">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">De</label>
+                                        <div class='form-icon'>
+                                            <input type='text' class="form-control timepicker"  placeholder="Choisir l'heure">
+                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">Jusqu'a</label>
+                                        <div class='form-icon'>
+                                            <input type='text' class="form-control timepicker"  placeholder="Choisir l'heure">
+                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <a href="#" class="add-text add-day"><i class="feather-plus-circle"></i>Ajouter une plage d'horaires</a>
+                        </div>
+                    </div>
+                    <hr>
+                {% endif %}
+
+                {% if Tuesday %}
+                    <div class="col-sm-6">
+                        <h6>Mardi</h6>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="day-info" data-day-of-week="1">
+                            <div class="row day-cont">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">De</label>
+                                        <div class='form-icon'>
+                                            <input type='text' class="form-control timepicker"  placeholder="Select Time">
+                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">Jusqu'a</label>
+                                        <div class='form-icon'>
+                                            <input type='text' class="form-control timepicker"  placeholder="Select Time">
+                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <a href="#" class="add-text add-day"><i class="feather-plus-circle"></i> Ajouter une plage d'horaires</a>
+                        </div>
+                    </div>
+                    <hr>
+                {% endif %}
+
+                {% if Wednesday %}
+                    <div class="col-sm-6">
+                        <h6>Mercredi</h6>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="day-info" data-day-of-week="2">
+                            <div class="row day-cont">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">From</label>
+                                        <div class='form-icon'>
+                                            <input type='text' class="form-control timepicker"  placeholder="Select Time">
+                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">To</label>
+                                        <div class='form-icon'>
+                                            <input type='text' class="form-control timepicker"  placeholder="Select Time">
+                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <a href="#" class="add-text add-day"><i class="feather-plus-circle"></i> Ajouter une plage d'horaires</a>
+                        </div>
+                    </div>
+                    <hr>
+                {% endif %}
+
+                {% if Thursday %}
+                    <div class="col-sm-6">
+                        <h6>Jeudi</h6>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="day-info" data-day-of-week="3">
+                            <div class="row day-cont">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">From</label>
+                                        <div class='form-icon'>
+                                            <input type='text' class="form-control timepicker"  placeholder="Select Time">
+                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">To</label>
+                                        <div class='form-icon'>
+                                            <input type='text' class="form-control timepicker"  placeholder="Select Time">
+                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <a href="#" class="add-text add-day"><i class="feather-plus-circle"></i> Ajouter une plage d'horaires</a>
+                        </div>
+                    </div>
+                    <hr>
+                {% endif %}
+
+                {% if Friday %}
+                    <div class="col-sm-6">
+                        <h6>Vendredi</h6>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="day-info" data-day-of-week="4">
+                            <div class="row day-cont">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">From</label>
+                                        <div class='form-icon'>
+                                            <input type='text' class="form-control timepicker"  placeholder="Select Time">
+                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">To</label>
+                                        <div class='form-icon'>
+                                            <input type='text' class="form-control timepicker"  placeholder="Select Time">
+                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <a href="#" class="add-text add-day"><i class="feather-plus-circle"></i> Ajouter une plage d'horaires</a>
+                        </div>
+                    </div>
+                    <hr>
+                {% endif %}
+
+                {% if Sunday %}
+                    <div class="col-sm-6">
+                        <h6>Samedi</h6>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="day-info" data-day-of-week="5">
+                            <div class="row day-cont">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">From</label>
+                                        <div class='form-icon'>
+                                            <input type='text' class="form-control timepicker"  placeholder="Select Time">
+                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">To</label>
+                                        <div class='form-icon'>
+                                            <input type='text' class="form-control timepicker"  placeholder="Select Time">
+                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <a href="#" class="add-text add-day"><i class="feather-plus-circle"></i> Ajouter une plage d'horaires</a>
+                        </div>
+                    </div>
+                    <hr>
+                {% endif %}
+
+                {% if Sunday %}
+                    <div class="col-sm-6">
+                        <h6>Dimanche</h6>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="day-info" data-day-of-week="6">
+                            <div class="row day-cont">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">From</label>
+                                        <div class='form-icon'>
+                                            <input type='text' class="form-control timepicker"  placeholder="Select Time">
+                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">To</label>
+                                        <div class='form-icon'>
+                                            <input type='text' class="form-control timepicker"  placeholder="Select Time">
+                                            <span class="cus-icon"><i class="feather-clock"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <a href="#" class="add-text add-day"><i class="feather-plus-circle"></i> Ajouter une plage d'horaires</a>
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Availability Days -->

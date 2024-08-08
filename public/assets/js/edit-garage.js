@@ -3,6 +3,8 @@ const city = document.querySelector('#garage_city_name')
 const postalCode = document.querySelector('#garage_city_postalCode')
 document.querySelector('#garage_images').removeAttribute('required')
 const imageContent = document.querySelector('#images_all')
+const availabilityContent = document.querySelector('#availability_content')
+const availabilityShowContent = document.querySelector('#availability_show_content')
 
 city.addEventListener('keyup', function() {
     clearTimeout(timeout);
@@ -157,3 +159,137 @@ function setPrincipal(imageId) {
             });
     }
 }
+
+function deleteAvailabilityTime(id) {
+
+    if (confirm('Êtes vous sur de supprimer ce créneaux ?')) {
+        fetch(`/availability/time/delete/${id}`, {
+            method: 'POST',
+        }).then(response => response.text())
+        .then(data => {
+            availabilityShowContent.innerHTML = data
+            window.location.reload()
+        })
+    }
+}
+
+
+
+$(document).ready(function () {
+
+    if ($('#datetimepickershow_start').length > 0) {
+        $('#datetimepickershow_start').datetimepicker({
+            inline: true,
+            sideBySide: true,
+            format: 'DD-MM-YYYY',
+            icons: {
+                up: "fas fa-angle-up",
+                down: "fas fa-angle-down",
+                next: 'fas fa-angle-right',
+                previous: 'fas fa-angle-left'
+            }
+        });
+
+    }
+
+    if ($('#datetimepickershow_end').length > 0) {
+        $('#datetimepickershow_end').datetimepicker({
+            inline: true,
+            sideBySide: true,
+            format: 'DD-MM-YYYY',
+            icons: {
+                up: "fas fa-angle-up",
+                down: "fas fa-angle-down",
+                next: 'fas fa-angle-right',
+                previous: 'fas fa-angle-left'
+            }
+        });
+        $('#datetimepickershow_end').data("DateTimePicker").clear();
+    }
+
+    $('#submit-btn').on('click', function(e) {
+        e.preventDefault();
+
+        let availabilityData = [];
+        let startDate = null;
+        let endDate = null;
+
+        // Get start and end dates
+        if ($('#datetimepickershow_start').length > 0) {
+            startDate = $('#datetimepickershow_start').data('DateTimePicker').date();
+        }
+        if ($('#datetimepickershow_end').length > 0) {
+            endDate = $('#datetimepickershow_end').data('DateTimePicker').date();
+        }
+
+        // Iterate over each day section
+        $('.availability-sec .day-info').each(function() {
+            let dayOfWeek = $(this).data('day-of-week');
+            let times = [];
+
+            $(this).find('.day-cont').each(function() {
+                let startTime = $(this).find('input').eq(0).val();
+                let endTime = $(this).find('input').eq(1).val();
+                times.push({
+                    start: startTime,
+                    end: endTime
+                });
+            });
+
+            if (times.length > 0) {
+                availabilityData.push({
+                    day: dayOfWeek,
+                    times: times
+                });
+            }
+        });
+
+        const idGarage = $('#submit-btn').attr('data-garage-id');
+        $.ajax({
+            url: '/availability/update/' + idGarage,
+            method: 'POST',
+            data: JSON.stringify({
+                startDate: startDate ? startDate.format('DD-MM-YYYY') : null,
+                endDate: endDate ? endDate.format('DD-MM-YYYY') : null,
+                availability: availabilityData
+            }),
+            contentType: 'application/json',
+            success: function(response) {
+
+                availabilityContent.innerHTML = response
+
+                window.location.reload()
+            },
+            error: function(response) {
+                alert("Erreur serveur !");
+            }
+        });
+    });
+
+    $("#delete_availability").on("click", function (e) {
+
+        let availabilityId = $(this).data('availability-id');
+
+        e.preventDefault();
+        Swal.fire({
+            title: "Êtes vous sur ?",
+            text: "Vous allez supprimer les disponibilités !",
+            type: "warning",
+            showCancelButton: !0,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Oui, supprimer",
+            cancelButtonText: "Non, annuler",
+            confirmButtonClass: "btn btn-primary",
+            cancelButtonClass: "btn btn-danger ml-1",
+            buttonsStyling: !1,
+        }).then(function (t) {
+            if (t.isConfirmed) {
+                window.location.href = "/availability/delete/" + availabilityId;
+            } else {
+                return false;
+            }
+        });
+    })
+
+});

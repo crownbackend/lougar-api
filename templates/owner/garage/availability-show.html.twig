@@ -1,0 +1,61 @@
+{% if garage.availability|length == 1 %}
+    <div class="col-md-12">
+        <div class="card card-available">
+            <div class="card-body">
+                <div class="available-widget">
+                    <div class="available-info">
+
+                        <span class="text-danger"> Pour supprimer un créneau de la semaine, cliquez sur l'heure souhaitée.</span>
+                        <br>
+                        <span class="text-danger">Si vous supprimez la disponibilité, cela supprimera tous les créneaux de la semaine. Il faudra recréer les disponibilités.</span>
+                        <button type="button" data-availability-id="{{ garage.availability[0].id }}" id="delete_availability" class="btn btn-danger">Supprimer la disponibilité</button>
+                        <br>
+                        <hr>
+                        {% if garage.availability[0].startAt is not null %}
+                            <h5>Date de début : {{ garage.availability[0].startAt|date('d-m-Y') }}</h5>
+                        {% endif %}
+
+                        {% if garage.availability[0].endAt is not null %}
+                            <h5>Date de fin : {{ garage.availability[0].endAt|date('d-m-Y') }} </h5>
+                        {% endif %}
+
+                        {% set daysOfWeek = {
+                            0: 'Lundi',
+                            1: 'Mardi',
+                            2: 'Mercredi',
+                            3: 'Jeudi',
+                            4: 'Vendredi',
+                            5: 'Samedi',
+                            6: 'Dimanche'
+                        } %}
+
+                        {% set availableDays = [] %}
+
+                        {% for time in garage.availability[0].availabilityTimes %}
+                            {% set availableDays = availableDays|merge([time.dayOfWeek]) %}
+                        {% endfor %}
+
+                        <ul>
+                            {% for day, dayName in daysOfWeek %}
+                                <li>
+                                    {% if day in availableDays %}
+                                        {{ dayName }}
+                                        {% for time in garage.availability[0].availabilityTimes %}
+                                            {% if time.dayOfWeek == day %}
+                                                <span onclick="deleteAvailabilityTime('{{ time.id }}')" class="ps-3 pointer">{{ time.startTime|date('H:i') }} - {{ time.endTime|date('H:i') }}</span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        {{ dayName }}
+                                        <span class="text-danger">Fermer</span>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

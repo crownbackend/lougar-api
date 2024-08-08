@@ -1652,7 +1652,7 @@ Version      : 1.0
 
 	if ($('.timepicker').length > 0) {
 		$('.timepicker').datetimepicker({
-			format: 'HH:mm A',
+			format: 'HH:mm',
 			icons: {
 				up: "fas fa-angle-up",
 				down: "fas fa-angle-down",
@@ -1848,9 +1848,9 @@ Version      : 1.0
 		var daycontent = '<div class="row day-cont">' +
 			'<div class="col-md-6">' +
 			'<div class="form-group">' +
-			'<label class="col-form-label">From</label>' +
+			'<label class="col-form-label">De</label>' +
 			'<div class="form-icon">' +
-			'<input type="text" class="form-control timepicker" placeholder="Select Time">' +
+			'<input type="text" class="form-control timepicker" placeholder="Choisir l\'heure">' +
 			'<span class="cus-icon"><i class="feather-clock"></i></span>' +
 			'</div>' +
 			'</div>' +
@@ -1858,9 +1858,9 @@ Version      : 1.0
 			'<div class="col-md-6">' +
 			'<div class="d-flex">' +
 			'<div class="form-group w-100">' +
-			'<label class="col-form-label">To</label>' +
+			'<label class="col-form-label">Jusqu\'a</label>' +
 			'<div class="form-icon">' +
-			'<input type="text" class="form-control timepicker" placeholder="Select Time">' +
+			'<input type="text" class="form-control timepicker" placeholder="Choisir l\'heure">' +
 			'<span class="cus-icon"><i class="feather-clock"></i></span>' +
 			'</div>' +
 			'</div>' +
@@ -1874,7 +1874,7 @@ Version      : 1.0
 
 		$(this).parent().parent().find(".day-info").append(daycontent);
 		$('.timepicker').datetimepicker({
-			format: 'HH:mm A',
+			format: 'HH:mm',
 			icons: {
 				up: "fas fa-angle-up",
 				down: "fas fa-angle-down",
@@ -2145,6 +2145,7 @@ Version      : 1.0
 
 		});
 	}
+
 
 	// Chat sidebar overlay
 

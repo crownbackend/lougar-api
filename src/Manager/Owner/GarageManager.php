@@ -13,7 +13,7 @@ use Doctrine\ORM\Query;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class GarageManager
+readonly class GarageManager
 {
     public function __construct(private readonly GarageRepository $garageRepository, private readonly CityRepository $cityRepository,
                                 private readonly FileUploader $uploader, private readonly EntityManagerInterface $entityManager)
@@ -23,6 +23,11 @@ class GarageManager
     public function index(User $user): Query
     {
         return $this->garageRepository->findByOwner($user);
+    }
+
+    public function show(string $id): Garage
+    {
+        return $this->garageRepository->findById($id);
     }
 
     /**
@@ -81,6 +86,8 @@ class GarageManager
             $garage->setCity($city);
         }
 
+        $garage->setUpdatedAt(new \DateTimeImmutable());
+
         $imagesFiles = $form->get("images")->getData();
         if ($imagesFiles) {
             foreach ($imagesFiles as $datum) {
@@ -123,6 +130,7 @@ class GarageManager
         foreach ($images as $image) {
             $image->setPrincipal(false);
             $this->entityManager->persist($image);
+            $image->setUpdatedAt(new \DateTimeImmutable());
         }
         $this->entityManager->flush();
     }
