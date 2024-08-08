@@ -43,7 +43,9 @@
 
                 <!-- Service Profile -->
                 <div class="col-md-8">
-                    <div class="serv-profile">
+                    <div class="serv-profile" id="active-service"
+                         data-city-long="{{ garage.city.longitude }}" data-city-lat="{{ garage.city.latitude }}"
+                         data-city-postal="{{ garage.city.postalCode }}" data-city-name="{{ garage.city.name }}">
                         <h2>{{ garage.name }}</h2>
                         <ul>
                             <li class="service-map"><i class="feather-map-pin"></i> {{ garage.city.name }}</li>
@@ -99,28 +101,15 @@
 
                 <!-- Service Details -->
                 <div class="col-lg-8">
-                    <div class="service-wrap">
-                        <h5>Service Details</h5>
-                        <p>Car wash is a facility used to clean the exterior and, in some cases, the interior of motor vehicles. Car washes can be self-serve, fully automated, or full-service with attendants who wash the vehicle.</p>
-                    </div>
                     <div class="service-wrap provide-service">
                         <h5>Service Provider</h5>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="provide-box">
-                                    <img src="assets/img/profiles/avatar-02.jpg" class="img-fluid" alt="img">
-                                    <div class="provide-info">
-                                        <h6>Member Since</h6>
-                                        <div class="serv-review"><i class="fa-solid fa-star"></i> <span>4.9 </span>(255 reviews)</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="provide-box">
                                     <span><i class="feather-user"></i></span>
                                     <div class="provide-info">
-                                        <h6>Member Since</h6>
-                                        <p>Apr 2020</p>
+                                        <h6>{{ app.user.firstName }} {{ app.user.lastName }}</h6>
+                                        <p>Membre depuis {{ app.user.createdAt|format_datetime(locale='fr', pattern='MMMM yyyy') }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -128,17 +117,10 @@
                                 <div class="provide-box">
                                     <span><i class="feather-map-pin"></i></span>
                                     <div class="provide-info">
-                                        <h6>Address</h6>
-                                        <p>Hanover, Maryland</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="provide-box">
-                                    <span><i class="feather-mail"></i></span>
-                                    <div class="provide-info">
-                                        <h6>Email</h6>
-                                        <p>thomash@example.com</p>
+                                        <h6>Adresse </h6>
+                                        <p>
+                                            {{ garage.address }} <span><i class="feather-map-pin"></i> {{ garage.city.name }}</span>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -146,31 +128,20 @@
                                 <div class="provide-box">
                                     <span><i class="feather-phone"></i></span>
                                     <div class="provide-info">
-                                        <h6>Phone</h6>
-                                        <p>+1 888 888 8888</p>
+                                        <h6>Téléphone</h6>
+                                        <p>{{ garage.owner.phone }}</p>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="social-icon provide-social">
-                                    <ul>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="feather-instagram"></i> </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="feather-twitter"></i> </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="feather-youtube"></i></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" target="_blank"><i class="feather-linkedin"></i></a>
-                                        </li>
-                                    </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="service-wrap">
+                        <h5>Description</h5>
+                        <p>
+                            {{ garage.description|nl2br }}
+                        </p>
+                    </div>
+
                     <div class="service-wrap">
                         <div class="row">
                             <div class="col-md-6">
@@ -191,7 +162,7 @@
                         </div>
                     </div>
                     <div class="service-wrap">
-                        <h5>Reviews</h5>
+                        <h5>Avis</h5>
                         <ul>
                             <li class="review-box">
                                 <div class="review-profile">
@@ -274,39 +245,66 @@
                         <div class="card-body">
                             <div class="provide-widget">
                                 <div class="service-amount">
-                                    <h5>$150<span>$170</span></h5>
+                                    <h5>{{ garage.pricePerHour }}€/h - {{ garage.pricePerDay }}€/j</h5>
                                     <p class="serv-review"><i class="fa-solid fa-star"></i> <span>4.9 </span>(255 reviews)</p>
-                                </div>
-                                <div class="serv-proimg">
-                                    <img src="assets/img/profiles/avatar-02.jpg" class="img-fluid" alt="img">
-                                    <span><i class="fa-solid fa-circle-check"></i></span>
                                 </div>
                             </div>
                             <div class="card card-available">
                                 <div class="card-body">
                                     <div class="available-widget">
                                         <div class="available-info">
-                                            <h5>Service Availability</h5>
+                                            {% if garage.availability[0].startAt is not null %}
+                                                <h5>Date de début : {{ garage.availability[0].startAt|date('d-m-Y') }}</h5>
+                                            {% endif %}
+
+                                            {% if garage.availability[0].endAt is not null %}
+                                                <h5>Date de fin : {{ garage.availability[0].endAt|date('d-m-Y') }} </h5>
+                                            {% endif %}
+                                            <hr>
+                                            {% set daysOfWeek = {
+                                                0: 'Lundi',
+                                                1: 'Mardi',
+                                                2: 'Mercredi',
+                                                3: 'Jeudi',
+                                                4: 'Vendredi',
+                                                5: 'Samedi',
+                                                6: 'Dimanche'
+                                            } %}
+
+                                            {% set availableDays = [] %}
+
+                                            {% for time in garage.availability[0].availabilityTimes %}
+                                                {% set availableDays = availableDays|merge([time.dayOfWeek]) %}
+                                            {% endfor %}
+
                                             <ul>
-                                                <li>Monday <span>9:30 AM - 7:00 PM</span> </li>
-                                                <li>Tuesday <span>9:30 AM - 7:00 PM</span> </li>
-                                                <li>Wednesday <span>9:30 AM - 7:00 PM</span> </li>
-                                                <li>Thursday <span>9:30 AM - 7:00 PM</span> </li>
-                                                <li>Friday <span>9:30 AM - 7:00 PM</span> </li>
-                                                <li>Saturday <span>9:30 AM - 7:00 PM</span> </li>
-                                                <li>Sunday <span class="text-danger">Closed</span> </li>
+                                                {% for day, dayName in daysOfWeek %}
+                                                    <li>
+                                                        {% if day in availableDays %}
+                                                            {{ dayName }}
+                                                            {% for time in garage.availability[0].availabilityTimes %}
+                                                                {% if time.dayOfWeek == day %}
+                                                                    <span>{{ time.startTime|date('H:i') }} - {{ time.endTime|date('H:i') }}</span>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            {{ dayName }}
+                                                            <span class="text-danger">Fermer</span>
+                                                        {% endif %}
+                                                    </li>
+                                                {% endfor %}
                                             </ul>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="map-grid">
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6509170.989457427!2d-123.80081967108484!3d37.192957227641294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb9fe5f285e3d%3A0x8b5109a227086f55!2sCalifornia%2C%20USA!5e0!3m2!1sen!2sin!4v1669181581381!5m2!1sen!2sin" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="contact-map"></iframe>
+                                <div id="map" class="contact-map"></div>
                             </div>
-                            <a href="booking.html" class="btn btn-primary">Book Service</a>
+                            <a href="booking.html" class="btn btn-primary">Réserver</a>
                         </div>
                     </div>
-
 
                     <!-- /Service Availability -->
 
@@ -356,5 +354,6 @@
 
     <!-- Custom JS -->
     <script src="{{ asset('assets/js/script.js') }}"></script>
+    <script src="{{ asset('assets/js/show-garage.js') }}"></script>
 
 {% endblock %}
