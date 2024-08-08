@@ -253,48 +253,53 @@
                                 <div class="card-body">
                                     <div class="available-widget">
                                         <div class="available-info">
-                                            {% if garage.availability[0].startAt is not null %}
-                                                <h5>Date de début : {{ garage.availability[0].startAt|date('d-m-Y') }}</h5>
-                                            {% endif %}
-
-                                            {% if garage.availability[0].endAt is not null %}
-                                                <h5>Date de fin : {{ garage.availability[0].endAt|date('d-m-Y') }} </h5>
-                                            {% endif %}
+                                            <h5>Disponibilités</h5>
                                             <hr>
-                                            {% set daysOfWeek = {
-                                                0: 'Lundi',
-                                                1: 'Mardi',
-                                                2: 'Mercredi',
-                                                3: 'Jeudi',
-                                                4: 'Vendredi',
-                                                5: 'Samedi',
-                                                6: 'Dimanche'
-                                            } %}
+                                            {% if garage.availability|length == 1 %}
+                                                {% if garage.availability[0].startAt is not null %}
+                                                    <h5>Date de début : {{ garage.availability[0].startAt|date('d-m-Y') }}</h5>
+                                                {% endif %}
 
-                                            {% set availableDays = [] %}
+                                                {% if garage.availability[0].endAt is not null %}
+                                                    <h5>Date de fin : {{ garage.availability[0].endAt|date('d-m-Y') }} </h5>
+                                                {% endif %}
+                                                <hr>
+                                                {% set daysOfWeek = {
+                                                    0: 'Lundi',
+                                                    1: 'Mardi',
+                                                    2: 'Mercredi',
+                                                    3: 'Jeudi',
+                                                    4: 'Vendredi',
+                                                    5: 'Samedi',
+                                                    6: 'Dimanche'
+                                                } %}
 
-                                            {% for time in garage.availability[0].availabilityTimes %}
-                                                {% set availableDays = availableDays|merge([time.dayOfWeek]) %}
-                                            {% endfor %}
+                                                {% set availableDays = [] %}
 
-                                            <ul>
-                                                {% for day, dayName in daysOfWeek %}
-                                                    <li>
-                                                        {% if day in availableDays %}
-                                                            {{ dayName }}
-                                                            {% for time in garage.availability[0].availabilityTimes %}
-                                                                {% if time.dayOfWeek == day %}
-                                                                    <span>{{ time.startTime|date('H:i') }} - {{ time.endTime|date('H:i') }}</span>
-                                                                {% endif %}
-                                                            {% endfor %}
-                                                        {% else %}
-                                                            {{ dayName }}
-                                                            <span class="text-danger">Fermer</span>
-                                                        {% endif %}
-                                                    </li>
+                                                {% for time in garage.availability[0].availabilityTimes %}
+                                                    {% set availableDays = availableDays|merge([time.dayOfWeek]) %}
                                                 {% endfor %}
-                                            </ul>
 
+                                                <ul>
+                                                    {% for day, dayName in daysOfWeek %}
+                                                        <li>
+                                                            {% if day in availableDays %}
+                                                                {{ dayName }}
+                                                                {% for time in garage.availability[0].availabilityTimes %}
+                                                                    {% if time.dayOfWeek == day %}
+                                                                        <span>{{ time.startTime|date('H:i') }} - {{ time.endTime|date('H:i') }}</span>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            {% else %}
+                                                                {{ dayName }}
+                                                                <span class="text-danger">Fermer</span>
+                                                            {% endif %}
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% else %}
+                                                <span class="text-danger"> Aucune disponibilités n'est planifié mais vous pouvez réserver un créneau.</span>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
