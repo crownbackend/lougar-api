@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Garage;
 use App\Manager\GarageManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,8 +16,8 @@ class GarageController extends AbstractController
     {
     }
 
-    #[Route('/')]
-    public function index(): Response
+    #[Route('/trouver-un-garage', name: 'search')]
+    public function search(): Response
     {
         return $this->render('garage/index.html.twig');
     }

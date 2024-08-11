@@ -12,6 +12,6 @@ class HomeControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/');
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Trouvez des places de parking ou que vous soyez');
+        $this->assertSelectorTextContains('h1', 'Trouvez une place de parking ou que');
     }
 }

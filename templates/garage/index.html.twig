@@ -1,0 +1,210 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Trouver un garage
+{% endblock %}
+
+
+{% block stylesheets %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
+
+    <!-- Fearther CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/feather.css') }}">
+
+    <!-- select CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
+
+    <!-- leaflet CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/leaflet/leaflet.css') }}">
+
+    <!-- Rangeslider CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/ion-rangeslider/css/ion.rangeSlider.min.css') }}">
+
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="content">
+        <div class="container">
+
+            <div class="row">
+
+                <!-- Filter -->
+                <div class="col-lg-3 col-sm-12 theiaStickySidebar">
+                    <div class="filter-div">
+                        <div class="filter-head">
+                            <h5>Filtrer par</h5>
+                            <a href="#" class="reset-link">Réinitialiser les filtres</a>
+                        </div>
+                        <div class="filter-content">
+                            <h2>Mots</h2>
+                            <input type="text" class="form-control" placeholder="Rechercher par mot clés">
+                        </div>
+                        <div class="filter-content">
+                            <h2>Ville</h2>
+                            <div class="group-img">
+                                <input type="text" class="form-control" placeholder="Paris, Marseille, Nice..">
+                                <i class="feather-map-pin"></i>
+                            </div>
+                        </div>
+                        <div class="filter-content">
+                            <h2 class="mb-4">Prix</h2>
+                            <div class="filter-range">
+                                <input type="text" id="range_03">
+                            </div>
+                            <div class="filter-range-amount">
+                                <h5>Price: <span>$5 - $210</span></h5>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+                <!-- /Filter -->
+
+                <!-- Service -->
+                <div class="col-lg-9 col-sm-12">
+                    <div class="row sorting-div">
+                        <div class="col-lg-4 col-sm-12 ">
+                            <div class="count-search">
+                                <h6>11 garages trouvés dans la recherche</h6>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-sm-12 d-flex justify-content-end ">
+                            <div class="sortbyset">
+                                <div class="sorting-select">
+                                    <select class="form-control select">
+                                        <option>Prix croissant</option>
+                                        <option>Prix décroissant</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="grid-listview">
+                                <ul>
+                                    <li>
+                                        <a href="search.html" class="active">
+                                            <i class="feather-grid"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="search-list.html">
+                                            <i class="feather-list"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <!-- Service List -->
+                        <div class="col-xl-4 col-md-6">
+                            <div class="service-widget servicecontent">
+                                <div class="service-img">
+                                    <a href="service-details.html">
+                                        <img class="img-fluid serv-img" alt="Service Image" src="{{ asset('assets/img/services/service-04.jpg') }}">
+                                    </a>
+                                    <div class="fav-item">
+                                        <a href="categories.html"><span class="item-cat">Car Wash</span></a>
+                                        <a href="javascript:void(0)" class="fav-icon">
+                                            <i class="feather-heart"></i>
+                                        </a>
+                                    </div>
+                                    <div class="item-info">
+                                        <a href="providers.html"><span class="item-img"><img src="{{ asset('assets/img/profiles/avatar-01.jpg') }}" class="avatar" alt="User"></span></a>
+                                    </div>
+                                </div>
+                                <div class="service-content">
+                                    <h3 class="title">
+                                        <a href="service-details.html">Car Repair Services</a>
+                                    </h3>
+                                    <p><i class="feather-map-pin"></i>Maryland City, MD, USA<span class="rate"><i class="fas fa-star filled"></i>4.9</span></p>
+                                    <div class="serv-info">
+                                        <h6>$50.00</h6>
+                                        <a href="booking.html" class="btn btn-book">Book Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Service List -->
+
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="blog-pagination rev-page">
+                                <nav>
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item disabled">
+                                            <a class="page-link page-prev" href="#" tabindex="-1"><i class="fa-solid fa-arrow-left me-1"></i> PREV</a>
+                                        </li>
+                                        <li class="page-item active">
+                                            <a class="page-link" href="#">1</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">2</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">3</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link page-next" href="#">NEXT <i class="fa-solid fa-arrow-right ms-1"></i></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Pagination -->
+
+                </div>
+                <!-- /Service -->
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <!-- jQuery -->
+    <script src="{{ asset('assets/js/jquery-3.7.0.min.js') }}"></script>
+
+    <!-- leaflet -->
+    <script src="{{ asset('assets/leaflet/leaflet-src.js') }}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Fearther JS -->
+    <script src="{{ asset('assets/js/feather.min.js') }}"></script>
+
+
+    <!-- select CSS -->
+    <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/aos/aos.js') }}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script src="{{ asset('assets/plugins/theia-sticky-sidebar/ResizeSensor.js') }}"></script>
+    <script src="{{ asset('assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js') }}"></script>
+
+    <!-- Rangeslider JS -->
+    <script src="{{ asset('assets/plugins/ion-rangeslider/js/ion.rangeSlider.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/ion-rangeslider/js/custom-rangeslider.js') }}"></script>
+
+
+    <!-- Sweetalert 2 -->
+    <script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
+
+    <!-- Custom JS -->
+    <script src="{{ asset('assets/js/script.js') }}"></script>
+
+{% endblock %}
+

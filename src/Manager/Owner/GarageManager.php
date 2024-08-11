@@ -20,6 +20,11 @@ readonly class GarageManager
     {
     }
 
+    public function count(User $user): int
+    {
+        return $this->garageRepository->findByCount($user);
+    }
+
     public function index(User $user): Query
     {
         return $this->garageRepository->findByOwner($user);

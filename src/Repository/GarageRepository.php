@@ -46,4 +46,15 @@ class GarageRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function findByCount(User $user): int
+    {
+        return $this->createQueryBuilder('g')
+            ->select('count(g.id)')
+            ->where('g.owner = :owner')
+            ->andWhere('g.deletedAt IS NULL')
+            ->setParameter('owner', $user)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }
