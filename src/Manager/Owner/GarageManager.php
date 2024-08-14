@@ -20,11 +20,6 @@ readonly class GarageManager
     {
     }
 
-    public function count(User $user): int
-    {
-        return $this->garageRepository->findByCount($user);
-    }
-
     public function index(User $user): Query
     {
         return $this->garageRepository->findByOwner($user);
@@ -124,6 +119,9 @@ readonly class GarageManager
         foreach ($garage->getImages() as $image) {
             $image->setDeletedAt(new \DateTimeImmutable());
             $this->entityManager->persist($image);
+        }
+        foreach ($garage->getAvailability() as $value) {
+            $this->entityManager->remove($value);
         }
         $this->entityManager->persist($garage);
         $this->entityManager->flush();

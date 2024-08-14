@@ -32,7 +32,6 @@ function performSearch(query) {
         document.querySelector('#city_content').style.display = 'none'
         return
     }
-    console.log('Performing search for:', query);
 
     fetch(`/city/search?query=${query}`)
         .then(response => response.json())

@@ -31,8 +31,7 @@ class GarageController extends AbstractController
             6
         );
         return $this->render('owner/garage/index.html.twig', [
-            'garages' => $pagination,
-            'count' => $this->manager->count($this->getUser())
+            'garages' => $pagination
         ]);
     }
 

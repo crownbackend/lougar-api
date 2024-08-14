@@ -13,9 +13,42 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class GarageRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private CityRepository $cityRepository)
     {
         parent::__construct($registry, Garage::class);
+    }
+
+    public function findBySearch(?string $text = null, ?string $cityId = null, ?int $minPrice = null, ?int $maxPrice = null): Query
+    {
+        $queryBuilder = $this->createQueryBuilder('g')
+            ->select('g', 'i', 'c')
+            ->leftJoin('g.images', 'i')
+            ->leftJoin('g.city', 'c')
+            ->where('g.deletedAt IS NULL');
+
+        // Filtre par nom
+        if ($text) {
+            $queryBuilder->andWhere('g.name LIKE :text')
+                ->setParameter('text', '%' . $text . '%');
+        }
+
+        // Filtre par ville
+        if ($cityId) {
+            $queryBuilder->andWhere('c.id = :city')
+                ->setParameter('city', $cityId);
+        }
+
+        // Filtre par plage de prix (soit par heure, soit par jour)
+        if ($minPrice !== null || $maxPrice !== null) {
+            $queryBuilder->andWhere(
+                '(g.pricePerHour BETWEEN :minPrice AND :maxPrice OR g.pricePerDay BETWEEN :minPrice AND :maxPrice)'
+            )
+                ->setParameter('minPrice', $minPrice)
+                ->setParameter('maxPrice', $maxPrice);
+        }
+
+
+        return $queryBuilder->getQuery();
     }
 
     public function findByOwner(User $owner): Query
@@ -45,16 +78,5 @@ class GarageRepository extends ServiceEntityRepository
             ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult();
-    }
-
-    public function findByCount(User $user): int
-    {
-        return $this->createQueryBuilder('g')
-            ->select('count(g.id)')
-            ->where('g.owner = :owner')
-            ->andWhere('g.deletedAt IS NULL')
-            ->setParameter('owner', $user)
-            ->getQuery()
-            ->getSingleScalarResult();
     }
 }
