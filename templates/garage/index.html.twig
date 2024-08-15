@@ -59,14 +59,23 @@
                                 </div>
                             </div>
                             <div class="filter-content">
-                                <h2 class="mb-4">Prix</h2>
+                                <h2 id="price_min_max"
+                                    data-min="{{ prices.minPrice }}"
+                                    data-max="{{ prices.maxPrice }}"
+                                    {% if priceMin %} data-search-min="{{ priceMin }}" {% endif %}
+                                    {% if priceMax %} data-search-max="{{ priceMax }}" {% endif %}
+                                    class="mb-4">
+                                    Prix
+                                </h2>
                                 <div class="filter-range">
                                     <input type="text" id="range_03">
                                 </div>
                                 <div class="filter-range-amount">
-                                    <h5>Price: <span>$5 - $210</span></h5>
+                                    <h5>Price: <span>€{{ prices.minPrice }} - €{{ prices.maxPrice }}</span></h5>
                                 </div>
                             </div>
+                            <input type="hidden" id="price_min" name="priceMin">
+                            <input type="hidden" id="price_max" name="priceMax">
                             <input type="hidden" id="city_id" {% if cityId %} value="{{ cityId }}" {% endif %} name="cityId">
                             <button type="submit" class="btn btn-primary">Search</button>
                         </form>
@@ -91,20 +100,6 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="grid-listview">
-                                <ul>
-                                    <li>
-                                        <a href="search.html" class="active">
-                                            <i class="feather-grid"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="search-list.html">
-                                            <i class="feather-list"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -120,7 +115,6 @@
                                                 <img class="img-fluid serv-img" style="width: 500px; height: 200px" alt="Service Image" src="{{ asset('uploads/images/' ~ image.name) }}">
                                             {% endif %}
                                         {% endfor %}
-
                                     </a>
                                 </div>
                                 <div class="service-content">
@@ -135,6 +129,21 @@
                                 </div>
                             </div>
                         </div>
+                        {% else %}
+                            <div class="row">
+                                <div class="col-lg-5 mx-auto">
+                                    <div class="error-wrap">
+                                        <div class="error-img">
+                                            <img class="img-fluid" src="{{ asset('assets/img/error-404.png') }}" alt="img">
+                                        </div>
+                                        <h2>Oups aucun résultat</h2>
+                                        <p>
+                                            Si vous disposez d'une place de parking à proposer dans cette ville, vous pouvez devenir loueur de parking.
+                                        </p>
+                                        <a href="{{ path('owner_register') }}" class="btn btn-primary"><i class="feather-arrow-left-circle me-2"></i>Louer votre parking</a>
+                                    </div>
+                                </div>
+                            </div>
                         {% endfor %}
                         <!-- /Service List -->
 
@@ -181,7 +190,6 @@
 
     <!-- Rangeslider JS -->
     <script src="{{ asset('assets/plugins/ion-rangeslider/js/ion.rangeSlider.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/ion-rangeslider/js/custom-rangeslider.js') }}"></script>
 
 
     <!-- Sweetalert 2 -->

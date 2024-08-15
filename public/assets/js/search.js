@@ -41,3 +41,35 @@ function selectCity(value) {
     document.querySelector('#city_id').value = value.id
     document.querySelector('#city_content').style.display = 'none'
 }
+
+
+$(document).ready(function () {
+
+    const priceMinMax = $('#price_min_max')
+    const priceMin = $('#price_min')
+    const priceMax = $('#price_max')
+    const searchPriceMin = priceMinMax.attr('data-search-min')
+    const searchPriceMax = priceMinMax.attr('data-search-max')
+    $("#range_03").ionRangeSlider({
+        type: "double",
+        min: priceMinMax.attr('data-min'),
+        max: priceMinMax.attr('data-max'),
+        from: searchPriceMin ? searchPriceMin :  priceMinMax.attr('data-min'),
+        to: searchPriceMax ? searchPriceMax : priceMinMax.attr('data-max'),
+        prefix: "€",
+        step: 0.1,
+        onStart: function (data) {
+            priceMin.val(data.from);
+            priceMax.val(data.to);
+        },
+        onChange: function (data) {
+            priceMin.val(data.from);
+            priceMax.val(data.to);
+        },
+        onFinish: function (data) {
+            priceMin.val(data.from);
+            priceMax.val(data.to);
+        }
+    })
+
+})

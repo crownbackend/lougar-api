@@ -12,9 +12,14 @@ class GarageManager
     {
     }
 
-    public function search(?string $text = null, ?string $cityId = null, ?int $minPrice = null, ?int $maxPrice = null): Query
+    public function search(?string $text = null, ?string $cityId = null, ?string $minPrice = null, ?string $maxPrice = null): Query
     {
         return $this->garageRepository->findBySearch($text, $cityId, $minPrice, $maxPrice);
+    }
+
+    public function priceMinMax(): array
+    {
+        return $this->garageRepository->findMinMaxPrices();
     }
 
     public function show(string $id): Garage

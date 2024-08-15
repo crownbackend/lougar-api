@@ -24,8 +24,9 @@ class GarageController extends AbstractController
         $text = $request->query->get('text');
         $cityId = $request->query->get('cityId');
         $city = $request->query->get('city');
-
-        $query = $this->garageManager->search($text, $cityId);
+        $priceMin = $request->query->get('priceMin');
+        $priceMax = $request->query->get('priceMax');
+        $query = $this->garageManager->search($text, $cityId, $priceMin, $priceMax);
         $pagination = $this->paginator->paginate(
             $query,
             $request->query->getInt('page', 1),
@@ -36,6 +37,9 @@ class GarageController extends AbstractController
             'city' => $city,
             'cityId' => $cityId,
             'text' => $text,
+            'priceMin' => $priceMin,
+            'priceMax' => $priceMax,
+            'prices' => $this->garageManager->priceMinMax()
         ]);
     }
 

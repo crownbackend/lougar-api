@@ -18,17 +18,18 @@ class GarageRepository extends ServiceEntityRepository
         parent::__construct($registry, Garage::class);
     }
 
-    public function findBySearch(?string $text = null, ?string $cityId = null, ?int $minPrice = null, ?int $maxPrice = null): Query
+    public function findBySearch(?string $text = null, ?string $cityId = null, ?string $minPrice = null, ?string $maxPrice = null): Query
     {
         $queryBuilder = $this->createQueryBuilder('g')
             ->select('g', 'i', 'c')
             ->leftJoin('g.images', 'i')
-            ->leftJoin('g.city', 'c')
-            ->where('g.deletedAt IS NULL');
+            ->leftJoin('g.city', 'c');
 
         // Filtre par nom
         if ($text) {
-            $queryBuilder->andWhere('g.name LIKE :text')
+            $queryBuilder->andWhere('LOWER(g.name) LIKE LOWER(:text)')
+                ->orWhere('LOWER(g.description) LIKE LOWER(:text)')
+                ->orWhere('LOWER(g.address) LIKE LOWER(:text)')
                 ->setParameter('text', '%' . $text . '%');
         }
 
@@ -48,7 +49,20 @@ class GarageRepository extends ServiceEntityRepository
         }
 
 
-        return $queryBuilder->getQuery();
+        return $queryBuilder->andWhere('g.deletedAt IS NULL')
+            ->getQuery();
+    }
+
+    public function findMinMaxPrices(): array
+    {
+        $qb = $this->createQueryBuilder('g');
+
+        $qb->select(
+            'MIN(g.pricePerHour) as minPrice',
+            'MAX(g.pricePerDay) as maxPrice'
+        )->where('g.deletedAt IS NULL');
+
+        return $qb->getQuery()->getSingleResult();
     }
 
     public function findByOwner(User $owner): Query
