@@ -120,6 +120,9 @@ readonly class GarageManager
             $image->setDeletedAt(new \DateTimeImmutable());
             $this->entityManager->persist($image);
         }
+        foreach ($garage->getAvailability() as $value) {
+            $this->entityManager->remove($value);
+        }
         $this->entityManager->persist($garage);
         $this->entityManager->flush();
     }

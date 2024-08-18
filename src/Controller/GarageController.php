@@ -4,23 +4,43 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Garage;
 use App\Manager\GarageManager;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/garage', name: 'garage_')]
 class GarageController extends AbstractController
 {
-    public function __construct(private GarageManager $garageManager)
+    public function __construct(private GarageManager $garageManager, private PaginatorInterface $paginator)
     {
     }
 
-    #[Route('/')]
-    public function index(): Response
+    #[Route('/trouver-un-garage', name: 'search')]
+    public function search(Request $request): Response
     {
-        return $this->render('garage/index.html.twig');
+        $text = $request->query->get('text');
+        $cityId = $request->query->get('cityId');
+        $city = $request->query->get('city');
+        $priceMin = $request->query->get('priceMin');
+        $priceMax = $request->query->get('priceMax');
+        $query = $this->garageManager->search($text, $cityId, $priceMin, $priceMax);
+        $pagination = $this->paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            9
+        );
+        return $this->render('garage/index.html.twig', [
+            'garages' => $pagination,
+            'city' => $city,
+            'cityId' => $cityId,
+            'text' => $text,
+            'priceMin' => $priceMin,
+            'priceMax' => $priceMax,
+            'prices' => $this->garageManager->priceMinMax()
+        ]);
     }
 
     #[Route('/{id}', name: 'show')]

@@ -1,0 +1,204 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Trouver un garage
+{% endblock %}
+
+
+{% block stylesheets %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
+
+    <!-- Fearther CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/feather.css') }}">
+
+    <!-- select CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
+
+    <!-- leaflet CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/leaflet/leaflet.css') }}">
+
+    <!-- Rangeslider CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/ion-rangeslider/css/ion.rangeSlider.min.css') }}">
+
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="content">
+        <div class="container">
+
+            <div class="row">
+
+                <!-- Filter -->
+                <div class="col-lg-3 col-sm-12 theiaStickySidebar">
+                    <div class="filter-div">
+                        <div class="filter-head">
+                            <a href="{{ path('garage_search') }}" class="reset-link">Réinitialiser les filtres</a>
+                        </div>
+                        <form action="{{ path('garage_search') }}" method="get">
+                            <div class="filter-content">
+                                <h2>Mots</h2>
+                                <input type="text" name="text" {% if text %} value="{{ text }}" {% endif %} class="form-control" placeholder="Rechercher par mot clés">
+                            </div>
+                            <div class="filter-content">
+                                <h2>Ville</h2>
+                                <div class="group-img">
+                                    <input type="text" id="search_city" name="city" {% if city %} value="{{ city }}" {% endif %} class="form-control" placeholder="Paris, Marseille, Nice..">
+                                    <i class="feather-map-pin"></i>
+                                </div>
+                                <div class="service-widget servicecontent" id="city_content" style="display: none">
+                                    <div class="service-content" id="result_city" style="overflow-y: auto; max-height: 50vh">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="filter-content">
+                                <h2 id="price_min_max"
+                                    data-min="{{ prices.minPrice }}"
+                                    data-max="{{ prices.maxPrice }}"
+                                    {% if priceMin %} data-search-min="{{ priceMin }}" {% endif %}
+                                    {% if priceMax %} data-search-max="{{ priceMax }}" {% endif %}
+                                    class="mb-4">
+                                    Prix
+                                </h2>
+                                <div class="filter-range">
+                                    <input type="text" id="range_03">
+                                </div>
+                                <div class="filter-range-amount">
+                                    <h5>Price: <span>€{{ prices.minPrice }} - €{{ prices.maxPrice }}</span></h5>
+                                </div>
+                            </div>
+                            <input type="hidden" id="price_min" name="priceMin">
+                            <input type="hidden" id="price_max" name="priceMax">
+                            <input type="hidden" id="city_id" {% if cityId %} value="{{ cityId }}" {% endif %} name="cityId">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- /Filter -->
+
+                <!-- Service -->
+                <div class="col-lg-9 col-sm-12">
+                    <div class="row sorting-div">
+                        <div class="col-lg-4 col-sm-12 ">
+                            <div class="count-search">
+                                <h6>{{ garages.getTotalItemCount}} garages trouvés dans la recherche</h6>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-sm-12 d-flex justify-content-end ">
+                            <div class="sortbyset">
+                                <div class="sorting-select">
+{#                                    <select class="form-control select">#}
+{#                                        <option>Prix croissant</option>#}
+{#                                        <option>Prix décroissant</option>#}
+{#                                    </select>#}
+                                    {{ knp_pagination_sortable(garages, 'Prix', 'g.pricePerHour') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <!-- Service List -->
+                        {% for garage in garages %}
+                        <div class="col-xl-4 col-md-6">
+                            <div class="service-widget servicecontent">
+                                <div class="service-img">
+                                    <a href="{{ path('garage_show', {'id': garage.id}) }}">
+                                        {% for image in garage.images %}
+                                            {% if image.isPrincipal %}
+                                                <img class="img-fluid serv-img" style="width: 500px; height: 200px" alt="Service Image" src="{{ asset('uploads/images/' ~ image.name) }}">
+                                            {% endif %}
+                                        {% endfor %}
+                                    </a>
+                                </div>
+                                <div class="service-content">
+                                    <h3 class="title">
+                                        <a href="{{ path('garage_show', {'id': garage.id}) }}">{{ garage.name }}</a>
+                                    </h3>
+                                    <p><i class="feather-map-pin"></i>{{ garage.city.name }}<span class="rate"><i class="fas fa-star filled"></i>4.9</span></p>
+                                    <div class="serv-info">
+                                        <h6>€{{ garage.pricePerHour }}/h - €{{ garage.pricePerDay }}/j</h6>
+                                        <a href="{{ path('garage_show', {'id': garage.id}) }}" class="btn btn-book">Voir</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                            <div class="row">
+                                <div class="col-lg-5 mx-auto">
+                                    <div class="error-wrap">
+                                        <div class="error-img">
+                                            <img class="img-fluid" src="{{ asset('assets/img/error-404.png') }}" alt="img">
+                                        </div>
+                                        <h2>Oups aucun résultat</h2>
+                                        <p>
+                                            Si vous disposez d'une place de parking à proposer dans cette ville, vous pouvez devenir loueur de parking.
+                                        </p>
+                                        <a href="{{ path('owner_register') }}" class="btn btn-primary"><i class="feather-arrow-left-circle me-2"></i>Louer votre parking</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <!-- /Service List -->
+
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="row">
+                        <div class="col-sm-6">
+                            {{ knp_pagination_render(garages) }}
+                        </div>
+                    </div>
+                    <!-- /Pagination -->
+
+                </div>
+                <!-- /Service -->
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <!-- jQuery -->
+    <script src="{{ asset('assets/js/jquery-3.7.0.min.js') }}"></script>
+
+    <!-- leaflet -->
+    <script src="{{ asset('assets/leaflet/leaflet-src.js') }}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Fearther JS -->
+    <script src="{{ asset('assets/js/feather.min.js') }}"></script>
+
+
+    <!-- select CSS -->
+    <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/aos/aos.js') }}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script src="{{ asset('assets/plugins/theia-sticky-sidebar/ResizeSensor.js') }}"></script>
+    <script src="{{ asset('assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js') }}"></script>
+
+    <!-- Rangeslider JS -->
+    <script src="{{ asset('assets/plugins/ion-rangeslider/js/ion.rangeSlider.min.js') }}"></script>
+
+
+    <!-- Sweetalert 2 -->
+    <script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
+
+    <!-- Custom JS -->
+    <script src="{{ asset('assets/js/script.js') }}"></script>
+    <script src="{{ asset('assets/js/search.js') }}"></script>
+
+{% endblock %}
+

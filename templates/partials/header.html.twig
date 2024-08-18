@@ -26,6 +26,7 @@
                 </div>
                 <ul class="main-nav">
                     <li {% if app.request.attributes.get('_route') == 'home' %}class="active"{% endif %}><a href="{{ path('home') }}">Accueil</a></li>
+                    <li><a href="{{ path('garage_search') }}">Trouver un garage</a></li>
                     <li><a href="#">Comment ça marche</a></li>
                     {% if is_granted('ROLE_TENANT') %}
                         <li {% if app.request.attributes.get('_route') == 'tenant_dashboard' %}class="active"{% endif %}><a href="{{ path('tenant_dashboard') }}">Tableau de bord locataire</a></li>

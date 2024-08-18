@@ -7,55 +7,38 @@
 {% block body %}
 
     <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container">
-            <div class="home-banner">
+    <section class="catering-banner-section">
+        <div class="container-fluid">
+            <div class="home-banner slider-service">
                 <div class="row align-items-center w-100">
                     <div class="col-lg-7 col-md-10 mx-auto">
-                        <div class="section-search aos" data-aos="fade-up">
-                            <h1>Trouvez des places de parking ou que vous soyez</h1>
-                            <p>Gagnez du temps et faites des économies.</p>
-                            <div class="search-box">
-                                <form action="search.html">
-                                    <div class="search-input line">
-                                        <div class="search-group-icon">
-                                            <i class="feather-map-pin"></i>
-                                        </div>
+                        <div class="section-search section-search-four">
+                            <h1>Trouvez une place de parking ou que <span>vous soyez</span></h1>
+                            <p>Trouvez une place de parking à réserver parmi les 10 000 places de parkings disponibles sur notre plateforme.</p>
+                            <div class="search-box search-box-four">
+                                <form action="{{ path('garage_search') }}?cityId=01910aa1-3ea6-7c90-bd9b-34e87bbdf4ce&city=Drancy" class="search-three-form">
+
+                                    <div class="search-input search-input-three search-input-four">
+                                        <i class="feather-map-pin me-2"></i>
                                         <div class="form-group mb-0">
-                                            <label>Your Location</label>
-                                            <input type="text" class="form-control" placeholder="America">
+                                            <input class="form-control" name="city" id="search_city" type="text" placeholder="Location">
                                         </div>
                                     </div>
-                                    <div class="search-input">
-                                        <div class="search-group-icon search-icon">
-                                            <i class="feather-search"></i>
-                                        </div>
-                                        <div class="form-group mb-0">
-                                            <label>What are you looking for?</label>
-                                            <input type="text" class="form-control" placeholder="Car Repair Services">
-                                        </div>
-                                    </div>
+                                    <input type="hidden" id="city_id" name="cityId">
                                     <div class="search-btn">
-                                        <button class="btn btn-primary" type="submit"><i class="feather-search me-2"></i>Search</button>
+                                        <button class="btn btn-primary" type="submit"><i class="feather-search"></i></button>
                                     </div>
                                 </form>
+                            </div>
+                            <div class="service-widget servicecontent" id="city_content" style="display: none">
+                                <div class="service-content" id="result_city" style="overflow-y: auto; max-height: 50vh">
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-5">
-                        <div class="banner-imgs">
-                            <div class="banner-1 shape-1">
-                                <img class="img-fluid" alt="banner" src="{{ asset('assets/img/banner1.png') }}">
-                            </div>
-                            <div class="banner-2 shape-3">
-                                <img class="img-fluid" alt="banner" src="{{ asset('assets/img/banner2.png') }}">
-                            </div>
-                            <div class="banner-3 shape-3">
-                                <img class="img-fluid" alt="banner" src="{{ asset('assets/img/banner3.png') }}">
-                            </div>
-                            <div class="banner-4 shape-2">
-                                <img class="img-responsive" alt="banner" src="{{ asset('assets/img/banner4.png') }}">
-                            </div>
+                        <div class="catering-banner-img">
+                            <img src="{{ asset('assets/img/parking.png') }}" alt="Icon">
                         </div>
                     </div>
                 </div>
@@ -65,340 +48,576 @@
     <!-- /Hero Section -->
 
     <!-- Feature Section -->
-    <section class="feature-section">
+    <section class="nearby-section">
         <div class="container">
-            <div class="section-heading">
+            <div class="section-heading section-heading-four">
                 <div class="row align-items-center">
                     <div class="col-md-6 aos" data-aos="fade-up">
-                        <h2>Featured Categories</h2>
-                        <p>What do you need to find?</p>
+                        <h2>Nearby Cateres For You</h2>
+                        <p>Mauris ut cursus nunc. Morbi eleifend, ligula at consectetur vehicula</p>
                     </div>
                     <div class="col-md-6 text-md-end aos" data-aos="fade-up">
-                        <a href="categories.html" class="btn btn-primary btn-view">View All<i class="feather-arrow-right-circle"></i></a>
+                        <a href="service-details.html" class="btn btn-primary btn-view">VIEW ALL CATERERS<i
+                                    class="feather-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6 col-lg-3">
-                    <a href="service-details.html" class="feature-box aos" data-aos="fade-up">
-                        <div class="feature-icon">
-								<span>
-									<img src="assets/img/icons/feature-icon-01.svg" alt="img">
-								</span>
+                <div class="col-md-12">
+                    <div class="owl-carousel catering-slider common-four-slider">
+                        <div class="service-widget service-two service-four aos" data-aos="fade-up">
+                            <div class="service-common-four">
+                                <div class="service-img">
+                                    <a href="service-details.html">
+                                        <img class="img-fluid serv-img" alt="Service Image"
+                                             src="assets/img/services/service-38.jpg">
+                                    </a>
+                                </div>
+                                <div class="service-content">
+                                    <div class="catering-main-bottom">
+                                        <div class="rating">
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <span>(3800 Reviews)</span>
+                                        </div>
+                                        <h3 class="title">
+                                            <a href="service-details.html">Food Chef Caterings</a>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="service-content-bottom">
+                                <div class="service-cater-img">
+                                    <img src="assets/img/profiles//avatar-03.jpg" alt="User">
+                                    <p>Harling Shaw</p>
+                                </div>
+                                <h6>4.5 KM</h6>
+                            </div>
                         </div>
-                        <h5>Construction</h5>
-                        <div class="feature-overlay">
-                            <img src="assets/img/services/service-02.jpg" alt="img">
+                        <div class="service-widget service-two service-four aos" data-aos="fade-up">
+                            <div class="service-common-four">
+                                <div class="service-img">
+                                    <a href="service-details.html">
+                                        <img class="img-fluid serv-img" alt="Service Image"
+                                             src="assets/img/services/service-39.jpg">
+                                    </a>
+                                </div>
+                                <div class="service-content">
+                                    <div class="catering-main-bottom">
+                                        <div class="rating">
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <span>(1654 Reviews)</span>
+                                        </div>
+                                        <h3 class="title">
+                                            <a href="service-details.html">Magnificent Caterers</a>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="service-content-bottom">
+                                <div class="service-cater-img">
+                                    <img src="assets/img/profiles//avatar-04.jpg" alt="User">
+                                    <p>Daniel Mathew</p>
+                                </div>
+                                <h6>6.5 KM</h6>
+                            </div>
                         </div>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a href="service-details.html" class="feature-box aos" data-aos="fade-up">
-                        <div class="feature-icon">
-								<span>
-									<img src="assets/img/icons/feature-icon-02.svg" alt="img">
-								</span>
+                        <div class="service-widget service-two service-four aos" data-aos="fade-up">
+                            <div class="service-common-four">
+                                <div class="service-img">
+                                    <a href="service-details.html">
+                                        <img class="img-fluid serv-img" alt="Service Image"
+                                             src="assets/img/services/service-40.jpg">
+                                    </a>
+                                </div>
+                                <div class="service-content">
+                                    <div class="catering-main-bottom">
+                                        <div class="rating">
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <span>(4577 Reviews)</span>
+                                        </div>
+                                        <h3 class="title">
+                                            <a href="service-details.html">Food Chef Caterings</a>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="service-content-bottom">
+                                <div class="service-cater-img">
+                                    <img src="assets/img/profiles//avatar-05.jpg" alt="User">
+                                    <p>Karen Risb</p>
+                                </div>
+                                <h6>2.5 KM</h6>
+                            </div>
                         </div>
-                        <h5>Car Wash</h5>
-                        <div class="feature-overlay">
-                            <img src="assets/img/feature.jpg" alt="img">
+                        <div class="service-widget service-two service-four aos" data-aos="fade-up">
+                            <div class="service-common-four">
+                                <div class="service-img">
+                                    <a href="service-details.html">
+                                        <img class="img-fluid serv-img" alt="Service Image"
+                                             src="assets/img/services/service-41.jpg">
+                                    </a>
+                                </div>
+                                <div class="service-content">
+                                    <div class="catering-main-bottom">
+                                        <div class="rating">
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <span>(1571 Reviews)</span>
+                                        </div>
+                                        <h3 class="title">
+                                            <a href="service-details.html">Posh Caterers</a>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="service-content-bottom">
+                                <div class="service-cater-img">
+                                    <img src="assets/img/profiles//avatar-06.jpg" alt="User">
+                                    <p>Habibul Akbar</p>
+                                </div>
+                                <h6>6.5 KM</h6>
+                            </div>
                         </div>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a href="service-details.html" class="feature-box aos" data-aos="fade-up">
-                        <div class="feature-icon">
-								<span>
-									<img src="assets/img/icons/feature-icon-03.svg" alt="img">
-								</span>
+                        <div class="service-widget service-two service-four aos" data-aos="fade-up">
+                            <div class="service-common-four">
+                                <div class="service-img">
+                                    <a href="service-details.html">
+                                        <img class="img-fluid serv-img" alt="Service Image"
+                                             src="assets/img/services/service-38.jpg">
+                                    </a>
+                                </div>
+                                <div class="service-content">
+                                    <div class="catering-main-bottom">
+                                        <div class="rating">
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <i class="fas fa-star filled"></i>
+                                            <span>(3800 Reviews)</span>
+                                        </div>
+                                        <h3 class="title">
+                                            <a href="service-details.html">Food Chef Caterings</a>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="service-content-bottom">
+                                <div class="service-cater-img">
+                                    <img src="assets/img/profiles//avatar-03.jpg" alt="User">
+                                    <p>Harling Shaw</p>
+                                </div>
+                                <h6>4.5 KM</h6>
+                            </div>
                         </div>
-                        <h5>Electrical</h5>
-                        <div class="feature-overlay">
-                            <img src="assets/img/services/service-01.jpg" alt="img">
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a href="service-details.html" class="feature-box aos" data-aos="fade-up">
-                        <div class="feature-icon">
-								<span>
-									<img src="assets/img/icons/feature-icon-04.svg" alt="img">
-								</span>
-                        </div>
-                        <h5>Cleaning</h5>
-                        <div class="feature-overlay">
-                            <img src="assets/img/services/service-09.jpg" alt="img">
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a href="service-details.html" class="feature-box aos" data-aos="fade-up">
-                        <div class="feature-icon">
-								<span>
-									<img src="assets/img/icons/feature-icon-05.svg" alt="img">
-								</span>
-                        </div>
-                        <h5>Interior</h5>
-                        <div class="feature-overlay">
-                            <img src="assets/img/services/service-07.jpg" alt="img">
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a href="service-details.html" class="feature-box aos" data-aos="fade-up">
-                        <div class="feature-icon">
-								<span>
-									<img src="assets/img/icons/feature-icon-06.svg" alt="img">
-								</span>
-                        </div>
-                        <h5>Carpentry</h5>
-                        <div class="feature-overlay">
-                            <img src="assets/img/services/service-03.jpg" alt="img">
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a href="service-details.html" class="feature-box aos" data-aos="fade-up">
-                        <div class="feature-icon">
-								<span>
-									<img src="assets/img/icons/feature-icon-07.svg" alt="img">
-								</span>
-                        </div>
-                        <h5>Computer</h5>
-                        <div class="feature-overlay">
-                            <img src="assets/img/services/service-06.jpg" alt="img">
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <a href="service-details.html" class="feature-box aos" data-aos="fade-up">
-                        <div class="feature-icon">
-								<span>
-									<img src="assets/img/icons/feature-icon-08.svg" alt="img">
-								</span>
-                        </div>
-                        <h5>Plumbing</h5>
-                        <div class="feature-overlay">
-                            <img src="assets/img/services/service-11.jpg" alt="img">
-                        </div>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
     <!-- /Feature Section -->
 
-    <!-- Service Section -->
-    <section class="service-section">
+
+    <!-- Popular Services -->
+    <section class="popular-four-section">
         <div class="container">
-            <div class="section-heading">
+            <div class="section-heading section-heading-four">
                 <div class="row align-items-center">
                     <div class="col-md-6 aos" data-aos="fade-up">
-                        <h2>Featured Services</h2>
-                        <p>Explore the greates our services. You won’t be disappointed</p>
+                        <h2>Popular Locations</h2>
+                        <p>Mauris ut cursus nunc. Morbi eleifend, ligula at consectetur vehicula</p>
                     </div>
                     <div class="col-md-6 text-md-end aos" data-aos="fade-up">
-                        <div class="owl-nav mynav"></div>
+                        <a href="categories.html" class="btn btn-primary btn-view">VIEW ALL LOCATIONS<i
+                                    class="feather-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="owl-carousel service-slider">
-                        <div class="service-widget aos" data-aos="fade-up">
-                            <div class="service-img">
-                                <a href="service-details.html">
-                                    <img class="img-fluid serv-img" alt="Service Image" src="assets/img/services/service-01.jpg">
-                                </a>
-                                <div class="fav-item">
-                                    <a href="categories.html"><span class="item-cat">Cleaning</span></a>
-                                    <a href="javascript:void(0)" class="fav-icon">
-                                        <i class="feather-heart"></i>
-                                    </a>
-                                </div>
-                                <div class="item-info">
-                                    <a href="providers.html"><span class="item-img"><img src="assets/img/profiles/avatar-01.jpg" class="avatar" alt="User"></span></a>
-                                </div>
-                            </div>
-                            <div class="service-content">
-                                <h3 class="title">
-                                    <a href="service-details.html">Electric Panel Repairing Service</a>
-                                </h3>
-                                <p><i class="feather-map-pin"></i>New Jersey, USA<span class="rate"><i class="fas fa-star filled"></i>4.9</span></p>
-                                <div class="serv-info">
-                                    <h6>$25.00<span class="old-price">$35.00</span></h6>
-                                    <a href="service-details.html" class="btn btn-book">Book Now</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="service-widget aos" data-aos="fade-up">
-                            <div class="service-img">
-                                <a href="service-details.html">
-                                    <img class="img-fluid serv-img" alt="Service Image" src="assets/img/services/service-02.jpg">
-                                </a>
-                                <div class="fav-item">
-                                    <a href="categories.html"><span class="item-cat">Construction</span></a>
-                                    <a href="javascript:void(0)" class="fav-icon">
-                                        <i class="feather-heart"></i>
-                                    </a>
-                                </div>
-                                <div class="item-info">
-                                    <a href="providers.html"><span class="item-img"><img src="assets/img/profiles/avatar-02.jpg" class="avatar" alt="User"></span></a>
-                                </div>
-                            </div>
-                            <div class="service-content">
-                                <h3 class="title">
-                                    <a href="service-details.html">Toughened Glass Fitting Services</a>
-                                </h3>
-                                <p><i class="feather-map-pin"></i>Montana, USA<span class="rate"><i class="fas fa-star filled"></i>4.9</span></p>
-                                <div class="serv-info">
-                                    <h6>$45.00</h6>
-                                    <a href="service-details.html" class="btn btn-book">Book Now</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="service-widget aos" data-aos="fade-up">
-                            <div class="service-img">
-                                <a href="service-details.html">
-                                    <img class="img-fluid serv-img" alt="Service Image" src="assets/img/services/service-03.jpg">
-                                </a>
-                                <div class="fav-item">
-                                    <a href="categories.html"><span class="item-cat">Carpentry</span></a>
-                                    <a href="javascript:void(0)" class="fav-icon">
-                                        <i class="feather-heart"></i>
-                                    </a>
-                                </div>
-                                <div class="item-info">
-                                    <a href="providers.html"><span class="item-img"><img src="assets/img/profiles/avatar-03.jpg" class="avatar" alt="User"></span></a>
-                                </div>
-                            </div>
-                            <div class="service-content">
-                                <h3 class="title">
-                                    <a href="service-details.html">Wooden Carpentry Work</a>
-                                </h3>
-                                <p><i class="feather-map-pin"></i>Montana, USA<span class="rate"><i class="fas fa-star filled"></i>4.9</span></p>
-                                <div class="serv-info">
-                                    <h6>$45.00</h6>
-                                    <a href="service-details.html" class="btn btn-book">Book Now</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="service-widget aos" data-aos="fade-up">
-                            <div class="service-img">
-                                <a href="service-details.html">
-                                    <img class="img-fluid serv-img" alt="Service Image" src="assets/img/services/service-11.jpg">
-                                </a>
-                                <div class="fav-item">
-                                    <a href="categories.html"><span class="item-cat">Construction</span></a>
-                                    <a href="javascript:void(0)" class="fav-icon">
-                                        <i class="feather-heart"></i>
-                                    </a>
-                                </div>
-                                <div class="item-info">
-                                    <a href="providers.html"><span class="item-img"><img src="assets/img/profiles/avatar-04.jpg" class="avatar" alt="User"></span></a>
-                                </div>
-                            </div>
-                            <div class="service-content">
-                                <h3 class="title">
-                                    <a href="service-details.html">Plumbing Services</a>
-                                </h3>
-                                <p><i class="feather-map-pin"></i>Georgia, USA<span class="rate"><i class="fas fa-star filled"></i>4.9</span></p>
-                                <div class="serv-info">
-                                    <h6>$45.00</h6>
-                                    <a href="service-details.html" class="btn btn-book">Book Now</a>
-                                </div>
-                            </div>
-                        </div>
+            <div class="popular-four-main">
+                <div class="row justify-content-center">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12">
 
+                        <div class="popular-portfolio">
+                            <a href="javascript:void(0);">
+                                <div class="popular-portfolio-img">
+                                    <img src="assets/img/gallery/gallery-img-5.jpg" alt="image">
+                                    <div class="popular-portfolio-overlay">
+                                        <h6>NewYork</h6>
+                                        <p>165 Caterings</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="javascript:void(0);">
+                                <div class="popular-portfolio-img">
+                                    <img src="assets/img/gallery/gallery-img-6.jpg" alt="image">
+                                    <div class="popular-portfolio-overlay">
+                                        <h6>Los Angels</h6>
+                                        <p>45 Caterings</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                </div>
-                <div class="btn-sec aos" data-aos="fade-up">
-                    <a href="search.html" class="btn btn-primary btn-view">View All<i class="feather-arrow-right-circle"></i></a>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                        <div class="popular-portfolio">
+                            <a href="javascript:void(0);">
+                                <div class="popular-portfolio-img">
+                                    <img src="assets/img/gallery/gallery-img-4.jpg" alt="image">
+                                    <div class="popular-portfolio-overlay">
+                                        <h6>Istanbul</h6>
+                                        <p>30 Caterings</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                        <div class="popular-portfolio">
+                            <a href="javascript:void(0);">
+                                <div class="popular-portfolio-img">
+                                    <img src="assets/img/gallery/gallery-img-7.jpg" alt="image">
+                                    <div class="popular-portfolio-overlay">
+                                        <h6>Paris</h6>
+                                        <p>47 Caterings</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="javascript:void(0);">
+                                <div class="popular-portfolio-img">
+                                    <img src="assets/img/gallery/gallery-img-8.jpg" alt="image">
+                                    <div class="popular-portfolio-overlay">
+                                        <h6>London</h6>
+                                        <p>78 Caterings</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+                        <div class="popular-portfolio">
+                            <a href="javascript:void(0);">
+                                <div class="popular-portfolio-img">
+                                    <img src="assets/img/gallery/gallery-img-9.jpg" alt="image">
+                                    <div class="popular-portfolio-overlay">
+                                        <h6>Florida</h6>
+                                        <p>14 Caterings</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="javascript:void(0);">
+                                <div class="popular-portfolio-img">
+                                    <img src="assets/img/gallery/gallery-img-10.jpg" alt="image">
+                                    <div class="popular-portfolio-overlay">
+                                        <h6>Miami</h6>
+                                        <p>54 Caterings</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- /Service Section -->
+    <!-- /Popular Services -->
 
-    <!-- Client Section -->
-    <section class="client-section">
+    <!-- Around the world  Services -->
+    <section class="around-world-section">
         <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <div class="section-heading aos" data-aos="fade-up">
-                        <h2>What our client says</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur elit</p>
+            <div class="section-heading section-heading-four">
+                <div class="row align-items-center">
+                    <div class="col-md-6 aos" data-aos="fade-up">
+                        <h2>Top Caterers Around the World</h2>
+                        <p>Mauris ut cursus nunc. Morbi eleifend, ligula at consectetur vehicula</p>
+                    </div>
+                    <div class="col-md-6 text-md-end aos" data-aos="fade-up">
+                        <a href="categories.html" class="btn btn-primary btn-view">VIEW ALL CATERERS<i
+                                    class="feather-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div class="owl-carousel testimonial-slider">
-
-                        <div class="client-widget aos" data-aos="fade-up">
-                            <div class="client-img">
-                                <a href="#">
-                                    <img class="img-fluid" alt="Image" src="assets/img/profiles/avatar-01.jpg">
+                    <div class="owl-carousel world-four-slider common-four-slider">
+                        <div class="service-widget aos" data-aos="fade-up">
+                            <div class="service-img">
+                                <a href="service-details.html">
+                                    <img class="img-fluid serv-img" alt="Service Image"
+                                         src="assets/img/services/service-45.jpg">
                                 </a>
-                            </div>
-                            <div class="client-content">
-                                <div class="rating">
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
+                                <div class="fav-item fav-item-four">
+                                    <a href="javascript:void(0)" class="fav-icon">
+                                        <i class="feather-heart"></i>
+                                    </a>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi </p>
-                                <h5>Sophie Moore</h5>
-                                <h6>Director</h6>
+                                <div class="item-info item-info-four">
+                                    <div class="rating">
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="service-content service-four-content">
+                                <h3 class="title">
+                                    <a href="service-details.html">MealMenu Caterings</a>
+                                </h3>
+                                <p>we are also engage in offering catering services and decoration services where vision...</p>
+                                <ul>
+                                    <li>Buffet Caterings</li>
+                                    <li>Engagement</li>
+                                </ul>
+                                <p><span class="mini-mealmenu">$900</span><span class="mealmenu">$200</span></p>
+                            </div>
+                            <div class="service-content-bottom">
+                                <div class="service-cater-img service-world-img">
+                                    <a href=""><img src="assets/img/profiles//avatar-03.jpg" alt="User"></a>
+                                    <p class="service-cater-bottom"><i class="feather-map-pin"></i>New Jersey, USA</p>
+                                </div>
+                                <span><i class="feather-calendar"></i></span>
                             </div>
                         </div>
-                        <div class="client-widget aos" data-aos="fade-up">
-                            <div class="client-img">
-                                <a href="#">
-                                    <img class="img-fluid" alt="Image" src="assets/img/profiles/avatar-02.jpg">
+                        <div class="service-widget aos" data-aos="fade-up">
+                            <div class="service-img">
+                                <a href="service-details.html">
+                                    <img class="img-fluid serv-img" alt="Service Image"
+                                         src="assets/img/services/service-46.jpg">
                                 </a>
-                            </div>
-                            <div class="client-content">
-                                <div class="rating">
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
+                                <div class="fav-item fav-item-four">
+                                    <a href="javascript:void(0)" class="fav-icon">
+                                        <i class="feather-heart"></i>
+                                    </a>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi </p>
-                                <h5>Mike Hussy</h5>
-                                <h6>Lead</h6>
+                                <div class="item-info item-info-four">
+                                    <div class="rating">
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="service-content service-four-content">
+                                <h3 class="title">
+                                    <a href="service-details.html">Blue Sea Catering & Banquets</a>
+                                </h3>
+                                <p>we are also engage in offering catering services and decoration services where vision...</p>
+                                <ul>
+                                    <li>Buffet Caterings</li>
+                                    <li>Engagement</li>
+                                </ul>
+                                <p><span class="mini-mealmenu">$600</span><span class="mealmenu">$450</span></p>
+                            </div>
+                            <div class="service-content-bottom">
+                                <div class="service-cater-img service-world-img">
+                                    <a href=""><img src="assets/img/profiles//avatar-06.jpg" alt="User"></a>
+                                    <p class="service-cater-bottom"><i class="feather-map-pin"></i>Main Boulevard, Lahore,</p>
+                                </div>
+                                <span><i class="feather-calendar"></i></span>
                             </div>
                         </div>
-                        <div class="client-widget aos" data-aos="fade-up">
-                            <div class="client-img">
-                                <a href="#">
-                                    <img class="img-fluid" alt="Image" src="assets/img/profiles/avatar-03.jpg">
+                        <div class="service-widget aos" data-aos="fade-up">
+                            <div class="service-img">
+                                <a href="service-details.html">
+                                    <img class="img-fluid serv-img" alt="Service Image"
+                                         src="assets/img/services/service-47.jpg">
                                 </a>
-                            </div>
-                            <div class="client-content">
-                                <div class="rating">
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
-                                    <i class="fas fa-star filled"></i>
+                                <div class="fav-item fav-item-four">
+                                    <a href="javascript:void(0)" class="fav-icon">
+                                        <i class="feather-heart"></i>
+                                    </a>
                                 </div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi </p>
-                                <h5>John Doe</h5>
-                                <h6>CEO</h6>
+                                <div class="item-info item-info-four">
+                                    <div class="rating">
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="service-content service-four-content">
+                                <h3 class="title">
+                                    <a href="service-details.html">Popular Hospitality</a>
+                                </h3>
+                                <p>we are also engage in offering catering services and decoration services where vision...</p>
+                                <ul>
+                                    <li>Buffet Caterings</li>
+                                    <li>Engagement</li>
+                                </ul>
+                                <p><span class="mini-mealmenu">$700</span><span class="mealmenu">$100</span></p>
+                            </div>
+                            <div class="service-content-bottom">
+                                <div class="service-cater-img service-world-img">
+                                    <a href=""><img src="assets/img/profiles//avatar-08.jpg" alt="User"></a>
+                                    <p class="service-cater-bottom"><i class="feather-map-pin"></i>USA Peachfield Road, Uk</p>
+                                </div>
+                                <span><i class="feather-calendar"></i></span>
                             </div>
                         </div>
-
+                        <div class="service-widget aos" data-aos="fade-up">
+                            <div class="service-img">
+                                <a href="service-details.html">
+                                    <img class="img-fluid serv-img" alt="Service Image"
+                                         src="assets/img/services/service-46.jpg">
+                                </a>
+                                <div class="fav-item fav-item-four">
+                                    <a href="javascript:void(0)" class="fav-icon">
+                                        <i class="feather-heart"></i>
+                                    </a>
+                                </div>
+                                <div class="item-info item-info-four">
+                                    <div class="rating">
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="service-content service-four-content">
+                                <h3 class="title">
+                                    <a href="service-details.html">Blue Sea Catering & Banquets</a>
+                                </h3>
+                                <p>we are also engage in offering catering services and decoration services where vision...</p>
+                                <ul>
+                                    <li>Buffet Caterings</li>
+                                    <li>Engagement</li>
+                                </ul>
+                                <p><span class="mini-mealmenu">$600</span><span class="mealmenu">$450</span></p>
+                            </div>
+                            <div class="service-content-bottom">
+                                <div class="service-cater-img service-world-img">
+                                    <a href=""><img src="assets/img/profiles//avatar-09.jpg" alt="User"></a>
+                                    <p class="service-cater-bottom"><i class="feather-map-pin"></i>Main Boulevard, Lahore,</p>
+                                </div>
+                                <span><i class="feather-calendar"></i></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- /Client Section -->
+    <!-- /Around the world  Services -->
+
+
+    <section class="review-client-section">
+        <div class="container">
+            <div class="section-heading section-heading-four">
+                <div class="row align-items-center">
+                    <div class="col-md-6 aos" data-aos="fade-up">
+                        <h2>Reviews from our Clients</h2>
+                        <p>Mauris ut cursus nunc. Morbi eleifend, ligula at consectetur vehicula</p>
+                    </div>
+                    <div class="col-md-6 text-md-end aos" data-aos="fade-up">
+                        <a href="javascript:void(0)" class="btn btn-primary btn-view">VIEW ALL REVIEWS<i
+                                    class="feather-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="owl-carousel client-four-slider common-four-slider">
+                        <div class="client-review-main">
+                            <div class="client-review-top">
+                                <div class="client-review-name">
+                                    <h6>Daniela Fransis</h6>
+                                    <div class="rating">
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                    </div>
+                                </div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua reader will be distracted Loremut labore et dolore.</p>
+                            </div>
+                            <div class="client-review-img">
+                                <img src="assets/img/profiles/avatar-15.jpg" alt="User">
+                            </div>
+                        </div>
+                        <div class="client-review-main">
+                            <div class="client-review-top">
+                                <div class="client-review-name">
+                                    <h6>Hashimoda Reena</h6>
+                                    <div class="rating">
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                    </div>
+                                </div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua reader will be distracted Loremut labore et dolore.</p>
+                            </div>
+                            <div class="client-review-img">
+                                <img src="assets/img/profiles/avatar-19.jpg" alt="User">
+                            </div>
+                        </div>
+                        <div class="client-review-main">
+                            <div class="client-review-top">
+                                <div class="client-review-name">
+                                    <h6>Jake Sulaine</h6>
+                                    <div class="rating">
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                    </div>
+                                </div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua reader will be distracted Loremut labore et dolore.</p>
+                            </div>
+                            <div class="client-review-img">
+                                <img src="assets/img/profiles/avatar-18.jpg" alt="User">
+                            </div>
+                        </div>
+                        <div class="client-review-main">
+                            <div class="client-review-top">
+                                <div class="client-review-name">
+                                    <h6>Daniela Fransis</h6>
+                                    <div class="rating">
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                        <i class="fas fa-star filled"></i>
+                                    </div>
+                                </div>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua reader will be distracted Loremut labore et dolore.</p>
+                            </div>
+                            <div class="client-review-img">
+                                <img src="assets/img/profiles/avatar-15.jpg" alt="User">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /Reviews from our Clients -->
+
 
     <!-- App Section -->
 {#    <section class="app-section">#}
@@ -436,4 +655,9 @@
 {#    </section>#}
     <!-- /App Section -->
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/home.js') }}"></script>
 {% endblock %}
