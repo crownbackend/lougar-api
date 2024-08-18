@@ -35,6 +35,16 @@ services:
     networks:
       - app-network
 
+  minio:
+    ports:
+      - "4000:4000"
+      - "4001:4001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
