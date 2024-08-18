@@ -94,10 +94,11 @@
                         <div class="col-lg-8 col-sm-12 d-flex justify-content-end ">
                             <div class="sortbyset">
                                 <div class="sorting-select">
-                                    <select class="form-control select">
-                                        <option>Prix croissant</option>
-                                        <option>Prix décroissant</option>
-                                    </select>
+{#                                    <select class="form-control select">#}
+{#                                        <option>Prix croissant</option>#}
+{#                                        <option>Prix décroissant</option>#}
+{#                                    </select>#}
+                                    {{ knp_pagination_sortable(garages, 'Prix', 'g.pricePerHour') }}
                                 </div>
                             </div>
                         </div>
