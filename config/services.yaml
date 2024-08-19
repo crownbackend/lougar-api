@@ -6,6 +6,9 @@
 parameters:
     no_replay: '%env(NO_REPLAY_MAIL)%'
     images_directory: '%kernel.project_dir%/public/uploads/images'
+    access_key: '%env(ACCESS_KEY)%'
+    secret_key: '%env(SECRET_KEY)%'
+    bucket: '%env(BUCKET)%'
 
 
 services:
@@ -32,3 +35,16 @@ services:
     App\Service\FileUploader:
         arguments:
             $targetDirectory: '%images_directory%'
+    Aws\S3\S3Client:
+        arguments:
+            - version: 'latest'
+              region: 'eu-east-1'  # Assurez-vous que la région est correcte ou utilisez 'us-east-1'
+              use_path_style_endpoint: true  # Important pour MinIO
+              endpoint: 'http://minio:9000'  # Changez le port si nécessaire
+              credentials:
+                  key: '%env(ACCESS_KEY)%'
+                  secret: '%env(SECRET_KEY)%'
+
+    App\Service\S3Storage:
+        arguments:
+            $bucket: '%bucket%'

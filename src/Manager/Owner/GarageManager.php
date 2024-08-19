@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Repository\CityRepository;
 use App\Repository\GarageRepository;
 use App\Service\FileUploader;
+use App\Service\S3Storage;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 use Symfony\Component\Form\Form;
@@ -15,8 +16,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 readonly class GarageManager
 {
-    public function __construct(private readonly GarageRepository $garageRepository, private readonly CityRepository $cityRepository,
-                                private readonly FileUploader $uploader, private readonly EntityManagerInterface $entityManager)
+    public function __construct(private readonly GarageRepository $garageRepository,
+                                private readonly CityRepository $cityRepository,
+                                private readonly EntityManagerInterface $entityManager, private S3Storage $s3Storage)
     {
     }
 
@@ -49,7 +51,7 @@ readonly class GarageManager
                 $isFirst = true;
                 foreach ($imagesFiles as $datum) {
                     /** @var UploadedFile $datum */
-                    $imageFileName = $this->uploader->upload($datum);
+                    $imageFileName = $this->s3Storage->upload($datum);
                     $image = new Image();
                     $image->setName($imageFileName);
                     $image->setGarage($garage);
@@ -92,7 +94,7 @@ readonly class GarageManager
         if ($imagesFiles) {
             foreach ($imagesFiles as $datum) {
                 /** @var UploadedFile $datum */
-                $imageFileName = $this->uploader->upload($datum);
+                $imageFileName = $this->s3Storage->upload($datum);
                 $image = new Image();
                 $image->setName($imageFileName);
                 $image->setGarage($garage);

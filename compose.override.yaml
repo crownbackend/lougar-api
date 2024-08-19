@@ -6,7 +6,7 @@ services:
   ###< doctrine/doctrine-bundle ###
   php-fpm:
     ports:
-      - "9001:9000"
+      - "8001:9000"
 
   caddy:
     ports:
@@ -37,8 +37,8 @@ services:
 
   minio:
     ports:
-      - "4000:4000"
-      - "4001:4001"
+      - "9000:9000"
+      - "9001:9001"
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
