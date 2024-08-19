@@ -134,7 +134,7 @@
                                             <span><img src="{{ asset('assets/img/icons/service-icon.svg') }}" alt="img"></span>
                                             <div class="provide-info">
                                                 <h6>Montant</h6>
-                                                <h5>€{{ garage.pricePerHour }}/h €{{ garage.pricePerDay }}/j </h5>
+                                                <h5 id="price"></h5>
                                             </div>
                                         </div>
                                     </div>
@@ -152,7 +152,7 @@
                                             class="select"
                                             id="mode_book"
                                     >
-                                        <option value="h"  data-price-hour="{{ garage.pricePerHour }}">A l'heure</option>
+                                        <option value="h" data-price-hour="{{ garage.pricePerHour }}">A l'heure</option>
                                         <option value="j" data-price-day="{{ garage.pricePerDay }}">A la journée</option>
                                     </select>
                                 </div>
