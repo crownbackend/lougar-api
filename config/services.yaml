@@ -40,7 +40,7 @@ services:
             - version: 'latest'
               region: 'eu-east-1'  # Assurez-vous que la région est correcte ou utilisez 'us-east-1'
               use_path_style_endpoint: true  # Important pour MinIO
-              endpoint: 'http://minio:4000'  # Changez le port si nécessaire
+              endpoint: 'http://minio:9000'  # Changez le port si nécessaire
               credentials:
                   key: '%env(ACCESS_KEY)%'
                   secret: '%env(SECRET_KEY)%'

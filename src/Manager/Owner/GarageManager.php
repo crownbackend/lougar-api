@@ -16,8 +16,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 readonly class GarageManager
 {
-    public function __construct(private readonly GarageRepository $garageRepository, private readonly CityRepository $cityRepository,
-                                private readonly FileUploader $uploader, private readonly EntityManagerInterface $entityManager, private S3Storage $s3Storage)
+    public function __construct(private readonly GarageRepository $garageRepository,
+                                private readonly CityRepository $cityRepository,
+                                private readonly EntityManagerInterface $entityManager, private S3Storage $s3Storage)
     {
     }
 
@@ -50,7 +51,7 @@ readonly class GarageManager
                 $isFirst = true;
                 foreach ($imagesFiles as $datum) {
                     /** @var UploadedFile $datum */
-                    $imageFileName = $this->uploader->upload($datum);
+                    $imageFileName = $this->s3Storage->upload($datum);
                     $image = new Image();
                     $image->setName($imageFileName);
                     $image->setGarage($garage);
@@ -91,11 +92,9 @@ readonly class GarageManager
 
         $imagesFiles = $form->get("images")->getData();
         if ($imagesFiles) {
-            $result = $this->s3Storage->upload($imagesFiles[0]);
-            dd($imagesFiles[0]);
             foreach ($imagesFiles as $datum) {
                 /** @var UploadedFile $datum */
-                $imageFileName = $this->uploader->upload($datum);
+                $imageFileName = $this->s3Storage->upload($datum);
                 $image = new Image();
                 $image->setName($imageFileName);
                 $image->setGarage($garage);

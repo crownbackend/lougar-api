@@ -145,23 +145,23 @@
                                             <div class="row gx-2">
                                                 <div class="col-md-9">
                                                     <div class="service-images big-gallery">
-                                                        <img src="{{ asset('uploads/images/' ~ garage.images[0].name) }}" class="img-fluid" alt="img">
-                                                        <a href="{{ asset('uploads/images/' ~ garage.images[0].name) }}" data-fancybox="gallery" class="btn btn-show"><i class="feather-image me-2"></i>Afficher les photos</a>
+                                                        <img src="{% if garage.images|length > 1 and garage.images[1].name is defined %} {{ garage.images[0].name }}{% endif %}" class="img-fluid" alt="img">
+                                                        <a href="{% if garage.images|length > 1 and garage.images[1].name is defined %} {{ garage.images[0].name }}{% endif %}" data-fancybox="gallery" class="btn btn-show"><i class="feather-image me-2"></i>Afficher les photos</a>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     {% if garage.images|length > 1 and garage.images[1].name is defined %}
                                                         <div class="service-images small-gallery">
-                                                            <a  href="{{ asset('uploads/images/' ~ garage.images[1].name) }}" data-fancybox="gallery">
-                                                                <img src="{{ asset('uploads/images/' ~ garage.images[1].name) }}" class="img-fluid" alt="img">
+                                                            <a  href="{{ garage.images[1].name }}" data-fancybox="gallery">
+                                                                <img src="{{ garage.images[1].name }}" class="img-fluid" alt="img">
                                                                 <span class="circle-icon"><i class="feather-plus"></i></span>
                                                             </a>
                                                         </div>
                                                     {% endif %}
                                                     {% if garage.images|length > 2 and garage.images[2].name is defined %}
                                                         <div class="service-images small-gallery">
-                                                            <a  href="{{ asset('uploads/images/' ~ garage.images[2].name) }}" data-fancybox="gallery">
-                                                                <img src="{{ asset('uploads/images/' ~ garage.images[2].name) }}" class="img-fluid" alt="img">
+                                                            <a  href="{{ garage.images[2].name }}" data-fancybox="gallery">
+                                                                <img src="{{ garage.images[2].name }}" class="img-fluid" alt="img">
                                                                 <span class="circle-icon"><i class="feather-plus"></i></span>
                                                             </a>
                                                         </div>
