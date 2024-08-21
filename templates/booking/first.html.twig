@@ -221,25 +221,33 @@
                             </div>
                         </div>
                     </div>
-
+                    <hr>
                     <!-- Appointment Date & Time -->
                     <div class="row">
-                        <div class="col-lg-4">
+
+                        <div class="col-lg-6 pt-4">
                             <div class="book-title">
                                 <h5>Date</h5>
                             </div>
-                            <div id="datetimepickershow"></div>
+                            <div id="datetimepickershow_start"></div>
                         </div>
-                        <div class="col-lg-8">
+                        <div class="col-lg-6 pt-4" id="end_day" style="display: none">
+                            <div class="book-title">
+                                <h5>Date de fin</h5>
+                            </div>
+                            <div id="datetimepickershow_end"></div>
+                            <br>
+                            <div class="provide-box" style="float: right">
+                                <span><img src="{{ asset('assets/img/icons/service-icon.svg') }}" alt="img"></span>
+                                <div class="provide-info">
+                                    <h6>Prix</h6>
+                                    <h5 class="price_result"></h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 pt-4" id="hour_content">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="provide-box" style="float: right">
-                                        <span><img src="{{ asset('assets/img/icons/service-icon.svg') }}" alt="img"></span>
-                                        <div class="provide-info">
-                                            <h6>Prix</h6>
-                                            <h5 id="price_result"></h5>
-                                        </div>
-                                    </div>
                                     <div class="book-title">
                                         <h5>Heure</h5>
                                     </div>
@@ -253,7 +261,7 @@
                                                 <div class="form-group">
                                                     <label class="col-form-label">Début</label>
                                                     <div class='form-icon'>
-                                                        <input type='text' class="form-control timepicker"  placeholder="Heure de début">
+                                                        <input type='text' class="form-control timepicker" required placeholder="Heure de début">
                                                         <span class="cus-icon"><i class="feather-clock"></i></span>
                                                     </div>
                                                 </div>
@@ -262,7 +270,7 @@
                                                 <div class="form-group">
                                                     <label class="col-form-label">Fin</label>
                                                     <div class='form-icon'>
-                                                        <input type='text' class="form-control timepicker"  placeholder="Heure de fin">
+                                                        <input type='text' class="form-control timepicker" required placeholder="Heure de fin">
                                                         <span class="cus-icon"><i class="feather-clock"></i></span>
                                                     </div>
                                                 </div>
@@ -270,15 +278,20 @@
                                         </div>
                                     </div>
                                 </div>
-                                <hr>
-
                             </div>
-
-                            <div class="book-submit text-end">
-                                <a href="{{ app.request.headers.get('referer') }}" class="btn btn-secondary">Annuler</a>
-                                <a href="booking-payment.html" class="btn btn-primary">Book Appointment</a>
+                            <div class="provide-box" style="float: right">
+                                <span><img src="{{ asset('assets/img/icons/service-icon.svg') }}" alt="img"></span>
+                                <div class="provide-info">
+                                    <h6>Prix</h6>
+                                    <h5 class="price_result"></h5>
+                                </div>
                             </div>
+                        </div>
 
+
+                        <div class="book-submit text-end">
+                            <a href="{{ app.request.headers.get('referer') }}" class="btn btn-secondary">Annuler</a>
+                            <button type="button" id="send" class="btn btn-primary">Book Appointment</button>
                         </div>
                     </div>
                     <!-- /Appointment Date & Time -->
@@ -309,6 +322,8 @@
 <script src="{{ asset('assets/js/fr.js') }}"></script>
 <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
 
+<!-- Sweetalert 2 -->
+<script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
 
 <!-- Custom JS -->
 <script src="{{ asset('assets/js/script.js') }}"></script>
