@@ -93,7 +93,7 @@
                                         {% endfor %}
                                     </div>
                                     <div class="serv-profile">
-                                        <h2>{{ garage.name }}</h2>
+                                        <h2 id="garage_id" data-id="{{ garage.id }}">{{ garage.name }}</h2>
                                         <ul>
                                             <li class="serv-pro">
                                                 <div class="serv-pro-info">
@@ -241,7 +241,7 @@
                                 <span><img src="{{ asset('assets/img/icons/service-icon.svg') }}" alt="img"></span>
                                 <div class="provide-info">
                                     <h6>Prix</h6>
-                                    <h5 class="price_result"></h5>
+                                    <h5 id="price_result_day"></h5>
                                 </div>
                             </div>
                         </div>
@@ -283,7 +283,7 @@
                                 <span><img src="{{ asset('assets/img/icons/service-icon.svg') }}" alt="img"></span>
                                 <div class="provide-info">
                                     <h6>Prix</h6>
-                                    <h5 class="price_result"></h5>
+                                    <h5 id="price_result_hours"></h5>
                                 </div>
                             </div>
                         </div>
