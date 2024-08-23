@@ -84,6 +84,12 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[ORM\ManyToMany(targetEntity: Conversation::class, mappedBy: 'users')]
     private Collection $conversations;
 
+    /**
+     * @var Collection<int, Reservation>
+     */
+    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'tenant')]
+    private Collection $reservationsTenant;
+
     public function __construct()
     {
         parent::__construct();
@@ -93,6 +99,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         $this->reviews = new ArrayCollection();
         $this->messages = new ArrayCollection();
         $this->conversations = new ArrayCollection();
+        $this->reservationsTenant = new ArrayCollection();
     }
 
     public function getEmail(): ?string
@@ -378,6 +385,36 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     {
         if ($this->conversations->removeElement($conversation)) {
             $conversation->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservationsTenant(): Collection
+    {
+        return $this->reservationsTenant;
+    }
+
+    public function addReservationsTenant(Reservation $reservationsTenant): static
+    {
+        if (!$this->reservationsTenant->contains($reservationsTenant)) {
+            $this->reservationsTenant->add($reservationsTenant);
+            $reservationsTenant->setTenant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservationsTenant(Reservation $reservationsTenant): static
+    {
+        if ($this->reservationsTenant->removeElement($reservationsTenant)) {
+            // set the owning side to null (unless already changed)
+            if ($reservationsTenant->getTenant() === $this) {
+                $reservationsTenant->setTenant(null);
+            }
         }
 
         return $this;

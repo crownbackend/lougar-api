@@ -30,6 +30,9 @@ class Reservation extends BaseEntity
     #[ORM\OneToOne(mappedBy: 'reservation', cascade: ['persist', 'remove'])]
     private ?Payment $payment = null;
 
+    #[ORM\ManyToOne(inversedBy: 'reservationsTenant')]
+    private ?User $tenant = null;
+
     public function getStartAt(): ?\DateTimeImmutable
     {
         return $this->startAt;
@@ -120,6 +123,18 @@ class Reservation extends BaseEntity
         }
 
         $this->payment = $payment;
+
+        return $this;
+    }
+
+    public function getTenant(): ?User
+    {
+        return $this->tenant;
+    }
+
+    public function setTenant(?User $tenant): static
+    {
+        $this->tenant = $tenant;
 
         return $this;
     }

@@ -27,15 +27,32 @@ class BookingController extends AbstractController
     }
 
     #[Route('/{id}/etape-2/{token}', name: 'second')]
-    public function second(Garage $garage, string $token): RedirectResponse
+    public function second(Garage $garage, string $token): RedirectResponse|Response
     {
         $result = $this->manager->checkData($garage, $token);
         if($result['type'] === 'day') {
-            return $this->redirectToRoute('');
+            return $this->forward('App\Controller\BookingController::three', [
+                'garage' => $garage,
+                'data' => $result,
+            ]);
         } elseif ($result['type'] === 'hours') {
-            return $this->redirectToRoute('');
+            return $this->forward('App\Controller\BookingController::three', [
+                'garage' => $garage,
+                'data' => $result,
+            ]);
         } else {
-            return $this->redirectToRoute('reservation_first', ['garage' => $garage->getId()]);
+            return $this->redirectToRoute('booking_second', ['garage' => $garage->getId()]);
         }
+    }
+
+    #[Route('/{id}/etape-3/verifications', name: 'three')]
+    public function three(Garage $garage, array $data): Response
+    {
+        dump($data);
+        return $this->render('booking/three.html.twig', [
+            'garage' => $garage,
+            'data' => $data,
+            'now' => new \DateTimeImmutable(),
+        ]);
     }
 }

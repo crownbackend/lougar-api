@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <title>Récapitulatif {{ garage.name }}</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
+
+    <!-- Fearther CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/feather.css') }}">
+
+    <!-- select CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+
+</head>
+
+<body class="mt-0">
+
+<div class="main-wrapper">
+    <div class="bg-img">
+        <img src="{{ asset('assets/img/bg/work-bg-03.png') }}" alt="img" class="bgimg1">
+        <img src="{{ asset('assets/img/bg/work-bg-03.png') }}" alt="img" class="bgimg2">
+        <img src="{{ asset('assets/img/bg/feature-bg-03.png') }}" alt="img" class="bgimg3">
+    </div>
+
+    <div class="content book-content">
+        <div class="container">
+            <div class="row">
+
+                <!-- Booking -->
+                <div class="col-lg-10 mx-auto">
+
+                    <!-- Booking Step -->
+                    <ul class="step-register row">
+                        <li class="activate col-md-4">
+                            <div class="multi-step-icon">
+                                <img src="{{ asset('assets/img/icons/calendar-icon.svg') }}" alt="img">
+                            </div>
+                            <div class="multi-step-info">
+                                <h6>Réservation</h6>
+                                <p>Choisissez l'heure et la date.</p>
+                            </div>
+                        </li>
+                        <li class="active col-md-4">
+                            <div class="multi-step-icon">
+                                <img src="{{ asset('assets/img/icons/wallet-icon.svg') }}" alt="img">
+                            </div>
+                            <div class="multi-step-info">
+                                <h6>Paiement</h6>
+                                <p>Sélectionnez la méthode de paiement.</p>
+                            </div>
+                        </li>
+                        <li class="col-md-4">
+                            <div class="multi-step-icon">
+                                <img src="{{ asset('assets/img/icons/book-done.svg') }}" alt="img">
+                            </div>
+                            <div class="multi-step-info">
+                                <h6>Fin </h6>
+                                <p>Réservation compléte</p>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <!-- /Booking Step -->
+
+                    <!-- Booking Payment -->
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h5 class="pay-title">Méthode de paiement</h5>
+                            <div class="payment-card">
+                                <div class="payment-head">
+                                    <div class="payment-title">
+                                        <label class="custom_radio credit-card-option" >
+                                            <input type="radio" name="payment" checked="" class="card-payment">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <h6>Carte bleue / carte de crédit</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="payment-list">
+                                <div class="row align-items-center">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="col-form-label">Numéro de carte*</label>
+                                            <input class="form-control" id="card-number" required placeholder="**** **** **** ****" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-form-label">Date d'expiration*</label>
+                                            <input class="form-control" id="card-expiry" required placeholder="MM/YY" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-form-label">Code cvc*</label>
+                                            <input class="form-control" id="card-cvc" required placeholder="CVC" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="col-form-label">Code postal*</label>
+                                            <input class="form-control" required id="postal-code" placeholder="Code postal" type="text">
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-secondary" id="submit-button">Payer</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <h5 class="pay-title">Récapitulatif</h5>
+                            <div class="summary-box">
+                                <div class="booking-info">
+                                    <div class="service-book">
+                                        <div class="service-book-img">
+                                            {% for image in garage.images %}
+                                                {% if image.isPrincipal %}
+                                                    <img src="{{ image.name }}" alt="{{ image.name }}">
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                        <div class="serv-profile">
+                                            <h2>{{ garage.name }}</h2>
+                                            <ul>
+                                                <li class="serv-review"> <span>€{{ garage.pricePerDay}} </span></li>
+                                            </ul>
+                                            <div>
+                                                {{ garage.address }} <i class="feather-map-pin"></i> {{ garage.city.name }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if data['type'] == 'day' %}
+                                    <div class="booking-summary">
+                                        <ul class="booking-date">
+                                            <li>Date de réservation <span>{{ now|date('d-m-Y') }}</span></li>
+                                            <li>Début <span>{{ data['startDate']|date('d-m-Y') }}</span></li>
+                                            <li>Fin <span>{{ data['endDate']|date('d-m-Y') }}</span></li>
+                                            <li>Loueur : <span>{{ garage.owner.firstName }} {{ garage.owner.lastName }}</span></li>
+                                        </ul>
+                                        <ul class="booking-date">
+                                            <li>Totale location<span>€{{ data['totalPrice'] }} ({{ data['days'] }}J)</span></li>
+                                            <li>Tarif journée <span>€{{ data['priceTaux'] }}</span></li>
+                                            <li>Commission lougar <span>€{{ data['commission'] }}</span></li>
+                                        </ul>
+                                        <div class="booking-total">
+                                            <ul class="booking-total-list">
+                                                <li>
+                                                    <span>Totale</span>
+                                                    <span class="total-cost">€{{ data['total'] }}</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="booking-pay">
+                                <a href="booking-done.html" class="btn btn-primary btn-pay w-100">Proceed to Pay $148</a>
+                                <a href="javascript:void(0);" class="btn btn-secondary btn-skip">Skip</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Booking Payment -->
+
+                </div>
+                <!-- /Booking -->
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<!-- jQuery -->
+<script src="{{ asset('assets/js/jquery-3.7.0.min.js') }}"></script>
+
+<!-- Stripe -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<!-- Bootstrap Core JS -->
+<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+
+<!-- Fearther JS -->
+<script src="{{ asset('assets/js/feather.min.js') }}"></script>
+
+<!-- select CSS -->
+<script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
+
+<!-- Sweetalert 2 -->
+<script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
+
+<!-- Custom JS -->
+<script src="{{ asset('assets/js/script.js') }}"></script>
+<script src="{{ asset('assets/js/payment.js') }}"></script>
+
+</body>
+</html>
