@@ -9,6 +9,7 @@ parameters:
     access_key: '%env(ACCESS_KEY)%'
     secret_key: '%env(SECRET_KEY)%'
     bucket: '%env(BUCKET)%'
+    stripe_secret_key: '%env(PRIVATE_KEY_STRIPE)%'
 
 
 services:
@@ -35,6 +36,7 @@ services:
     App\Service\FileUploader:
         arguments:
             $targetDirectory: '%images_directory%'
+
     Aws\S3\S3Client:
         arguments:
             - version: 'latest'
@@ -48,3 +50,7 @@ services:
     App\Service\S3Storage:
         arguments:
             $bucket: '%bucket%'
+
+    App\Service\StripeApi:
+        arguments:
+            $secretKey: '%stripe_secret_key%'

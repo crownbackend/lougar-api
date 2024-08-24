@@ -90,6 +90,9 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'tenant')]
     private Collection $reservationsTenant;
 
+    #[ORM\OneToOne(inversedBy: 'client', cascade: ['persist', 'remove'])]
+    private ?InfoPayment $infoPayment = null;
+
     public function __construct()
     {
         parent::__construct();
@@ -416,6 +419,18 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
                 $reservationsTenant->setTenant(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getInfoPayment(): ?InfoPayment
+    {
+        return $this->infoPayment;
+    }
+
+    public function setInfoPayment(?InfoPayment $infoPayment): static
+    {
+        $this->infoPayment = $infoPayment;
 
         return $this;
     }

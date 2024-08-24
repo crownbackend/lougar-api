@@ -4,10 +4,18 @@ namespace App\Manager;
 
 use App\Entity\Garage;
 use App\Entity\Payment;
+use App\Entity\User;
+use App\Service\StripeApi;
+use Stripe\Checkout\Session;
+use Stripe\SetupIntent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class BookingManager
 {
+    public function __construct(private StripeApi $stripeApi)
+    {
+    }
+
     /**
      * @param Garage $garage
      * @param string $token
@@ -61,6 +69,14 @@ class BookingManager
         } else {
             throw new HttpException('Invalid token');
         }
+    }
+
+    public function createSessionStripe(User $user): string
+    {
+        $data = $this->stripeApi->createCustomer($user);
+//        $data = $this->stripeApi->testPay($user);
+//        dump($data);
+        return $data->client_secret;
     }
 
     private function calculateCommission(int $total): int

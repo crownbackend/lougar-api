@@ -8,6 +8,7 @@ use App\Entity\Garage;
 use App\Manager\BookingManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -54,5 +55,17 @@ class BookingController extends AbstractController
             'data' => $data,
             'now' => new \DateTimeImmutable(),
         ]);
+    }
+
+    #[Route('/create-setup-intent', name: 'create_session')]
+    public function createSessionStripe()
+    {
+        return $this->json($this->manager->createSessionStripe($this->getUser()));
+    }
+
+    #[Route('/check/success', name: 'check_session_success')]
+    public function checkSessionSuccess(Request $request)
+    {
+        dd($request);
     }
 }

@@ -93,31 +93,38 @@
                             </div>
                             <div class="payment-list">
                                 <div class="row align-items-center">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="col-form-label">Numéro de carte*</label>
-                                            <input class="form-control" id="card-number" required placeholder="**** **** **** ****" type="text">
+                                    <form id="payment-form">
+                                        <div id="card-element">
+                                            <!-- Stripe.js injecte les éléments de carte ici -->
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="col-form-label">Date d'expiration*</label>
-                                            <input class="form-control" id="card-expiry" required placeholder="MM/YY" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="col-form-label">Code cvc*</label>
-                                            <input class="form-control" id="card-cvc" required placeholder="CVC" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="col-form-label">Code postal*</label>
-                                            <input class="form-control" required id="postal-code" placeholder="Code postal" type="text">
-                                        </div>
-                                    </div>
-                                    <button type="button" class="btn btn-secondary" id="submit-button">Payer</button>
+                                        <button id="submit">Sauvegarder la carte</button>
+                                        <div id="error-message"></div>
+                                    </form>
+{#                                    <div class="col-md-12">#}
+{#                                        <div class="form-group">#}
+{#                                            <label class="col-form-label">Numéro de carte*</label>#}
+{#                                            <input class="form-control" id="card-number" required placeholder="**** **** **** ****" type="text">#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-6">#}
+{#                                        <div class="form-group">#}
+{#                                            <label class="col-form-label">Date d'expiration*</label>#}
+{#                                            <input class="form-control" id="card-expiry" required placeholder="MM/YY" type="text">#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-6">#}
+{#                                        <div class="form-group">#}
+{#                                            <label class="col-form-label">Code cvc*</label>#}
+{#                                            <input class="form-control" id="card-cvc" required placeholder="CVC" type="text">#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <div class="col-md-12">#}
+{#                                        <div class="form-group">#}
+{#                                            <label class="col-form-label">Code postal*</label>#}
+{#                                            <input class="form-control" required id="postal-code" placeholder="Code postal" type="text">#}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                    <button type="button" class="btn btn-secondary" id="submit-button">Payer</button>#}
                                 </div>
                             </div>
                         </div>
