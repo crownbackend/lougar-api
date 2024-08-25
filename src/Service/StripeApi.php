@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Stripe\Customer;
 use Stripe\Exception\ApiErrorException;
+use Stripe\PaymentMethod;
 use Stripe\SetupIntent;
 use Stripe\StripeClient;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -63,7 +64,13 @@ class StripeApi
                 'automatic_payment_methods' => ['enabled' => true],
             ]);
         }
+    }
 
+    public function getCard(InfoPayment $infoPayment): PaymentMethod
+    {
+        $stripe = new StripeClient($this->secretKey);
+        $data = $stripe->paymentMethods->retrieve($infoPayment->getPaymentMethod());
+        dd($data->card);
     }
 
 //    public function testPay(User $user)

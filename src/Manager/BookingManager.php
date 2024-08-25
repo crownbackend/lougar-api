@@ -112,6 +112,16 @@ class BookingManager
         return $data->client_secret;
     }
 
+    public function getCard(User $user): array
+    {
+        if($user->getInfoPayment()) {
+            $this->stripeApi->getCard($user->getInfoPayment());
+        } else {
+            return [];
+        }
+        return [];
+    }
+
     public function createReservation(User $user, array $data): string
     {
         $reservationData = json_decode($data['reservationInfo'], true);

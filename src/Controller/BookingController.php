@@ -74,4 +74,11 @@ class BookingController extends AbstractController
         $data = $this->manager->createReservation($this->getUser(), $data);
         return $this->json($data);
     }
+
+    #[Route('/get-card', name: 'get_card')]
+    public function getCard(): JsonResponse
+    {
+        $this->manager->getCard($this->getUser());
+        return $this->json('');
+    }
 }
