@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Entity\Garage;
 use App\Manager\BookingManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,7 +37,7 @@ class BookingController extends AbstractController
                 'garage' => $garage,
                 'data' => $result,
             ]);
-        } elseif ($result['type'] === 'hours') {
+        } elseif ($result['type'] === 'hour') {
             return $this->forward('App\Controller\BookingController::three', [
                 'garage' => $garage,
                 'data' => $result,
@@ -49,7 +50,6 @@ class BookingController extends AbstractController
     #[Route('/{id}/etape-3/verifications', name: 'three')]
     public function three(Garage $garage, array $data): Response
     {
-        dump($data);
         return $this->render('booking/three.html.twig', [
             'garage' => $garage,
             'data' => $data,
@@ -57,15 +57,21 @@ class BookingController extends AbstractController
         ]);
     }
 
-    #[Route('/create-setup-intent', name: 'create_session')]
-    public function createSessionStripe()
+    #[Route('/create-setup-intent', name: 'create_setup_intent')]
+    public function createSetupIntent(): Response
     {
-        return $this->json($this->manager->createSessionStripe($this->getUser()));
+        return $this->json($this->manager->createSetupIntent($this->getUser()));
     }
 
-    #[Route('/check/success', name: 'check_session_success')]
-    public function checkSessionSuccess(Request $request)
+    #[Route('/create-reservation', name: 'create_reservation')]
+    public function createReservation(Request $request): JsonResponse
     {
-        dd($request);
+        if ($request->getContent()) {
+            $data = json_decode($request->getContent(), true);
+        } else {
+            $data = $request->request->all();
+        }
+        $data = $this->manager->createReservation($this->getUser(), $data);
+        return $this->json($data);
     }
 }

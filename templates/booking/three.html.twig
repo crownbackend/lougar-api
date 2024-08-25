@@ -93,38 +93,28 @@
                             </div>
                             <div class="payment-list">
                                 <div class="row align-items-center">
-                                    <form id="payment-form">
-                                        <div id="card-element">
-                                            <!-- Stripe.js injecte les éléments de carte ici -->
+                                    {% if app.user.infoPayment.paymentMethod %}
+                                        <div class="card card-payments active flex-fill">
+                                            <div class="card-body">
+                                                <div>
+                                                    <h6>Carte bleue</h6>
+                                                    <div class="card-num">
+                                                        <h6>**** **** **** <span>9525</span></h6>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <button id="submit">Sauvegarder la carte</button>
-                                        <div id="error-message"></div>
-                                    </form>
-{#                                    <div class="col-md-12">#}
-{#                                        <div class="form-group">#}
-{#                                            <label class="col-form-label">Numéro de carte*</label>#}
-{#                                            <input class="form-control" id="card-number" required placeholder="**** **** **** ****" type="text">#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                    <div class="col-md-6">#}
-{#                                        <div class="form-group">#}
-{#                                            <label class="col-form-label">Date d'expiration*</label>#}
-{#                                            <input class="form-control" id="card-expiry" required placeholder="MM/YY" type="text">#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                    <div class="col-md-6">#}
-{#                                        <div class="form-group">#}
-{#                                            <label class="col-form-label">Code cvc*</label>#}
-{#                                            <input class="form-control" id="card-cvc" required placeholder="CVC" type="text">#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                    <div class="col-md-12">#}
-{#                                        <div class="form-group">#}
-{#                                            <label class="col-form-label">Code postal*</label>#}
-{#                                            <input class="form-control" required id="postal-code" placeholder="Code postal" type="text">#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                    <button type="button" class="btn btn-secondary" id="submit-button">Payer</button>#}
+                                    {% else  %}
+                                        <form id="payment-form">
+                                            <div id="card-element">
+                                                <!-- Stripe.js injecte les éléments de carte ici -->
+                                            </div>
+                                            <br>
+                                            <div id="error-message"></div>
+                                            <br>
+                                            <button id="submit" class="btn btn-primary btn-pay w-100" >Sauvegarder la carte</button>
+                                        </form>
+                                    {% endif  %}
                                 </div>
                             </div>
                         </div>
@@ -140,7 +130,7 @@
                                                 {% endif %}
                                             {% endfor %}
                                         </div>
-                                        <div class="serv-profile">
+                                        <div class="serv-profile" id="booking_info" data-info="{{ data|json_encode }}" data-garageId="{{ garage.id }}">
                                             <h2>{{ garage.name }}</h2>
                                             <ul>
                                                 <li class="serv-review"> <span>€{{ garage.pricePerDay}} </span></li>
@@ -173,14 +163,36 @@
                                             </ul>
                                         </div>
                                     </div>
+                                {% elseif data['type'] == 'hour' %}
+                                    <div class="booking-summary">
+                                        <ul class="booking-date">
+                                            <li>Date de réservation <span>{{ now|date('d-m-Y') }}</span></li>
+                                            <li>Début <span>{{ data['startDate']|date('d-m-Y H:i') }}</span></li>
+                                            <li>Fin <span>{{ data['endDate']|date('d-m-Y H:i') }}</span></li>
+                                            <li>Loueur : <span>{{ garage.owner.firstName }} {{ garage.owner.lastName }}</span></li>
+                                        </ul>
+                                        <ul class="booking-date">
+                                            <li>Totale location<span>€{{ data['totalPrice'] }} ({{ data['hours'] }}H)</span></li>
+                                            <li>Tarif horaires <span>€{{ data['priceTaux'] }}</span></li>
+                                            <li>Commission lougar <span>€{{ data['commission'] }}</span></li>
+                                        </ul>
+                                        <div class="booking-total">
+                                            <ul class="booking-total-list">
+                                                <li>
+                                                    <span>Totale</span>
+                                                    <span class="total-cost">€{{ data['total'] }}</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 {% endif %}
 
                             </div>
 
-                            <div class="booking-pay">
-                                <a href="booking-done.html" class="btn btn-primary btn-pay w-100">Proceed to Pay $148</a>
-                                <a href="javascript:void(0);" class="btn btn-secondary btn-skip">Skip</a>
-                            </div>
+{#                            <div class="booking-pay">#}
+{#                                <a href="booking-done.html" class="btn btn-primary btn-pay w-100">Proceed to Pay $148</a>#}
+{#                                <a href="javascript:void(0);" class="btn btn-secondary btn-skip">Skip</a>#}
+{#                            </div>#}
                         </div>
                     </div>
                     <!-- /Booking Payment -->
@@ -215,7 +227,11 @@
 
 <!-- Custom JS -->
 <script src="{{ asset('assets/js/script.js') }}"></script>
+{% if app.user.infoPayment.paymentMethod %}
+<script src="{{ asset('assets/js/info-payment.js') }}"></script>
+{% else  %}
 <script src="{{ asset('assets/js/payment.js') }}"></script>
+{% endif %}
 
 </body>
 </html>

@@ -121,7 +121,7 @@ $(document).ready(function () {
                     date: startDate,
                     priceTaux: priceTaux,
                     totalPrice: TotalPrice,
-                    type: 'hours'
+                    type: 'hour'
                 }
                 const token = btoa(JSON.stringify(data));
                 // Rediriger vers l'URL avec le token en GET
@@ -145,7 +145,6 @@ $(document).ready(function () {
                 }).then((result) => {
                     /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
-                        console.log('he')
                         var endOfDay = startDate.endOf('day');
                         const data = {
                             startDate: endOfDay.format('YYYY-MM-DD HH:mm:ss'),
@@ -199,6 +198,10 @@ $(document).ready(function () {
     function calculerDay(startDate, endDate) {
         let diffDays =  endDate.diff(startDate, 'days');
         return diffDays + 1;
+    }
+
+    function calculerHour(startDate, endDate) {
+        return endDate.diff(startDate, 'hours', true);
     }
 
 })
