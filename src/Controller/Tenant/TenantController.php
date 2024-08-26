@@ -21,4 +21,12 @@ class TenantController extends AbstractController
     {
         return $this->render('tenant/dashboard.html.twig');
     }
+
+    #[Route('/mes-reservations', name: 'my_reservations', methods: ['GET', 'POST'])]
+    public function myReservations(): Response
+    {
+        return $this->render('tenant/my-reservations.html.twig', [
+            'reservations' => $this->manager->myReservations($this->getUser())
+        ]);
+    }
 }

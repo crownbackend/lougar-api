@@ -51,26 +51,38 @@ class StripeApi
      */
     public function createSetupIntent(User $user): SetupIntent
     {
-        $stripe = new StripeClient($this->secretKey);
-        if($user->getInfoPayment()) {
-            return $stripe->setupIntents->create([
-                'customer' => $user->getInfoPayment()->getCustomerId(),
-                'automatic_payment_methods' => ['enabled' => true],
-            ]);
-        } else {
-            $data = $this->createCustomer($user);
-            return $stripe->setupIntents->create([
-                'customer' => $data->id,
-                'automatic_payment_methods' => ['enabled' => true],
-            ]);
+        try {
+            $stripe = new StripeClient($this->secretKey);
+            if($user->getInfoPayment()) {
+                return $stripe->setupIntents->create([
+                    'customer' => $user->getInfoPayment()->getCustomerId(),
+                    'automatic_payment_methods' => ['enabled' => true],
+                ]);
+            } else {
+                $data = $this->createCustomer($user);
+                return $stripe->setupIntents->create([
+                    'customer' => $data->id,
+                    'automatic_payment_methods' => ['enabled' => true],
+                ]);
+            }
+        } catch (ApiErrorException $e) {
+            $this->logger->error($e->getMessage());
+            throw new HttpException(400, 'Payment Error');
         }
     }
 
+    /**
+     * @throws ApiErrorException
+     */
     public function getCard(InfoPayment $infoPayment): PaymentMethod
     {
-        $stripe = new StripeClient($this->secretKey);
-        $data = $stripe->paymentMethods->retrieve($infoPayment->getPaymentMethod());
-        dd($data->card);
+        try {
+            $stripe = new StripeClient($this->secretKey);
+            return $stripe->paymentMethods->retrieve($infoPayment->getPaymentMethod());
+        } catch (ApiErrorException $e) {
+            $this->logger->error($e->getMessage());
+            throw new HttpException(400, 'Payment Error');
+        }
     }
 
 //    public function testPay(User $user)

@@ -12,9 +12,10 @@ class Functions
         return $newUrl;
     }
 
-    public function calculateCommission(int $total): int
+    public function calculateCommission(int $total): float
     {
-        return number_format($total * Payment::COMMISSION, 2);
+        $commission = $total * Payment::COMMISSION;
+        return round($commission, 2);
     }
 
     public function calculateHours(\DateTimeImmutable $start, \DateTimeImmutable $end): int|float

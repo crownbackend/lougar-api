@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index( name: 'status_idx', columns: ['status'])]
 class Payment extends BaseEntity
 {
-    const float COMMISSION = 0.15;
+    const float COMMISSION = 0.20;
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $amount = null;
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Garage;
+use App\Entity\Reservation;
 use App\Manager\BookingManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -57,6 +58,14 @@ class BookingController extends AbstractController
         ]);
     }
 
+    #[Route('/success/booking/{id}', name: 'success_booking')]
+    public function successBooking(Reservation $reservation): Response
+    {
+        return $this->render('booking/success.html.twig', [
+            'reservation' => $reservation,
+        ]);
+    }
+
     #[Route('/create-setup-intent', name: 'create_setup_intent')]
     public function createSetupIntent(): Response
     {
@@ -78,7 +87,6 @@ class BookingController extends AbstractController
     #[Route('/get-card', name: 'get_card')]
     public function getCard(): JsonResponse
     {
-        $this->manager->getCard($this->getUser());
-        return $this->json('');
+        return $this->json($this->manager->getCard($this->getUser()), 200);
     }
 }

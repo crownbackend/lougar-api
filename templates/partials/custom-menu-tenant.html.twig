@@ -4,7 +4,7 @@
     <div class="settings-widget">
         <div class="settings-header">
             <h6>{{ app.user.firstName }} {{ app.user.lastName }}</h6>
-            <p>Member Since Sep 2021</p>
+            <p>Membre depuis {{ app.user.createdAt|format_datetime(locale='fr', pattern='MMMM yyyy') }}</p>
         </div>
         <div class="settings-menu">
             <ul>
@@ -14,7 +14,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="customer-booking.html">
+                    <a href="{{ path('tenant_my_reservations') }}" {% if app.request.attributes.get('_route') == 'tenant_my_reservations' %}class="active"{% endif %}>
                         <i class="feather-smartphone"></i> <span>Réservation</span>
                     </a>
                 </li>

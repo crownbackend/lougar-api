@@ -5,6 +5,7 @@ namespace App\Manager\Tenant;
 use App\Entity\User;
 use App\Helpers\GenerateToken;
 use App\Helpers\Messages;
+use App\Repository\ReservationRepository;
 use App\Service\Mailer;
 use App\Service\StripeApi;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,8 +16,14 @@ readonly class TenantManager
     public function __construct(private readonly EntityManagerInterface $entityManager,
                                 private readonly GenerateToken $generateToken,
                                 private readonly UserPasswordHasherInterface $passwordHasher,
-                                private readonly Mailer $mailer, private StripeApi $stripeApi)
+                                private readonly Mailer $mailer, private readonly StripeApi $stripeApi,
+                                private readonly ReservationRepository $reservationRepository)
     {
+    }
+
+    public function myReservations(User $user): array
+    {
+        return $this->reservationRepository->findByTenant($user);
     }
 
     public function create(User $tenant, string $plainPassword): void

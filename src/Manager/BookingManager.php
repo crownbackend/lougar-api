@@ -71,7 +71,7 @@ class BookingManager
                 $endDate = new \DateTimeImmutable($dateSelect[0]. ' ' .$data["endTime"], new \DateTimeZone('UTC'));
                 $hours = $this->functions->calculateHours($startDate, $endDate);
                 $priceTaux = $data['priceTaux'];
-                $totalPrice = $data['totalPrice'];
+                $totalPrice = (float) $data['totalPrice'];
                 $total = (float) $garage->getPricePerHour() * $hours;
 
                 if($startDate <= $now){
@@ -82,10 +82,9 @@ class BookingManager
                     throw new HttpException(400, 'Invalid price range');
                 }
                 // check total price
-                if($total != $totalPrice){
+                if(round($total, 2) != $totalPrice){
                     throw new HttpException(400, 'Invalid price range');
                 }
-
                 $commission = $this->functions->calculateCommission($totalPrice);
 
                 return [
@@ -114,20 +113,30 @@ class BookingManager
 
     public function getCard(User $user): array
     {
+        $data = [];
         if($user->getInfoPayment()) {
-            $this->stripeApi->getCard($user->getInfoPayment());
+            $result = $this->stripeApi->getCard($user->getInfoPayment());
+            $data['brand'] = $result->card->toArray()['brand'];
+            $data['last4'] = $result->card->toArray()['last4'];
+            $data['exp_month'] = $result->card->toArray()['exp_month'];
+            $data['exp_year'] = $result->card->toArray()['exp_year'];
+            return $data;
         } else {
-            return [];
+            return $data;
         }
-        return [];
     }
 
     public function createReservation(User $user, array $data): string
     {
         $reservationData = json_decode($data['reservationInfo'], true);
         $garage = $this->garageRepository->findOneBy(["id" => $data["garageId"]]);
-        $infoPayment = $user->getInfoPayment();
-        $infoPayment->setPaymentMethod($data['methodPayment']);
+        if($user->getInfoPayment() && $user->getInfoPayment()->getPaymentMethod() === null){
+            $infoPayment = $user->getInfoPayment();
+            $infoPayment->setPaymentMethod($data['methodPayment']);
+            $this->entityManager->persist($infoPayment);
+            $this->entityManager->flush();
+        }
+
         $reservation = new Reservation();
         $reservation->setGarage($garage);
         $reservation->setRenter($garage->getOwner());
@@ -138,7 +147,6 @@ class BookingManager
         $reservation->setStartAt(new \DateTimeImmutable($reservationData["startDate"]["date"], new \DateTimeZone('UTC')));
         $reservation->setEndAt(new \DateTimeImmutable($reservationData["endDate"]["date"], new \DateTimeZone('UTC')));
         $this->entityManager->persist($reservation);
-        $this->entityManager->persist($infoPayment);
         $this->entityManager->flush();
         return $reservation->getId();
     }

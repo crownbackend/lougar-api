@@ -60,7 +60,9 @@ response.then(clientSecret => {
 
             const responseReservation = createReservation(data)
             responseReservation.then(res => {
-                console.log(res)
+                window.location.href = '/reservation/success/booking/' + res
+            }).catch(() => {
+                alert('Erreur serveur')
             })
         }
     });

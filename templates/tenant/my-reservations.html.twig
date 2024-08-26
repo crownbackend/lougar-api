@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block  title %}
+Mes réservations
+{% endblock %}
+
+{% block body %}
+
+<div class="content">
+    <div class="container">
+        <div class="row">
+            {{ include('partials/custom-menu-tenant.html.twig') }}
+            <div class="col-lg-9">
+
+                <!-- Sort -->
+                <div class="row align-items-center">
+                    <div class="col-md-4">
+                        <div class="widget-title">
+                            <h4>Mes réservations</h4>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8 d-flex align-items-center justify-content-md-end flex-wrap">
+                        <div class="review-sort me-2">
+                            <p>Sort</p>
+                            <select class="select">
+                                <option>Recent</option>
+                                <option>Older</option>
+                                <option>A to Z</option>
+                                <option>Z to A</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /Sort -->
+
+                <!-- Booking List -->
+                {% for reservation in reservations %}
+                    <div class="booking-list">
+                        <div class="booking-widget">
+                            <div class="booking-img">
+                                <a href="booking-details.html">
+                                    <img src="{{ asset('assets/img/services/service-13.jpg') }}" alt="User Image">
+                                </a>
+                            </div>
+                            <div class="booking-det-info">
+                                <h3>
+                                    <a href="booking-details.html">
+                                        {{ reservation.garage.name }}
+                                    </a>
+                                    <span class="badge badge-warning">Pending</span>
+                                </h3>
+                                <ul class="booking-details">
+                                    <li>
+                                        <span class="book-item">Réservation</span> : 27 Sep, 17:00-18:00
+                                    </li>
+                                    <li><span class="book-item">Montant</span> : $375.00 <span class="badge-grey">COD</span></li>
+                                    <li><span class="book-item">Adresse</span> : {{ reservation.garage.address }}, {{ reservation.garage.city.name }}</li>
+                                    <li>
+                                        <span class="book-item">Propriétaires</span> :
+                                        <div class="user-book">
+                                            Johnson
+                                        </div>
+                                        <p>info@johnson.com</p>
+                                        <p>+1 312-328-3970</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="booking-action action-popup-btn">
+                            <a href="customer-chat.html" class="btn btn-secondary"><i class="fa-brands fa-rocketchat"></i> Chat</a>
+                            <a href="javascript:void(0);" class="btn btn-primary"><i class="fa-solid fa-circle-xmark"></i>Cancel</a>
+                        </div>
+                    </div>
+                {% endfor %}
+                <!-- /Booking List -->
+
+                <!-- Pagination -->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="review-pagination">
+                            <p>1 - 5 of 10</p>
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link" href="#">1</a>
+                                </li>
+                                <li class="page-item active">
+                                    <a class="page-link" href="#">2 <span class="visually-hidden">(current)</span></a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">3</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Pagination -->
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -97,9 +97,12 @@
                                         <div class="card card-payments active flex-fill">
                                             <div class="card-body">
                                                 <div>
-                                                    <h6>Carte bleue</h6>
+                                                    <h6>Carte bleue <span id="brand"></span></h6>
                                                     <div class="card-num">
-                                                        <h6>**** **** **** <span>9525</span></h6>
+                                                        <h6>**** **** **** <span id="last4"></span></h6>
+                                                    </div>
+                                                    <div class="card-num">
+                                                        <h6> <span id="exp_month"></span>/<span id="exp_year"></span></h6>
                                                     </div>
                                                 </div>
                                             </div>
@@ -189,10 +192,11 @@
 
                             </div>
 
-{#                            <div class="booking-pay">#}
-{#                                <a href="booking-done.html" class="btn btn-primary btn-pay w-100">Proceed to Pay $148</a>#}
-{#                                <a href="javascript:void(0);" class="btn btn-secondary btn-skip">Skip</a>#}
-{#                            </div>#}
+                            {% if app.user.infoPayment.paymentMethod %}
+                                <div class="booking-pay">
+                                    <button type="button" id="submit" class="btn btn-primary btn-pay w-100">Demande de réservation</button>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                     <!-- /Booking Payment -->

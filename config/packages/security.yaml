@@ -48,6 +48,7 @@ security:
          - { path: ^/proprietaire/inscription, roles: PUBLIC_ACCESS }
          - { path: ^/locataire, roles: ROLE_TENANT }
          - { path: ^/proprietaire, roles: ROLE_OWNER }
+         - { path: ^/reservation, roles: ROLE_TENANT }
 
 when@test:
     security:
