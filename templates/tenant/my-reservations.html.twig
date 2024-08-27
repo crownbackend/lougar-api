@@ -41,7 +41,11 @@ Mes réservations
                         <div class="booking-widget">
                             <div class="booking-img">
                                 <a href="booking-details.html">
-                                    <img src="{{ asset('assets/img/services/service-13.jpg') }}" alt="User Image">
+                                    {% for image in reservation.garage.images %}
+                                        {% if image.isPrincipal %}
+                                            <img src="{{ image.name }}" alt="{{ image.name }}">
+                                        {% endif %}
+                                    {% endfor %}
                                 </a>
                             </div>
                             <div class="booking-det-info">
@@ -49,21 +53,30 @@ Mes réservations
                                     <a href="booking-details.html">
                                         {{ reservation.garage.name }}
                                     </a>
-                                    <span class="badge badge-warning">Pending</span>
+                                    {% if reservation.status == 1 %}
+                                        <span class="badge badge-warning">En attente</span>
+                                    {% endif %}
+                                    {% if reservation.status == 2 %}
+                                        <span class="badge badge-success">Valider</span>
+                                    {% endif %}
+                                    {% if reservation.status == 3 %}
+                                        <span class="badge badge-danger">Annuler</span>
+                                    {% endif %}
                                 </h3>
                                 <ul class="booking-details">
                                     <li>
-                                        <span class="book-item">Réservation</span> : 27 Sep, 17:00-18:00
+
+                                        <span class="book-item">Réservation</span> : {{ reservation.info|reservation_info }}
                                     </li>
-                                    <li><span class="book-item">Montant</span> : $375.00 <span class="badge-grey">COD</span></li>
+                                    <li><span class="book-item">Montant</span> : €{{ reservation.totalPrice }}
                                     <li><span class="book-item">Adresse</span> : {{ reservation.garage.address }}, {{ reservation.garage.city.name }}</li>
                                     <li>
                                         <span class="book-item">Propriétaires</span> :
                                         <div class="user-book">
-                                            Johnson
+                                            {{ reservation.renter.firstName }} {{ reservation.renter.lastName }}
                                         </div>
-                                        <p>info@johnson.com</p>
-                                        <p>+1 312-328-3970</p>
+                                        <p>{{ reservation.renter.email }}</p>
+                                        <p>{{ reservation.renter.phone }}</p>
                                     </li>
                                 </ul>
                             </div>

@@ -11,7 +11,8 @@ class Reservation extends BaseEntity
 {
     const array STATUS = [
         'En attente' => 1,
-        'Confirmer' => 2
+        'Confirmer' => 2,
+        'Annuler' => 3,
     ];
     #[ORM\Column]
     private ?\DateTimeImmutable $startAt = null;

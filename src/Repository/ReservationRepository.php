@@ -23,11 +23,12 @@ class ReservationRepository extends ServiceEntityRepository
     public function findByTenant(User $user): array
     {
         return $this->createQueryBuilder('r')
-            ->select('r', 'g', 'p', 'renter', 'city')
+            ->select('r', 'g', 'p', 'renter', 'city', "image")
             ->leftJoin('r.garage', 'g')
             ->leftJoin('r.payment', 'p')
             ->leftJoin('r.renter', 'renter')
             ->leftJoin('g.city', 'city')
+            ->leftJoin("g.images", "image")
             ->where('r.deletedAt IS NULL')
             ->andWhere('r.tenant = :user')
             ->setParameter('user', $user)
