@@ -83,7 +83,9 @@ Mes réservations
                         </div>
                         <div class="booking-action action-popup-btn">
                             <a href="customer-chat.html" class="btn btn-secondary"><i class="fa-brands fa-rocketchat"></i> Chat</a>
-                            <a href="javascript:void(0);" class="btn btn-primary"><i class="fa-solid fa-circle-xmark"></i>Cancel</a>
+                            {% if reservation.status == 1 %}
+                                <a href="javascript:void(0);" class="btn btn-primary"><i class="fa-solid fa-circle-xmark"></i>Cancel</a>
+                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}
