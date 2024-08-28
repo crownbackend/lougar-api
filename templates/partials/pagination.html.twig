@@ -2,7 +2,7 @@
     <div class="review-pagination">
         {% if first is defined and current != first %}
             <span class="first">
-                <a class="btn btn-back" href="{{ path(route, query|merge({(pageParameterName): first})) }}">&lt;&lt;</a>
+                <a class="btn btn-back" href="{{ path(route, query|merge({(pageParameterName): first})) }}">Début</a>
             </span>
         {% endif %}
         <ul class="pagination">
@@ -20,7 +20,7 @@
         </ul>
         {% if last is defined and current != last %}
             <span class="last">
-                <a class="btn btn-back" href="{{ path(route, query|merge({(pageParameterName): last})) }}">&gt;&gt;</a>
+                <a class="btn btn-back" href="{{ path(route, query|merge({(pageParameterName): last})) }}">Fin</a>
             </span>
         {% endif %}
     </div>

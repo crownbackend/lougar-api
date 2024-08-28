@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Reservation;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -20,9 +21,9 @@ class ReservationRepository extends ServiceEntityRepository
     /**
      * @return Reservation[] Returns an array of Reservation objects
      */
-    public function findByTenant(User $user): array
+    public function findByTenant(User $user, ?int $status): Query
     {
-        return $this->createQueryBuilder('r')
+        $query = $this->createQueryBuilder('r')
             ->select('r', 'g', 'p', 'renter', 'city', "image")
             ->leftJoin('r.garage', 'g')
             ->leftJoin('r.payment', 'p')
@@ -32,7 +33,14 @@ class ReservationRepository extends ServiceEntityRepository
             ->where('r.deletedAt IS NULL')
             ->andWhere('r.tenant = :user')
             ->setParameter('user', $user)
-            ->getQuery()
-            ->getResult();
+            ->orderBy('r.startAt', 'ASC')
+        ;
+
+        if($status) {
+            $query->andWhere('r.status = :status')
+                ->setParameter('status', $status);
+        }
+
+        return $query->getQuery();
     }
 }

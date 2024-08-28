@@ -44,7 +44,7 @@ class BookingManager
                     throw new HttpException(400, 'Invalid date range');
                 }
                 // check price
-                if($priceTaux !== $garage->getPricePerDay()){
+                if((float)$priceTaux !== (float)$garage->getPricePerDay()){
                     throw new HttpException(400, 'Invalid price range');
                 }
                 // check total price

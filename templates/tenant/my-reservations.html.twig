@@ -14,21 +14,32 @@ Mes réservations
 
                 <!-- Sort -->
                 <div class="row align-items-center">
+                    {% for label, messages in app.flashes %}
+                        <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                            {% for message in messages %}
+                                {{ message }}
+                            {% endfor %}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
                     <div class="col-md-4">
                         <div class="widget-title">
-                            <h4>Mes réservations</h4>
+                            <h4>Mes réservations ({{ reservations.getTotalItemCount }})</h4>
                         </div>
                     </div>
 
                     <div class="col-md-8 d-flex align-items-center justify-content-md-end flex-wrap">
                         <div class="review-sort me-2">
-                            <p>Sort</p>
-                            <select class="select">
-                                <option>Recent</option>
-                                <option>Older</option>
-                                <option>A to Z</option>
-                                <option>Z to A</option>
-                            </select>
+                            <p>Trié par statut</p>
+                            <form action="{{ path('tenant_my_reservations') }}">
+                                <select class="select" id="myselect" name="status" onchange="this.form.submit()">
+                                    {% for value, statut in status %}
+                                        <option value="{{ statut }}" {% if statut == app.request.query.get('status') %}selected{% endif %}>
+                                            {{ value }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </form>
                         </div>
 
                     </div>
@@ -40,7 +51,7 @@ Mes réservations
                     <div class="booking-list">
                         <div class="booking-widget">
                             <div class="booking-img">
-                                <a href="booking-details.html">
+                                <a href="{{ path('garage_show', {"id": reservation.garage.id }) }}" target="_blank">
                                     {% for image in reservation.garage.images %}
                                         {% if image.isPrincipal %}
                                             <img src="{{ image.name }}" alt="{{ image.name }}">
@@ -50,14 +61,14 @@ Mes réservations
                             </div>
                             <div class="booking-det-info">
                                 <h3>
-                                    <a href="booking-details.html">
+                                    <a href="{{ path('garage_show', {"id": reservation.garage.id }) }}" target="_blank">
                                         {{ reservation.garage.name }}
                                     </a>
                                     {% if reservation.status == 1 %}
                                         <span class="badge badge-warning">En attente</span>
                                     {% endif %}
                                     {% if reservation.status == 2 %}
-                                        <span class="badge badge-success">Valider</span>
+                                        <span class="badge badge-success">Confirmer</span>
                                     {% endif %}
                                     {% if reservation.status == 3 %}
                                         <span class="badge badge-danger">Annuler</span>
@@ -82,9 +93,15 @@ Mes réservations
                             </div>
                         </div>
                         <div class="booking-action action-popup-btn">
-                            <a href="customer-chat.html" class="btn btn-secondary"><i class="fa-brands fa-rocketchat"></i> Chat</a>
+                            <a href="customer-chat.html" class="btn btn-secondary"><i class="fa-brands fa-rocketchat"></i> Contact</a>
                             {% if reservation.status == 1 %}
-                                <a href="javascript:void(0);" class="btn btn-primary"><i class="fa-solid fa-circle-xmark"></i>Cancel</a>
+                                <a href="{{ path('tenant_cancel_reservation', {'id': reservation.id}) }}"
+                                   class="btn btn-danger"
+                                   onclick="return confirm('Annuler la réservation ?')"
+                                >
+                                    <i class="fa-solid fa-circle-xmark"></i>
+                                    Annuler
+                                </a>
                             {% endif %}
                         </div>
                     </div>
@@ -94,20 +111,14 @@ Mes réservations
                 <!-- Pagination -->
                 <div class="row">
                     <div class="col-sm-6">
-                        <div class="review-pagination">
-                            <p>1 - 5 of 10</p>
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="#">1</a>
-                                </li>
-                                <li class="page-item active">
-                                    <a class="page-link" href="#">2 <span class="visually-hidden">(current)</span></a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">3</a>
-                                </li>
-                            </ul>
+                        <!-- Pagination -->
+                        <div class="row">
+
+                            <div class="col-sm-12">
+                                {{ knp_pagination_render(reservations) }}
+                            </div>
                         </div>
+                        <!-- /Pagination -->
                     </div>
                 </div>
                 <!-- /Pagination -->
