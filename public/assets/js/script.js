@@ -1370,6 +1370,7 @@ Version      : 1.0
 
 	if ($('.datetimepicker').length > 0) {
 		$('.datetimepicker').datetimepicker({
+			locale: 'fr',
 			format: 'DD-MM-YYYY',
 			icons: {
 				up: "fas fa-angle-up",
@@ -1652,6 +1653,7 @@ Version      : 1.0
 
 	if ($('.timepicker').length > 0) {
 		$('.timepicker').datetimepicker({
+			locale: 'fr',
 			format: 'HH:mm',
 			icons: {
 				up: "fas fa-angle-up",
@@ -2132,7 +2134,7 @@ Version      : 1.0
 
 	if ($('#datetimepickershow').length > 0) {
 		$('#datetimepickershow').datetimepicker({
-
+			locale: 'fr',
 			inline: true,
 			sideBySide: true,
 			format: 'DD-MM-YYYY',

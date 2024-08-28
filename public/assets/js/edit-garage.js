@@ -179,6 +179,7 @@ $(document).ready(function () {
 
     if ($('#datetimepickershow_start').length > 0) {
         $('#datetimepickershow_start').datetimepicker({
+            locale: 'fr',
             inline: true,
             sideBySide: true,
             format: 'DD-MM-YYYY',
@@ -194,6 +195,7 @@ $(document).ready(function () {
 
     if ($('#datetimepickershow_end').length > 0) {
         $('#datetimepickershow_end').datetimepicker({
+            locale: 'fr',
             inline: true,
             sideBySide: true,
             format: 'DD-MM-YYYY',

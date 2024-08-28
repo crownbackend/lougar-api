@@ -9,6 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 class Reservation extends BaseEntity
 {
+    const array STATUS = [
+        'En attente' => 1,
+        'Confirmer' => 2,
+        'Annuler' => 3,
+    ];
     #[ORM\Column]
     private ?\DateTimeImmutable $startAt = null;
 
@@ -29,6 +34,12 @@ class Reservation extends BaseEntity
 
     #[ORM\OneToOne(mappedBy: 'reservation', cascade: ['persist', 'remove'])]
     private ?Payment $payment = null;
+
+    #[ORM\ManyToOne(inversedBy: 'reservationsTenant')]
+    private ?User $tenant = null;
+
+    #[ORM\Column]
+    private array $info = [];
 
     public function getStartAt(): ?\DateTimeImmutable
     {
@@ -120,6 +131,30 @@ class Reservation extends BaseEntity
         }
 
         $this->payment = $payment;
+
+        return $this;
+    }
+
+    public function getTenant(): ?User
+    {
+        return $this->tenant;
+    }
+
+    public function setTenant(?User $tenant): static
+    {
+        $this->tenant = $tenant;
+
+        return $this;
+    }
+
+    public function getInfo(): array
+    {
+        return $this->info;
+    }
+
+    public function setInfo(array $info): static
+    {
+        $this->info = $info;
 
         return $this;
     }

@@ -1,0 +1,131 @@
+{% extends 'base.html.twig' %}
+
+{% block  title %}
+Mes réservations
+{% endblock %}
+
+{% block body %}
+
+<div class="content">
+    <div class="container">
+        <div class="row">
+            {{ include('partials/custom-menu-tenant.html.twig') }}
+            <div class="col-lg-9">
+
+                <!-- Sort -->
+                <div class="row align-items-center">
+                    {% for label, messages in app.flashes %}
+                        <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                            {% for message in messages %}
+                                {{ message }}
+                            {% endfor %}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                    <div class="col-md-4">
+                        <div class="widget-title">
+                            <h4>Mes réservations ({{ reservations.getTotalItemCount }})</h4>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8 d-flex align-items-center justify-content-md-end flex-wrap">
+                        <div class="review-sort me-2">
+                            <p>Trié par statut</p>
+                            <form action="{{ path('tenant_my_reservations') }}">
+                                <select class="select" id="myselect" name="status" onchange="this.form.submit()">
+                                    {% for value, statut in status %}
+                                        <option value="{{ statut }}" {% if statut == app.request.query.get('status') %}selected{% endif %}>
+                                            {{ value }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /Sort -->
+
+                <!-- Booking List -->
+                {% for reservation in reservations %}
+                    <div class="booking-list">
+                        <div class="booking-widget">
+                            <div class="booking-img">
+                                <a href="{{ path('garage_show', {"id": reservation.garage.id }) }}" target="_blank">
+                                    {% for image in reservation.garage.images %}
+                                        {% if image.isPrincipal %}
+                                            <img src="{{ image.name }}" alt="{{ image.name }}">
+                                        {% endif %}
+                                    {% endfor %}
+                                </a>
+                            </div>
+                            <div class="booking-det-info">
+                                <h3>
+                                    <a href="{{ path('garage_show', {"id": reservation.garage.id }) }}" target="_blank">
+                                        {{ reservation.garage.name }}
+                                    </a>
+                                    {% if reservation.status == 1 %}
+                                        <span class="badge badge-warning">En attente</span>
+                                    {% endif %}
+                                    {% if reservation.status == 2 %}
+                                        <span class="badge badge-success">Confirmer</span>
+                                    {% endif %}
+                                    {% if reservation.status == 3 %}
+                                        <span class="badge badge-danger">Annuler</span>
+                                    {% endif %}
+                                </h3>
+                                <ul class="booking-details">
+                                    <li>
+
+                                        <span class="book-item">Réservation</span> : {{ reservation.info|reservation_info }}
+                                    </li>
+                                    <li><span class="book-item">Montant</span> : €{{ reservation.totalPrice }}
+                                    <li><span class="book-item">Adresse</span> : {{ reservation.garage.address }}, {{ reservation.garage.city.name }}</li>
+                                    <li>
+                                        <span class="book-item">Propriétaires</span> :
+                                        <div class="user-book">
+                                            {{ reservation.renter.firstName }} {{ reservation.renter.lastName }}
+                                        </div>
+                                        <p>{{ reservation.renter.email }}</p>
+                                        <p>{{ reservation.renter.phone }}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="booking-action action-popup-btn">
+                            <a href="customer-chat.html" class="btn btn-secondary"><i class="fa-brands fa-rocketchat"></i> Contact</a>
+                            {% if reservation.status == 1 %}
+                                <a href="{{ path('tenant_cancel_reservation', {'id': reservation.id}) }}"
+                                   class="btn btn-danger"
+                                   onclick="return confirm('Annuler la réservation ?')"
+                                >
+                                    <i class="fa-solid fa-circle-xmark"></i>
+                                    Annuler
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+                <!-- /Booking List -->
+
+                <!-- Pagination -->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <!-- Pagination -->
+                        <div class="row">
+
+                            <div class="col-sm-12">
+                                {{ knp_pagination_render(reservations) }}
+                            </div>
+                        </div>
+                        <!-- /Pagination -->
+                    </div>
+                </div>
+                <!-- /Pagination -->
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

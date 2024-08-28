@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+
+    <title>Reservation avec succusé</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
+
+    <!-- Fearther CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/feather.css') }}">
+
+    <!-- select CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+
+</head>
+
+<body class="mt-0">
+
+<div class="main-wrapper">
+    <div class="bg-img">
+        <img src="{{ asset('assets/img/bg/work-bg-03.png') }}" alt="img" class="bgimg1">
+        <img src="{{ asset('assets/img/bg/work-bg-03.png') }}" alt="img" class="bgimg2">
+        <img src="{{ asset('assets/img/bg/feature-bg-03.png') }}" alt="img" class="bgimg3">
+    </div>
+
+    <div class="content book-content">
+        <div class="container">
+            <div class="row">
+
+                <!-- Booking -->
+                <div class="col-lg-10 mx-auto">
+
+                    <!-- Booking Step -->
+                    <ul class="step-register row">
+                        <li class="activate col-md-4">
+                            <div class="multi-step-icon">
+                                <img src="{{ asset('assets/img/icons/calendar-icon.svg') }}" alt="img">
+                            </div>
+                            <div class="multi-step-info">
+                                <h6>Réservation</h6>
+                                <p>Choisissez l'heure et la date.</p>
+                            </div>
+                        </li>
+                        <li class="activate col-md-4">
+                            <div class="multi-step-icon">
+                                <img src="{{ asset('assets/img/icons/wallet-icon.svg') }}" alt="img">
+                            </div>
+                            <div class="multi-step-info">
+                                <h6>Paiement</h6>
+                                <p>Sélectionnez la méthode de paiement.</p>
+                            </div>
+                        </li>
+                        <li class="active col-md-4">
+                            <div class="multi-step-icon">
+                                <img src="{{ asset('assets/img/icons/book-done.svg') }}" alt="img">
+                            </div>
+                            <div class="multi-step-info">
+                                <h6>Fin </h6>
+                                <p>Réservation compléte</p>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <!-- /Booking Step -->
+
+                    <!-- Booking Done -->
+                    <div class="row align-items-center">
+                        <div class="col-md-7">
+                            <div class="booking-done">
+                                <h6>Demande de réservation avec succès</h6>
+                                <p>
+                                    Lorsque le propriétaire du garage accepte votre réservation, vous recevrez un email de confirmation et votre moyen de paiement sera débité. Vous pourrez consulter votre réservation dans la section
+                                    <a href="{{ path('tenant_my_reservations') }}">Mes réservations</a>.
+                                </p>
+                                <div class="book-submit">
+                                    <a href="{{ path('tenant_my_reservations') }}" class="btn btn-secondary">Mes réservations</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="booking-done">
+                                <img src="{{ asset('assets/img/booking-done.png') }}" class="img-fluid" alt="image">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Booking Done -->
+
+                </div>
+                <!-- /Booking -->
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- jQuery -->
+<script src="{{ asset('assets/js/jquery-3.7.0.min.js') }}"></script>
+
+<!-- Stripe -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<!-- Bootstrap Core JS -->
+<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+
+<!-- Fearther JS -->
+<script src="{{ asset('assets/js/feather.min.js') }}"></script>
+
+<!-- select CSS -->
+<script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
+
+<!-- Custom JS -->
+<script src="{{ asset('assets/js/script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Réservation {{ garage.name }}</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ asset('assets/img/favicon.png') }}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
+
+    <!-- Fearther CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/feather.css') }}">
+
+    <!-- select CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
+
+
+    <!-- Datetimepicker CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
+
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+
+</head>
+
+<body class="mt-0">
+
+<div class="main-wrapper">
+    <div class="bg-img">
+        <img src="{{ asset('assets/img/bg/work-bg-03.png') }}" alt="img" class="bgimg1">
+        <img src="{{ asset('assets/img/bg/work-bg-03.png') }}" alt="img" class="bgimg2">
+        <img src="{{ asset('assets/img/bg/feature-bg-03.png') }}" alt="img" class="bgimg3">
+    </div>
+
+    <div class="content">
+        <div class="container">
+            <div class="row">
+
+                <!-- Booking -->
+                <div class="col-lg-10 mx-auto">
+
+                    <!-- Booking Step -->
+                    <ul class="step-register row">
+                        <li class="active col-md-4">
+                            <div class="multi-step-icon">
+                                <img src="{{ asset('assets/img/icons/calendar-icon.svg') }}" alt="img">
+                            </div>
+                            <div class="multi-step-info">
+                                <h6>Réservation</h6>
+                                <p>Choisissez l'heure et la date.</p>
+                            </div>
+                        </li>
+                        <li class="col-md-4">
+                            <div class="multi-step-icon">
+                                <img src="{{ asset('assets/img/icons/wallet-icon.svg') }}" alt="img">
+                            </div>
+                            <div class="multi-step-info">
+                                <h6>Paiement</h6>
+                                <p>Sélectionnez la méthode de paiement.</p>
+                            </div>
+                        </li>
+                        <li class="col-md-4">
+                            <div class="multi-step-icon">
+                                <img src="{{ asset('assets/img/icons/book-done.svg') }}" alt="img">
+                            </div>
+                            <div class="multi-step-info">
+                                <h6>Fin </h6>
+                                <p>Réservation compléte</p>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <!-- /Booking Step -->
+
+                    <!-- Appointment -->
+                    <div class="booking-service">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6">
+                                <div class="service-book">
+                                    <div class="service-book-img">
+                                        {% for image in garage.images %}
+                                            {% if image.isPrincipal %}
+                                                <img src="{{ image.name }}" alt="{{ image.name }}">
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <div class="serv-profile">
+                                        <h2 id="garage_id" data-id="{{ garage.id }}">{{ garage.name }}</h2>
+                                        <ul>
+                                            <li class="serv-pro">
+                                                <div class="serv-pro-info">
+                                                    <h6>{{ garage.owner.firstName }} {{ garage.owner.lastName }}</h6>
+                                                    <p class="serv-review"><i class="fa-solid fa-star"></i> <span>4.9 </span>(255 reviews)</p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="row align-items-center">
+                                    <div class="col-md-7 col-sm-6">
+                                        <div class="provide-box">
+                                            <span><i class="feather-phone"></i></span>
+                                            <div class="provide-info">
+                                                <h6>Téléphone</h6>
+                                                <p>{{ garage.owner.phone }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="provide-box">
+                                            <span><i class="feather-mail"></i></span>
+                                            <div class="provide-info">
+                                                <h6>Mail</h6>
+                                                <p>{{ garage.owner.email }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 col-sm-6">
+                                        <div class="provide-box">
+                                            <span><i class="feather-map-pin"></i></span>
+                                            <div class="provide-info">
+                                                <h6>Adresse </h6>
+                                                <p>
+                                                    {{ garage.address }} <span><i class="feather-map-pin"></i> {{ garage.city.name }}</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="provide-box">
+                                            <span><img src="{{ asset('assets/img/icons/service-icon.svg') }}" alt="img"></span>
+                                            <div class="provide-info">
+                                                <h6>Prix</h6>
+                                                <h5 id="price"></h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- /Appointment -->
+
+                    <div class="card card-available">
+                        <div class="card-body">
+                            <div class="available-widget">
+                                <div class="available-info">
+                                    <h5>Disponibilités</h5>
+                                    <hr>
+                                    {% if garage.availability|length == 1 %}
+                                        {% if garage.availability[0].startAt is not null %}
+                                            <h5>Date de début : {{ garage.availability[0].startAt|date('d-m-Y') }}</h5>
+                                        {% endif %}
+
+                                        {% if garage.availability[0].endAt is not null %}
+                                            <h5>Date de fin : {{ garage.availability[0].endAt|date('d-m-Y') }} </h5>
+                                        {% endif %}
+                                        <hr>
+                                        {% set daysOfWeek = {
+                                            0: 'Lundi',
+                                            1: 'Mardi',
+                                            2: 'Mercredi',
+                                            3: 'Jeudi',
+                                            4: 'Vendredi',
+                                            5: 'Samedi',
+                                            6: 'Dimanche'
+                                        } %}
+
+                                        {% set availableDays = [] %}
+
+                                        {% for time in garage.availability[0].availabilityTimes %}
+                                            {% set availableDays = availableDays|merge([time.dayOfWeek]) %}
+                                        {% endfor %}
+
+                                        <ul>
+                                            {% for day, dayName in daysOfWeek %}
+                                                <li>
+                                                    {% if day in availableDays %}
+                                                        {{ dayName }}
+                                                        {% for time in garage.availability[0].availabilityTimes %}
+                                                            {% if time.dayOfWeek == day %}
+                                                                <span>{{ time.startTime|date('H:i') }} - {{ time.endTime|date('H:i') }}</span>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        {{ dayName }}
+                                                        <span class="text-danger">Fermer</span>
+                                                    {% endif %}
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <span class="text-danger"> Aucune disponibilités n'est planifié mais vous pouvez réserver un créneau.</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="book-form">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="mode_book" class="col-form-label">Mode de réservation</label>
+                                    <select
+                                            class="select"
+                                            id="mode_book"
+                                    >
+                                        <option value="h" data-price-hour="{{ garage.pricePerHour }}">A l'heure</option>
+                                        <option value="j" data-price-day="{{ garage.pricePerDay }}">A la journée</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <!-- Appointment Date & Time -->
+                    <div class="row">
+
+                        <div class="col-lg-6 pt-4">
+                            <div class="book-title">
+                                <h5>Date</h5>
+                            </div>
+                            <div id="datetimepickershow_start"></div>
+                        </div>
+                        <div class="col-lg-6 pt-4" id="end_day" style="display: none">
+                            <div class="book-title">
+                                <h5>Date de fin</h5>
+                            </div>
+                            <div id="datetimepickershow_end"></div>
+                            <br>
+                            <div class="provide-box" style="float: right">
+                                <span><img src="{{ asset('assets/img/icons/service-icon.svg') }}" alt="img"></span>
+                                <div class="provide-info">
+                                    <h6>Prix</h6>
+                                    <h5 id="price_result_day"></h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 pt-4" id="hour_content">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="book-title">
+                                        <h5>Heure</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="token-slot mt-2">
+                                <div class="col-md-12">
+                                    <div class="day-info" data-day-of-week="4">
+                                        <div class="row day-cont">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="col-form-label">Début</label>
+                                                    <div class='form-icon'>
+                                                        <input type='text' class="form-control timepicker" required placeholder="Heure de début">
+                                                        <span class="cus-icon"><i class="feather-clock"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="col-form-label">Fin</label>
+                                                    <div class='form-icon'>
+                                                        <input type='text' class="form-control timepicker" required placeholder="Heure de fin">
+                                                        <span class="cus-icon"><i class="feather-clock"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="provide-box" style="float: right">
+                                <span><img src="{{ asset('assets/img/icons/service-icon.svg') }}" alt="img"></span>
+                                <div class="provide-info">
+                                    <h6>Prix</h6>
+                                    <h5 id="price_result_hours"></h5>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="book-submit text-end">
+                            <a href="{{ app.request.headers.get('referer') }}" class="btn btn-secondary">Annuler</a>
+                            <button type="button" id="send" class="btn btn-primary">Book Appointment</button>
+                        </div>
+                    </div>
+                    <!-- /Appointment Date & Time -->
+
+                </div>
+                <!-- /Booking -->
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- jQuery -->
+<script src="{{ asset('assets/js/jquery-3.7.0.min.js') }}"></script>
+
+<!-- Stripe -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<!-- Bootstrap Core JS -->
+<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+
+<!-- Fearther JS -->
+<script src="{{ asset('assets/js/feather.min.js') }}"></script>
+
+<!-- select CSS -->
+<script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
+
+<!-- Datetimepicker JS -->
+<script src="{{ asset('assets/js/moment.min.js') }}"></script>
+<script src="{{ asset('assets/js/fr.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+
+<!-- Sweetalert 2 -->
+<script src="{{ asset('assets/plugins/sweetalert/sweetalert2.all.min.js') }}"></script>
+
+<!-- Custom JS -->
+<script src="{{ asset('assets/js/script.js') }}"></script>
+<script src="{{ asset('assets/js/book-first-step.js') }}"></script>
+
+</body>
+</html>
