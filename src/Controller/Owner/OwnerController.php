@@ -17,4 +17,10 @@ class OwnerController extends AbstractController
     {
         return $this->render('owner/dashboard.html.twig');
     }
+
+    #[Route('/mes-reservations', name: 'my_reservation', methods: ['GET', 'POST'])]
+    public function myReservation(): Response
+    {
+        return $this->render('owner/my-reservation.html.twig');
+    }
 }

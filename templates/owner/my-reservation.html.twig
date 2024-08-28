@@ -1,0 +1,220 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Mes réservations
+{% endblock %}
+
+{% block stylesheets %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
+
+    <!-- Fearther CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/feather.css') }}">
+
+    <!-- select CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
+
+    <!-- Datetimepicker CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
+
+    <!-- Fullcalendar CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/main.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fullcalendar/bootstrap-icons.css') }}">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                {{ include('partials/custom-menu-owner.html.twig') }}
+                <div class="col-lg-9">
+
+                    <div class="page-wrapper">
+                        <div class="content container-fluid">
+
+                            <!-- Page Header -->
+                            <div class="page-header">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="provider-subtitle">
+                                            <h6>Mes réservations</h6>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 d-flex align-items-center justify-content-md-end flex-wrap">
+                                        <div class="review-sort me-2">
+                                            <p>Sort</p>
+                                            <select class="select">
+                                                <option>A -> Z</option>
+                                                <option>Most helpful</option>
+                                            </select>
+                                        </div>
+                                        <div class="grid-listview">
+                                            <ul>
+                                                <li>
+                                                    <a href="javascript:void(0);">
+                                                        <i class="feather-filter"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="provider-book-details.html" class="active">
+                                                        <i class="feather-calendar"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="provider-services.html">
+                                                        <i class="feather-grid"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="provider-booking.html">
+                                                        <i class="feather-list"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /Page Header -->
+
+                            <!-- calendar -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="calendar-book"></div>
+                                </div>
+                            </div>
+                            <!-- /calendar -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Details -->
+    <div class="toggle-sidebar">
+        <div class="sidebar-layout">
+            <div class="sidebar-header">
+                <h5>Booking Details</h5>
+                <a href="#" class="sidebar-close"><i class="feather-x"></i></a>
+            </div>
+            <div class="sidebar-body">
+                <div class="book-confirm bk-wrap">
+                    <div class="d-flex justify-content-between">
+                        <h6>Services<span class="badge-success">Confirmed</span></h6>
+                        <a href="#" class="edit-book"><i class="feather-edit"></i></a>
+                    </div>
+                    <ul>
+                        <li><span class="bk-date"><i class="feather-calendar"></i> Date & Time  </span> : Oct 28, 2023 - 10AM to 12 AM</li>
+                        <li><span class="bk-date"><i class="feather-map-pin"></i> Location  </span> : New York</li>
+                        <li><span class="bk-date"><i class="feather-user"></i> User Name  </span> : John Smith</li>
+                    </ul>
+                    <div class="bk-action">
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-reschedule"><i class="feather-user"></i> Reschedule</a>
+                        <a href="#" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#alertmsg"><i class="feather-x-circle"></i> Cancel</a>
+                    </div>
+                </div>
+                <div class="book-customer bk-wrap">
+                    <h5>Customer Details</h5>
+                    <div class="d-flex flex-wrap">
+                        <div class="book-email">
+                            <img src="{{ asset('assets/img/profiles/avatar-02.jpg') }}" alt="User">
+                            <div>
+                                <p>John Doe</p>
+                                <p>john@example.com</p>
+                            </div>
+                        </div>
+                        <div class="book-email-info">
+                            <div>
+                                <p>+1 888 888 8888</p>
+                                <p>Montana, USA</p>
+                            </div>
+                            <a href="javascript:void(0)" class="btn btn-primary btn-mail"><img src="{{ asset('assets/img/icons/message.svg') }}" alt="Message icon"> Chat</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="bk-wrap">
+                    <h5>Appointment Message</h5>
+                    <p>Thanks for your interest in our services</p>
+                </div>
+                <div class="bk-wrap bk-service">
+                    <div>
+                        <h5>House Cleaning Services</h5>
+                        <p>quick and quality service</p>
+                    </div>
+                    <p class="bk-price">$100.00</p>
+                </div>
+                <div class="bk-wrap bk-history">
+                    <h4>Booking History</h4>
+                    <ul>
+                        <li>
+								<span>
+									<i class="feather-calendar"></i>
+								</span>
+                            <div class="book-crete">
+                                <h6>Booking created</h6>
+                                <p>Oct 28 2023 1:28 PM</p>
+                            </div>
+                        </li>
+                        <li>
+								<span>
+									<i class="feather-user"></i>
+								</span>
+                            <div class="book-crete">
+                                <h6>Assigned to John Smith</h6>
+                                <p>Oct 28 2023 1:28 PM</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Booking Details -->
+
+{% endblock %}
+
+{% block javascripts %}
+    <!-- jQuery -->
+    <script src="{{ asset('assets/js/jquery-3.7.0.min.js') }}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Fearther JS -->
+    <script src="{{ asset('assets/js/feather.min.js') }}"></script>
+
+    <!-- select CSS -->
+    <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/aos/aos.js') }}"></script>
+
+    <!-- Datetimepicker JS -->
+    <script src="{{ asset('assets/js/moment.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+
+
+    <!-- Sticky Sidebar JS -->
+    <script src="{{ asset('assets/plugins/theia-sticky-sidebar/ResizeSensor.js') }}"></script>
+    <script src="{{ asset('assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js') }}"></script>
+
+    <!-- Slimscroll JS -->
+    <script src="{{ asset('assets/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
+
+    <!-- Fullcalendar JS -->
+    <script src="{{ asset('assets/plugins/fullcalendar/main.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/fullcalendar/fr.global.js') }}"></script>
+
+    <!-- Custom JS -->
+    <script src="{{ asset('assets/js/script.js') }}"></script>
+    <script src="{{ asset('assets/js/owner-reservation.js') }}"></script>
+{% endblock %}
+

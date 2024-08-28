@@ -2012,83 +2012,83 @@ Version      : 1.0
 		});
 	}
 
-	// Calendar Booking
-
-	if ($('#calendar-book').length > 0) {
-		document.addEventListener('DOMContentLoaded', function () {
-			var calendarEl = document.getElementById('calendar-book');
-
-			var calendar = new FullCalendar.Calendar(calendarEl, {
-				themeSystem: 'bootstrap5',
-
-				headerToolbar: {
-					left: 'title, prev,today next',
-					//center: '',
-					right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-				},
-				initialDate: '2023-11-12',
-				navLinks: true, // can click day/week names to navigate views
-				// businessHours: true, // display business hours
-				editable: true,
-				selectable: true,
-				events: [
-					{
-						title: '12:30am Laptop serv...',
-						start: '2023-11-02',
-						end: '2023-11-02',
-						color: '#4c40ed1a',
-						textColor: '#4C40ED',
-						"className": "popup-toggle",
-					},
-					{
-						title: '10:00am House Clean..',
-						start: '2023-11-04',
-						end: '2023-11-04',
-						color: '#4c40ed1a',
-						textColor: '#4C40ED'
-					},
-					{
-						title: '11:00am Washing ...',
-						start: '2023-11-05',
-						end: '2023-11-05',
-						color: '#4c40ed1a',
-						textColor: '#4C40ED'
-					},
-					{
-						title: '02:00pm Toughened...',
-						start: '2023-11-10',
-						end: '2023-11-10',
-						color: '#4c40ed1a',
-						textColor: '#4C40ED'
-					},
-					{
-						title: '05:00pm Interior ...',
-						start: '2023-11-16',
-						end: '2023-11-16',
-						color: '#4c40ed1a',
-						textColor: '#4C40ED'
-					},
-					{
-						title: '01:00pm Building....',
-						start: '2023-11-18',
-						end: '2023-11-18',
-						color: '#4c40ed1a',
-						textColor: '#4C40ED'
-					},
-				],
-				eventClick: function (event, calEvent, jsEvent, view) {
-					$(".fc-event-title").on("click", function () {
-						$('.toggle-sidebar').addClass('sidebar-popup');
-					});
-					$(".sidebar-close").on("click", function () {
-						$('.toggle-sidebar').removeClass('sidebar-popup');
-					});
-				}
-			});
-
-			calendar.render();
-		});
-	}
+	// // Calendar Booking
+	//
+	// if ($('#calendar-book').length > 0) {
+	// 	document.addEventListener('DOMContentLoaded', function () {
+	// 		var calendarEl = document.getElementById('calendar-book');
+	//
+	// 		var calendar = new FullCalendar.Calendar(calendarEl, {
+	// 			themeSystem: 'bootstrap5',
+	//
+	// 			headerToolbar: {
+	// 				left: 'title, prev,today next',
+	// 				//center: '',
+	// 				right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+	// 			},
+	// 			initialDate: '2023-11-12',
+	// 			navLinks: true, // can click day/week names to navigate views
+	// 			// businessHours: true, // display business hours
+	// 			editable: true,
+	// 			selectable: true,
+	// 			events: [
+	// 				{
+	// 					title: '12:30am Laptop serv...',
+	// 					start: '2023-11-02',
+	// 					end: '2023-11-02',
+	// 					color: '#4c40ed1a',
+	// 					textColor: '#4C40ED',
+	// 					"className": "popup-toggle",
+	// 				},
+	// 				{
+	// 					title: '10:00am House Clean..',
+	// 					start: '2023-11-04',
+	// 					end: '2023-11-04',
+	// 					color: '#4c40ed1a',
+	// 					textColor: '#4C40ED'
+	// 				},
+	// 				{
+	// 					title: '11:00am Washing ...',
+	// 					start: '2023-11-05',
+	// 					end: '2023-11-05',
+	// 					color: '#4c40ed1a',
+	// 					textColor: '#4C40ED'
+	// 				},
+	// 				{
+	// 					title: '02:00pm Toughened...',
+	// 					start: '2023-11-10',
+	// 					end: '2023-11-10',
+	// 					color: '#4c40ed1a',
+	// 					textColor: '#4C40ED'
+	// 				},
+	// 				{
+	// 					title: '05:00pm Interior ...',
+	// 					start: '2023-11-16',
+	// 					end: '2023-11-16',
+	// 					color: '#4c40ed1a',
+	// 					textColor: '#4C40ED'
+	// 				},
+	// 				{
+	// 					title: '01:00pm Building....',
+	// 					start: '2023-11-18',
+	// 					end: '2023-11-18',
+	// 					color: '#4c40ed1a',
+	// 					textColor: '#4C40ED'
+	// 				},
+	// 			],
+	// 			eventClick: function (event, calEvent, jsEvent, view) {
+	// 				$(".fc-event-title").on("click", function () {
+	// 					$('.toggle-sidebar').addClass('sidebar-popup');
+	// 				});
+	// 				$(".sidebar-close").on("click", function () {
+	// 					$('.toggle-sidebar').removeClass('sidebar-popup');
+	// 				});
+	// 			}
+	// 		});
+	//
+	// 		calendar.render();
+	// 	});
+	// }
 
 	// Checkbox Select
 
