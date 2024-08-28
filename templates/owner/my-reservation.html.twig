@@ -27,6 +27,7 @@ Mes réservations
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+
 {% endblock %}
 
 {% block body %}
@@ -88,6 +89,7 @@ Mes réservations
                             <!-- calendar -->
                             <div class="row">
                                 <div class="col-md-12">
+                                    <!-- FullCalendar -->
                                     <div id="calendar-book"></div>
                                 </div>
                             </div>
@@ -199,6 +201,7 @@ Mes réservations
 
     <!-- Datetimepicker JS -->
     <script src="{{ asset('assets/js/moment.min.js') }}"></script>
+    <script src="{{ asset('assets/js/fr.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
 
 

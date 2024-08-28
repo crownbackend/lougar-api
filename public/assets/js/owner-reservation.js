@@ -1,53 +1,63 @@
-
 if ($('#calendar-book').length > 0) {
     function isMobile() {
         const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
         return regex.test(navigator.userAgent);
     }
+
     document.addEventListener('DOMContentLoaded', function () {
         var calendarEl = document.getElementById('calendar-book');
 
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            themeSystem: 'bootstrap5',
-            locale: 'fr',
-            headerToolbar: {
-                left: 'title, prev,today next',
-                //center: '',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-            },
-            initialView: isMobile ? 'timeGridWeek' : 'listMonth',
-            navLinks: true, // can click day/week names to navigate views
-            // businessHours: true, // display business hours
-            editable: true,
-            selectable: true,
-            events: [
-                {
-                    title: '10:00am House Clean..',
-                    start: '2024-08-27 10:00',
-                    end: '2024-08-27 16:00',
-                    color: '#4c40ed1a',
-                    textColor: '#4C40ED'
-                },
-            ],
-            loading: function (isLoading) {
-                //console.log(isLoading)
-                if (isLoading) {
-                    //$('#loading').show();
-                } else {
-                    //$('#loading').hide();
-                }
-            },
-            eventClick: function (event, calEvent, jsEvent, view) {
-                $(".fc-event-title-container").on("click", function () {
-                    //console.log(this)
-                    $('.toggle-sidebar').addClass('sidebar-popup');
+        // Charger les événements via AJAX
+        $.ajax({
+            url: '/proprietaire/reservations',
+            method: 'GET',
+            contentType: 'application/json',
+            success: function (response) {
+                var events = []; // Définir les événements ici pour garantir la portée
+                response.reservations.forEach(v => {
+                    events.push({
+                        id: v.id,
+                        title: v.garage.name,
+                        start: v.startAt, // Utilisation du format ISO standard
+                        end: v.endAt,   // Utilisation du format ISO standard
+                        color: '#4c40ed1a',
+                        textColor: '#4C40ED',
+                        extendedProps: {
+                            info: v.info
+                        }
+                    });
                 });
-                $(".sidebar-close").on("click", function () {
-                    $('.toggle-sidebar').removeClass('sidebar-popup');
+
+                // Initialiser le calendrier après que les événements soient chargés
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    themeSystem: 'bootstrap5',
+                    locale: 'fr',
+                    timeZone: 'Europe/Paris',
+                    headerToolbar: {
+                        left: 'title, prev,today next',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+                    },
+                    initialView: isMobile ? 'timeGridWeek' : 'listMonth', // Appeler la fonction isMobile()
+                    navLinks: true,
+                    editable: true,
+                    selectable: true,
+                    events: events, // Charger les événements après l'initialisation
+                    eventClick: function (event, calEvent, jsEvent, view) {
+                        console.log(event.event)
+                        $(".fc-event-title-container").on("click", function () {
+                            $('.toggle-sidebar').addClass('sidebar-popup');
+                        });
+                        $(".sidebar-close").on("click", function () {
+                            $('.toggle-sidebar').removeClass('sidebar-popup');
+                        });
+                    }
                 });
+
+                calendar.render();
+            },
+            error: function (response) {
+                alert("Erreur serveur !");
             }
         });
-
-        calendar.render();
     });
 }
