@@ -1,5 +1,9 @@
 
 if ($('#calendar-book').length > 0) {
+    function isMobile() {
+        const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+        return regex.test(navigator.userAgent);
+    }
     document.addEventListener('DOMContentLoaded', function () {
         var calendarEl = document.getElementById('calendar-book');
 
@@ -11,7 +15,7 @@ if ($('#calendar-book').length > 0) {
                 //center: '',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
             },
-            initialView: 'timeGridWeek',
+            initialView: isMobile ? 'timeGridWeek' : 'listMonth',
             navLinks: true, // can click day/week names to navigate views
             // businessHours: true, // display business hours
             editable: true,
@@ -26,7 +30,7 @@ if ($('#calendar-book').length > 0) {
                 },
             ],
             loading: function (isLoading) {
-                console.log(isLoading)
+                //console.log(isLoading)
                 if (isLoading) {
                     //$('#loading').show();
                 } else {
@@ -35,7 +39,7 @@ if ($('#calendar-book').length > 0) {
             },
             eventClick: function (event, calEvent, jsEvent, view) {
                 $(".fc-event-title-container").on("click", function () {
-                    console.log(this)
+                    //console.log(this)
                     $('.toggle-sidebar').addClass('sidebar-popup');
                 });
                 $(".sidebar-close").on("click", function () {
