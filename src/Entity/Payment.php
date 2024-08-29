@@ -28,6 +28,9 @@ class Payment extends BaseEntity
     #[ORM\OneToOne(inversedBy: 'payment', cascade: ['persist', 'remove'])]
     private ?Reservation $reservation = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $idStripe = null;
+
     public function getAmount(): ?string
     {
         return $this->amount;
@@ -84,6 +87,18 @@ class Payment extends BaseEntity
     public function setReservation(?Reservation $reservation): static
     {
         $this->reservation = $reservation;
+
+        return $this;
+    }
+
+    public function getIdStripe(): ?string
+    {
+        return $this->idStripe;
+    }
+
+    public function setIdStripe(?string $idStripe): static
+    {
+        $this->idStripe = $idStripe;
 
         return $this;
     }

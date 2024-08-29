@@ -12,10 +12,20 @@ class Functions
         return $newUrl;
     }
 
+    public function transformPrice(float $price): int
+    {
+        return (int) round($price * 100);
+    }
+
     public function calculateCommission(int $total): float
     {
         $commission = $total * Payment::COMMISSION;
-        return round($commission, 2);
+        // Calcul des frais Stripe (1.4% + 0.25 EUR)
+        $stripeFees = ($total * 0.014) + 0.25;
+        // Total de la commission avec les frais de Stripe
+        $totalCommission = $commission + $stripeFees;
+        // Retourner le résultat arrondi à 2 décimales
+        return round($totalCommission, 2);
     }
 
     public function calculateHours(\DateTimeImmutable $start, \DateTimeImmutable $end): int|float

@@ -81,7 +81,15 @@ readonly class GarageManager
         }
     }
 
-    public function edit(Garage $garage, Form $form, string $cityId = null ,string $defaultImage = null): void
+    /**
+     * @param Garage $garage
+     * @param Form $form
+     * @param string|null $cityId
+     * @param string|null $defaultImage
+     * @return void
+     * @throws \Exception
+     */
+    public function edit(Garage $garage, Form $form, string $cityId = null , string $defaultImage = null): void
     {
         if($cityId) {
             $city = $this->cityRepository->findOneBy(['id' => $cityId]);

@@ -93,6 +93,12 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[ORM\OneToOne(inversedBy: 'client', cascade: ['persist', 'remove'])]
     private ?InfoPayment $infoPayment = null;
 
+    /**
+     * @var Collection<int, Notification>
+     */
+    #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'userId')]
+    private Collection $notifications;
+
     public function __construct()
     {
         parent::__construct();
@@ -103,6 +109,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         $this->messages = new ArrayCollection();
         $this->conversations = new ArrayCollection();
         $this->reservationsTenant = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
     public function getEmail(): ?string
@@ -431,6 +438,36 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     public function setInfoPayment(?InfoPayment $infoPayment): static
     {
         $this->infoPayment = $infoPayment;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Notification>
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): static
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications->add($notification);
+            $notification->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): static
+    {
+        if ($this->notifications->removeElement($notification)) {
+            // set the owning side to null (unless already changed)
+            if ($notification->getUserId() === $this) {
+                $notification->setUserId(null);
+            }
+        }
 
         return $this;
     }
