@@ -21180,16 +21180,16 @@ address {
 .notification-list li.notification-message p.noti-details {
 	position: relative;
 }
-.notification-list li.notification-message:first-child p.noti-details::after,.notification-list li.notification-message:nth-child(2) p.noti-details::after {
-	content: "";
-	width: 10px;
-	height: 10px;
-	border-radius: 20px;
-	background: red;
-	position: absolute;
-	bottom: 5px;
-	margin-left: 5px;
-}
+/*.notification-list li.notification-message:first-child p.noti-details::after,.notification-list li.notification-message:nth-child(2) p.noti-details::after {*/
+/*	content: "";*/
+/*	width: 10px;*/
+/*	height: 10px;*/
+/*	border-radius: 20px;*/
+/*	background: red;*/
+/*	position: absolute;*/
+/*	bottom: 5px;*/
+/*	margin-left: 5px;*/
+/*}*/
 .nameof-day {
 	font-size: 18px;
 	font-weight: 500;

@@ -23,7 +23,7 @@ class Notification extends BaseEntity
     #[ORM\ManyToOne(inversedBy: 'notifications')]
     private ?User $userId = null;
 
-    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    #[ORM\Column(type: UuidType::NAME)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $relatedEntityId = null;
