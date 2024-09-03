@@ -1,59 +1,156 @@
-<div class="sidebar-layout">
-    <div class="sidebar-header">
-        <h5>{{ reservation.garage.name }}</h5>
-        <a href="#" class="sidebar-close"><i class="feather-x"></i></a>
-    </div>
-    <div class="sidebar-body">
-        <div class="book-confirm bk-wrap">
-            <div class="d-flex justify-content-between pb-3">
-                {% if reservation.status == 1 %}
-                    <span class="badge badge-warning">En attente</span>
-                {% endif %}
-                {% if reservation.status == 2 %}
-                    <span class="badge badge-success">Confirmer</span>
-                {% endif %}
-                {% if reservation.status == 3 %}
-                    <span class="badge badge-danger">Annuler</span>
-                {% endif %}
-            </div>
-            <ul>
-                <li><span class="bk-date"><i class="feather-calendar"></i> Date  </span> : {{ reservation.info|reservation_info }}</li>
-                <li><span class="bk-date"><i class="feather-map-pin"></i> Ville  </span> : {{ reservation.garage.address }}, {{ reservation.garage.city.name }}</li>
-            </ul>
-            <div class="bk-action">
-                {% if reservation.status == 1 %}
-                    <a href="{{ path('owner_reservation_reservation_status', {'id': reservation.id, 'status': 2}) }}" class="btn btn-primary"><i class="feather-user"></i> Accepter</a>
-                    <a href="{{ path('owner_reservation_reservation_status', {'id': reservation.id, 'status': 3}) }}" class="btn btn-secondary"><i class="feather-x-circle"></i> Annuler</a>
-                {% endif %}
-            </div>
-        </div>
-        <div class="book-customer bk-wrap">
-            <h5>Detail client</h5>
-            <div class="d-flex flex-wrap">
-                <div class="book-email">
-                    <div>
-                        <p>{{ reservation.tenant.firstName }} {{ reservation.tenant.lastName }}</p>
-                        <p>{{ reservation.tenant.email }}</p>
+
+
+{% extends 'base.html.twig' %}
+{% block title %}
+    {{ reservation.garage.name }}
+{% endblock %}
+{% block body %}
+
+    <div class="content">
+        <div class="container">
+            <div class="row">
+
+                <!-- Orders -->
+                <div class="col-lg-10 mx-auto">
+
+                    <!-- Bookeing Id -->
+                    <div class="row align-items-center">
+                        <div class="col-md-4">
+                            <div class="book-id">
+                                <h4>{{ reservation.garage.name }}</h4>
+                                <p><i class="feather-calendar"></i> 22 Sep 2023 10:23 AM</p>
+                            </div>
+                        </div>
+                        {% if reservation.status == 1 %}
+                            <div class="col-md-8">
+                                <div class="book-id-action">
+                                        <a href="{{ path('owner_reservation_reservation_status', {'id': reservation.id, 'status': 2}) }}" class="btn btn-primary"><i class="feather-user"></i> Accepter</a>
+                                        <a href="{{ path('owner_reservation_reservation_status', {'id': reservation.id, 'status': 3}) }}" class="btn btn-secondary"><i class="feather-x-circle"></i> Annuler</a>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
-                </div>
-                <div class="book-email-info">
-                    <div>
-                        <p>{{ reservation.tenant.phone }}</p>
-                        <p>Montana, USA</p>
+                    <!-- /Bookeing Id -->
+
+                    <!-- Slot Booked -->
+                    <div class="slot-box">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="slot-booked">
+                                    <h6>Booked Slot</h6>
+                                    <ul>
+                                        <li><i class="feather-calendar"></i> 22 Sep 2023</li>
+                                        <li><i class="feather-clock"></i> 10:00AM - 11:00AM</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="slot-user">
+                                    <h6>Booked Slot</h6>
+                                    <div class="slot-chat">
+                                        <div class="slot-user-img">
+                                            <img class="avatar" src="assets/img/profiles/avatar-02.jpg" alt="image">
+                                            <div class="slot-user-info">
+                                                <p>John Doe</p>
+                                                <p>john@example.com</p>
+                                            </div>
+                                        </div>
+                                        <div class="chat-item">
+                                            <div class="slot-user-info">
+                                                <p>+1 888 888 8888</p>
+                                                <p>Montana, USA</p>
+                                            </div>
+                                            <div>
+                                                <a href="customer-chat.html" class="btn btn-primary"><img class="me-1" src="assets/img/icons/message.svg" alt="image">Chat</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="slot-action">
+                                    <h6>Booking Status</h6>
+                                    {% if reservation.status == 1 %}
+                                        <span class="btn btn-light-warning">En attente</span>
+                                    {% endif %}
+                                    {% if reservation.status == 2 %}
+                                        <span class="badge badge-success">Confirmer</span>
+                                    {% endif %}
+                                    {% if reservation.status == 3 %}
+                                        <span class="badge badge-danger">Annuler</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <a href="javascript:void(0)" class="btn btn-primary btn-mail"><img src="{{ asset('assets/img/icons/message.svg') }}" alt="Message icon"> Chat</a>
+                    <!-- /Slot Booked -->
+
+                    <div class="payment-summary">
+                        <div class="row">
+
+                            <!-- Service Location -->
+                            <div class="col-md-6">
+                                <h6 class="order-title">Service Location & Contact Details</h6>
+                                <div class="slot-address">
+                                    <ul>
+                                        <li>
+                                            <span><i class="feather-map-pin"></i></span>
+                                            <div>
+                                                <h6>Address</h6>
+                                                <p>38 Taylor Street Mount Vernon, NY 10550</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span><i class="feather-phone"></i></span>
+                                            <div>
+                                                <h6>Email</h6>
+                                                <p>johnsmith@example.com</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span><i class="feather-phone"></i></span>
+                                            <div>
+                                                <h6>Phone</h6>
+                                                <p>+1 888 888 8888</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- /Service Location -->
+
+                            <!-- Order Summary -->
+                            <div class="col-md-6">
+                                <h6 class="order-title">Order Summary</h6>
+                                <div class="ord-summary">
+                                    <div class="order-amt">
+                                        <div class="order-info">
+                                            <div class="order-profile">
+                                                <h6>Computer Services</h6>
+                                                <p>Newyork, USA</p>
+                                            </div>
+                                        </div>
+                                        <h5>$599.00</h5>
+                                    </div>
+                                    <ul>
+                                        <li>Sub Total <span class="ord-amt">$257.00</span></li>
+                                        <li>Discount<span class="ord-code">NEW2023</span> <span class="ord-amt">-$11.00</span></li>
+                                        <li>Tax @ 12.5% <span class="ord-amt">$5.36</span></li>
+                                        <li class="ord-total">Total <span class="ord-amt">$251.36</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- /Order Summary -->
+
+                        </div>
+                    </div>
+
                 </div>
+                <!-- /Orders -->
+
             </div>
         </div>
-        <div class="bk-wrap">
-            <h5>Dernier message dans le chat</h5>
-            <p>Thanks for your interest in our services</p>
-        </div>
-        <div class="bk-wrap bk-service">
-            <div>
-                <h5>Montant</h5>
-            </div>
-            <p class="bk-price">€{{ reservation.info['totalPrice'] }}</p>
-        </div>
+
     </div>
-</div>
+
+{% endblock %}

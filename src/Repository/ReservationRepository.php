@@ -21,26 +21,41 @@ class ReservationRepository extends ServiceEntityRepository
     /**
      * @return Reservation[] Returns an array of Reservation objects
      */
-    public function findByTenant(User $user, ?int $status): Query
+    public function findByUser(User $user, ?int $status = null, string $typeUser): Query|array
     {
         $query = $this->createQueryBuilder('r')
-            ->select('r', 'g', 'p', 'renter', 'city', "image")
+            ->select('r', 'g', 'p', 'city', "image")
             ->leftJoin('r.garage', 'g')
             ->leftJoin('r.payment', 'p')
-            ->leftJoin('r.renter', 'renter')
             ->leftJoin('g.city', 'city')
             ->leftJoin("g.images", "image")
             ->where('r.deletedAt IS NULL')
-            ->andWhere('r.tenant = :user')
-            ->setParameter('user', $user)
-            ->orderBy('r.startAt', 'ASC')
+            ->orderBy('r.status', 'ASC')
         ;
+
+        if($typeUser === "owner") {
+            $query
+                ->leftJoin("r.renter", "renter")
+                ->andWhere('renter = :owner')
+                ->setParameter('owner', $user);
+        }
+
+        if($typeUser === "tenant") {
+            $query
+                ->leftJoin("r.tenant", "tenant")
+                ->andWhere('tenant = :tenant')
+                ->setParameter('tenant', $user);
+        }
 
         if($status) {
             $query->andWhere('r.status = :status')
                 ->setParameter('status', $status);
         }
 
-        return $query->getQuery();
+        if($typeUser === "owner") {
+            return $query->getQuery()->getResult();
+        } else {
+            return $query->getQuery();
+        }
     }
 }

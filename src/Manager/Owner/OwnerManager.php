@@ -42,9 +42,9 @@ readonly class OwnerManager
         $this->mailer->send($tenant->getEmail(), Messages::EMAIL_REGISTER_SUBJECT, 'emails/register/confirm.html.twig', ['token' => $tenant->getValidationToken()]);
     }
 
-    public function getReservations(User $user): array
+    public function getReservations(User $user, ?int $status = null): array
     {
-        return $this->reservationRepository->findBy(['renter' => $user, 'deletedAt' => null]);
+        return $this->reservationRepository->findByUser($user, $status, "owner");
     }
 
     public function reservationStatus(Reservation $reservation, int $status): void

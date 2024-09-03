@@ -58,27 +58,12 @@ if ($('#calendar-book').length > 0) {
                     editable: false,
                     selectable: false,
                     events: events,
+                    eventClassNames: function(arg) {
+                        return ['pointer'];
+                    },
                     eventClick: function (event, calEvent, jsEvent, view) {
-                        console.log(event.event.id);
-                        $(".fc-event-title-container").on("click", function () {
-                            const $toggle = $('.toggle-sidebar')
-                            $toggle.addClass('sidebar-popup');
-                            $.ajax({
-                                url: '/proprietaire/reservation/' + event.event.id + '/sidebar',
-                                method: 'GET',
-                                contentType: 'application/json',
-                                success(response) {
-                                    $('#content_reservation').html(response);
-                                    // Déplacer l'événement .sidebar-close ici, pour que le bouton soit disponible après l'injection
-                                    $toggle.on("click", ".sidebar-close", function () {
-                                        $('.toggle-sidebar').removeClass('sidebar-popup');
-                                    });
-                                },
-                                error() {
-                                    alert('Erreur serveur')
-                                }
-                            });
-                        });
+                        console.log(event.event.id)
+                        window.open('/proprietaire/reservation/' + event.event.id + "/info", '_blank');
                     }
                 });
 

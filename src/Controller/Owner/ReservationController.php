@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/proprietaire/reservation', name: 'owner_reservation_')]
@@ -20,10 +21,15 @@ class ReservationController extends AbstractController
     {
     }
 
-    #[Route('/reservation')]
-    public function index(): Response
+    #[Route('/{id}/info', name: 'show')]
+    public function index(Reservation $reservation): Response
     {
-        return $this->render('reservation/index.html.twig');
+        if($reservation->getRenter() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+        return $this->render('owner/reservation/reservation-show.html.twig', [
+            'reservation' => $reservation,
+        ]);
     }
 
     #[Route('/mes-reservations', name: 'my_reservation')]
@@ -33,9 +39,9 @@ class ReservationController extends AbstractController
     }
 
     #[Route('/reservations', name: 'get_reservations')]
-    public function getReservations(): JsonResponse
+    public function getReservations( #[MapQueryParameter] int $status = null): JsonResponse
     {
-        return $this->json(["reservations" => $this->manager->getReservations($this->getUser())], 200, [], ['groups' => 'list_reservation']);
+        return $this->json(["reservations" => $this->manager->getReservations($this->getUser(), $status)], 200, [], ['groups' => 'list_reservation']);
     }
 
     #[Route('/{id}/sidebar', name: 'reservation_sidebar')]

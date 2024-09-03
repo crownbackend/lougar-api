@@ -54,3 +54,65 @@ Choisir
 {% endblock %}
 
 
+
+<div class="sidebar-layout">
+    <div class="sidebar-header">
+        <h5>{{ reservation.garage.name }}</h5>
+        <a href="#" class="sidebar-close"><i class="feather-x"></i></a>
+    </div>
+    <div class="sidebar-body">
+        <div class="book-confirm bk-wrap">
+            <div class="d-flex justify-content-between pb-3">
+                {% if reservation.status == 1 %}
+                    <span class="badge badge-warning">En attente</span>
+                {% endif %}
+                {% if reservation.status == 2 %}
+                    <span class="badge badge-success">Confirmer</span>
+                {% endif %}
+                {% if reservation.status == 3 %}
+                    <span class="badge badge-danger">Annuler</span>
+                {% endif %}
+            </div>
+            <ul>
+                <li><span class="bk-date"><i class="feather-calendar"></i> Date  </span> : {{ reservation.info|reservation_info }}</li>
+                <li><span class="bk-date"><i class="feather-map-pin"></i> Ville  </span> : {{ reservation.garage.address }}, {{ reservation.garage.city.name }}</li>
+            </ul>
+            <div class="bk-action">
+                {% if reservation.status == 1 %}
+                    <a href="{{ path('owner_reservation_reservation_status', {'id': reservation.id, 'status': 2}) }}" class="btn btn-primary"><i class="feather-user"></i> Accepter</a>
+                    <a href="{{ path('owner_reservation_reservation_status', {'id': reservation.id, 'status': 3}) }}" class="btn btn-secondary"><i class="feather-x-circle"></i> Annuler</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="book-customer bk-wrap">
+            <h5>Detail client</h5>
+            <div class="d-flex flex-wrap">
+                <div class="book-email">
+                    <div>
+                        <p>{{ reservation.tenant.firstName }} {{ reservation.tenant.lastName }}</p>
+                        <p>{{ reservation.tenant.email }}</p>
+                    </div>
+                </div>
+                <div class="book-email-info">
+                    <div>
+                        <p>{{ reservation.tenant.phone }}</p>
+                        <p>Montana, USA</p>
+                    </div>
+                    <a href="javascript:void(0)" class="btn btn-primary btn-mail"><img src="{{ asset('assets/img/icons/message.svg') }}" alt="Message icon"> Chat</a>
+                </div>
+            </div>
+        </div>
+        <div class="bk-wrap">
+            <h5>Dernier message dans le chat</h5>
+            <p>Thanks for your interest in our services</p>
+        </div>
+        <div class="bk-wrap bk-service">
+            <div>
+                <h5>Montant</h5>
+            </div>
+            <p class="bk-price">€{{ reservation.info['totalPrice'] }}</p>
+        </div>
+    </div>
+</div>
+
+

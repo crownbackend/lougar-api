@@ -28,7 +28,7 @@ readonly class TenantManager
 
     public function myReservations(User $user, ?int $status = null): Query
     {
-        return $this->reservationRepository->findByTenant($user, $status);
+        return $this->reservationRepository->findByUser($user, $status, "tenant");
     }
 
     public function create(User $tenant, string $plainPassword): void
