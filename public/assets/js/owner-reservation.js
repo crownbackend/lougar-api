@@ -21,7 +21,7 @@ if ($('#calendar-book').length > 0) {
                     let endAt = v.endAt
                     if(v.status === 1) {
                         color = '#FFE30F'
-                        title =  v.garage.name + ' (En attente)'
+                        title =  v.garage.name + ' (En attente) Accepter la demande avant le ' + startAt
                     } else if(v.status === 2) {
                         color = '#6DCC76'
                         title =  v.garage.name + ' (Confirmer)'

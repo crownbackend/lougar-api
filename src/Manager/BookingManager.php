@@ -133,7 +133,46 @@ class BookingManager
     public function createReservation(User $user, array $data): string
     {
         $reservationData = json_decode($data['reservationInfo'], true);
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+        $startDate = new \DateTimeImmutable($reservationData['startDate']["date"], new \DateTimeZone('UTC'));
+        $endDate = new \DateTimeImmutable($reservationData['endDate']["date"], new \DateTimeZone('UTC'));
         $garage = $this->garageRepository->findOneBy(["id" => $data["garageId"]]);
+        $priceTaux = $reservationData['priceTaux'];
+        $totalPrice = $reservationData['totalPrice'];
+
+        if($reservationData['type'] === 'day') {
+            $days = $data['days'];
+            $total = (float) $garage->getPricePerDay() * $days;
+            // check date valid
+            if($startDate <= $now){
+                throw new HttpException(400, 'Invalid date range');
+            }
+            // check price
+            if((float)$priceTaux !== (float)$garage->getPricePerDay()){
+                throw new HttpException(400, 'Invalid price range');
+            }
+            // check total price
+            if($total != $totalPrice){
+                throw new HttpException(400, 'Invalid price range');
+            }
+        } elseif ($reservationData['type'] === 'hour') {
+            $hours = $this->functions->calculateHours($startDate, $endDate);
+            $total = (float) $garage->getPricePerHour() * $hours;
+            // check date valid
+            if($startDate <= $now){
+                throw new HttpException(400, 'Invalid date range');
+            }
+            // check price
+            if((float)$priceTaux !== (float)$garage->getPricePerHour()){
+                throw new HttpException(400, 'Invalid price range');
+            }
+            // check total price
+            if($total != $totalPrice){
+                throw new HttpException(400, 'Invalid price range');
+            }
+        }
+
+
         if($user->getInfoPayment() && $user->getInfoPayment()->getPaymentMethod() === null){
             $infoPayment = $user->getInfoPayment();
             $infoPayment->setPaymentMethod($data['methodPayment']);

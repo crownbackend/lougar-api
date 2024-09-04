@@ -18,7 +18,7 @@
                         <div class="col-md-4">
                             <div class="book-id">
                                 <h4>{{ reservation.garage.name }}</h4>
-                                <p><i class="feather-calendar"></i> 22 Sep 2023 10:23 AM</p>
+                                <p><i class="feather-calendar"></i> {{ reservation.createdAt|date('d-m-Y H:i') }}</p>
                             </div>
                         </div>
                         {% if reservation.status == 1 %}
@@ -35,41 +35,30 @@
                     <!-- Slot Booked -->
                     <div class="slot-box">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="slot-booked">
-                                    <h6>Booked Slot</h6>
+                                    <h6>Date de réservation</h6>
                                     <ul>
-                                        <li><i class="feather-calendar"></i> 22 Sep 2023</li>
-                                        <li><i class="feather-clock"></i> 10:00AM - 11:00AM</li>
+                                        <li><i class="feather-calendar"></i> {{ reservation.info|reservation_info }}</li>
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="slot-user">
-                                    <h6>Booked Slot</h6>
+                                    <h6>Contacter</h6>
                                     <div class="slot-chat">
-                                        <div class="slot-user-img">
-                                            <img class="avatar" src="assets/img/profiles/avatar-02.jpg" alt="image">
-                                            <div class="slot-user-info">
-                                                <p>John Doe</p>
-                                                <p>john@example.com</p>
-                                            </div>
-                                        </div>
+
                                         <div class="chat-item">
-                                            <div class="slot-user-info">
-                                                <p>+1 888 888 8888</p>
-                                                <p>Montana, USA</p>
-                                            </div>
                                             <div>
-                                                <a href="customer-chat.html" class="btn btn-primary"><img class="me-1" src="assets/img/icons/message.svg" alt="image">Chat</a>
+                                                <a href="#" class="btn btn-primary"><img class="me-1" src="{{ asset('assets/img/icons/message.svg') }}" alt="image">Chat</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="slot-action">
-                                    <h6>Booking Status</h6>
+                                    <h6>Statut</h6>
                                     {% if reservation.status == 1 %}
                                         <span class="btn btn-light-warning">En attente</span>
                                     {% endif %}
@@ -90,28 +79,28 @@
 
                             <!-- Service Location -->
                             <div class="col-md-6">
-                                <h6 class="order-title">Service Location & Contact Details</h6>
+                                <h6 class="order-title">Information du locataire</h6>
                                 <div class="slot-address">
                                     <ul>
                                         <li>
-                                            <span><i class="feather-map-pin"></i></span>
+                                            <span><i class="feather-user"></i></span>
                                             <div>
-                                                <h6>Address</h6>
-                                                <p>38 Taylor Street Mount Vernon, NY 10550</p>
+                                                <h6>Nom</h6>
+                                                <p>{{ reservation.tenant.firstName }} {{ reservation.tenant.lastName }}</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span><i class="feather-mail"></i></span>
+                                            <div>
+                                                <h6>Mail</h6>
+                                                <p>{{ reservation.tenant.email }}</p>
                                             </div>
                                         </li>
                                         <li>
                                             <span><i class="feather-phone"></i></span>
                                             <div>
-                                                <h6>Email</h6>
-                                                <p>johnsmith@example.com</p>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <span><i class="feather-phone"></i></span>
-                                            <div>
-                                                <h6>Phone</h6>
-                                                <p>+1 888 888 8888</p>
+                                                <h6>Téléphone</h6>
+                                                <p>{{ reservation.tenant.phone }}</p>
                                             </div>
                                         </li>
                                     </ul>
@@ -121,24 +110,40 @@
 
                             <!-- Order Summary -->
                             <div class="col-md-6">
-                                <h6 class="order-title">Order Summary</h6>
-                                <div class="ord-summary">
-                                    <div class="order-amt">
-                                        <div class="order-info">
-                                            <div class="order-profile">
-                                                <h6>Computer Services</h6>
-                                                <p>Newyork, USA</p>
+                                <h6 class="order-title">Récapitulatif</h6>
+                                {% if reservation.info['type'] == 'day' %}
+                                    <div class="ord-summary">
+                                        <div class="order-amt">
+                                            <div class="order-info">
+                                                <div class="order-profile">
+                                                    <h6>Totale location</h6>
+                                                </div>
                                             </div>
+                                            <h5>€{{ reservation.info["total"] }}</h5>
                                         </div>
-                                        <h5>$599.00</h5>
+                                        <ul>
+                                            <li>Totale <span class="ord-amt">€{{ reservation.info['totalPrice'] }} ({{ reservation.info['days'] }}J)</span></li>
+                                            <li>Tarif journée <span class="ord-amt">€{{ reservation.info['priceTaux'] }}</span></li>
+                                            <li>Commission lougar <span class="ord-amt">€{{ reservation.info["commission"] }}</span></li>
+                                        </ul>
                                     </div>
-                                    <ul>
-                                        <li>Sub Total <span class="ord-amt">$257.00</span></li>
-                                        <li>Discount<span class="ord-code">NEW2023</span> <span class="ord-amt">-$11.00</span></li>
-                                        <li>Tax @ 12.5% <span class="ord-amt">$5.36</span></li>
-                                        <li class="ord-total">Total <span class="ord-amt">$251.36</span></li>
-                                    </ul>
-                                </div>
+                                {% elseif reservation.info['type'] == 'hour' %}
+                                    <div class="ord-summary">
+                                        <div class="order-amt">
+                                            <div class="order-info">
+                                                <div class="order-profile">
+                                                    <h6>Totale location</h6>
+                                                </div>
+                                            </div>
+                                            <h5>€{{ reservation.info["total"] }}</h5>
+                                        </div>
+                                        <ul>
+                                            <li>Totale <span class="ord-amt">€{{ reservation.info['totalPrice'] }} ({{ reservation.info['hours'] }}H)</span></li>
+                                            <li>Tarif horaires <span class="ord-amt">€{{ reservation.info['priceTaux'] }}</span></li>
+                                            <li>Commission lougar <span class="ord-amt">€{{ reservation.info["commission"] }}</span></li>
+                                        </ul>
+                                    </div>
+                                {% endif %}
                             </div>
                             <!-- /Order Summary -->
 
