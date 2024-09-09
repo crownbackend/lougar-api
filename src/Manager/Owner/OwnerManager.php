@@ -47,6 +47,25 @@ readonly class OwnerManager
         return $this->reservationRepository->findByUser($user, $status, "owner");
     }
 
+    public function cancelReservation(Reservation $reservation): void
+    {
+        $now = new \DateTimeImmutable();
+        $newStartAt = $reservation->getStartAt()->modify('-2 hour');
+        if($newStartAt < $now ) {
+            $reservation->setStatus(Reservation::STATUS['Annuler']);
+            $reservation->setUpdatedAt(new \DateTimeImmutable());
+            $this->entityManager->persist($reservation);
+            $this->entityManager->flush();
+            $event = new NotificationEvent(
+                $reservation->getTenant(),
+                $this->messages->messageNotAcceptedReservation($reservation),
+                'reservation',
+                $reservation->getId(),
+            );
+            $this->eventDispatcher->dispatch($event, NotificationEvent::NAME);
+        }
+    }
+
     public function reservationStatus(Reservation $reservation, int $status): void
     {
         if($status === 2) {
@@ -84,7 +103,7 @@ readonly class OwnerManager
         } elseif ($status === Reservation::STATUS['Confirmer']) {
             $event = new NotificationEvent(
                 $reservation->getTenant(),
-                'La',
+                $this->messages->messageConfirmReservation($reservation),
                 'reservation',
                 $reservation->getId()
             );

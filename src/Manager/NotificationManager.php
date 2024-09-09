@@ -13,6 +13,6 @@ class NotificationManager
 
     public function index(User $user): array
     {
-        return $this->notificationRepository->findBy(['userId' => $user, 'deletedAt' => null], ['createdAt' => 'DESC']);
+        return $this->notificationRepository->findByUser($user);
     }
 }

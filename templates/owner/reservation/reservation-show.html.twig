@@ -1,5 +1,3 @@
-
-
 {% extends 'base.html.twig' %}
 {% block title %}
     {{ reservation.garage.name }}
@@ -11,7 +9,7 @@
             <div class="row">
 
                 <!-- Orders -->
-                <div class="col-lg-10 mx-auto">
+                <div class="col-lg-12 mx-auto">
 
                     <!-- Bookeing Id -->
                     <div class="row align-items-center">
@@ -31,6 +29,30 @@
                         {% endif %}
                     </div>
                     <!-- /Bookeing Id -->
+                    {% if reservation.status == 1 %}
+                        <hr>
+                        <h6>Réservation à confirmer avant : </h6>
+                        <div class="countdown-container" id="startAt" data-start-at="{{ reservation.startAt|date('c') }}">
+                            <div class="countdown-el days-c">
+                                <p id="days">90</p>
+                                <span>Jours</span>
+                            </div>
+                            <div class="countdown-el hours-c">
+                                <p id="hours">21</p>
+                                <span>Heures</span>
+                            </div>
+                            <div class="countdown-el mins-c">
+                                <p id="mins">30</p>
+                                <span>Minutes</span>
+                            </div>
+                            <div class="countdown-el secs-c">
+                                <p id="secs">00</p>
+                                <span>Secondes</span>
+                            </div>
+                        </div>
+                        <hr>
+                    {% endif %}
+
 
                     <!-- Slot Booked -->
                     <div class="slot-box">
@@ -149,7 +171,6 @@
 
                         </div>
                     </div>
-
                 </div>
                 <!-- /Orders -->
 

@@ -34,9 +34,22 @@ class Messages
             ' au garage : ' . $reservation->getGarage()->getName();
     }
 
+    public function messageNotAcceptedReservation(Reservation $reservation): string
+    {
+        return 'Le loueur na pas accepter la réservation du : ' . $this->reservationInfoExtension->showReservationInfo($reservation->getInfo())
+            . ' au garage : ' . $reservation->getGarage()->getName();
+    }
+
     public function messageCreateReservation(Reservation $reservation): string
     {
         return 'Une demande de réservation est en attente de confirmation pour le garage : '. $reservation->getGarage()->getName() .
             ' Pour la date du : ' . $this->reservationInfoExtension->showReservationInfo($reservation->getInfo());
+    }
+
+    public function messageConfirmReservation(Reservation $reservation): string
+    {
+        return 'L loueur' . $reservation->getRenter()->getFirstName() . ' ' . $reservation->getRenter()->getLastName() . ' à accepter la réservation prévu le : ' .
+            $this->reservationInfoExtension->showReservationInfo($reservation->getInfo())
+            . ' au garage : ' . $reservation->getGarage()->getName();
     }
 }
