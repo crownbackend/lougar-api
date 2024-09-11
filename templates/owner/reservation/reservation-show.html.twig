@@ -144,7 +144,7 @@
                                             <h5>€{{ reservation.info["total"] }}</h5>
                                         </div>
                                         <ul>
-                                            <li>Totale <span class="ord-amt">€{{ reservation.info['totalPrice'] }} ({{ reservation.info['days'] }}J)</span></li>
+                                            <li>Totale <span class="ord-amt">€{{ reservation.info['totalPrice'] }} ({{ reservation.info['days']|round }}J)</span></li>
                                             <li>Tarif journée <span class="ord-amt">€{{ reservation.info['priceTaux'] }}</span></li>
                                             <li>Commission lougar <span class="ord-amt">€{{ reservation.info["commission"] }}</span></li>
                                         </ul>
@@ -160,7 +160,7 @@
                                             <h5>€{{ reservation.info["total"] }}</h5>
                                         </div>
                                         <ul>
-                                            <li>Totale <span class="ord-amt">€{{ reservation.info['totalPrice'] }} ({{ reservation.info['hours'] }}H)</span></li>
+                                            <li>Totale <span class="ord-amt">€{{ reservation.info['totalPrice'] }} ({{ reservation.info['hours']|round }}H)</span></li>
                                             <li>Tarif horaires <span class="ord-amt">€{{ reservation.info['priceTaux'] }}</span></li>
                                             <li>Commission lougar <span class="ord-amt">€{{ reservation.info["commission"] }}</span></li>
                                         </ul>

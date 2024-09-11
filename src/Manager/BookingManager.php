@@ -3,7 +3,6 @@
 namespace App\Manager;
 
 use App\Entity\Garage;
-use App\Entity\Payment;
 use App\Entity\Reservation;
 use App\Entity\User;
 use App\Event\NotificationEvent;
@@ -77,6 +76,7 @@ class BookingManager
                 $priceTaux = $data['priceTaux'];
                 $totalPrice = (float) $data['totalPrice'];
                 $total = (float) $garage->getPricePerHour() * $hours;
+                $formattedTotal = floor($total * 100) / 100;
 
                 if($startDate <= $now){
                     throw new HttpException(400, 'Invalid date range');
@@ -86,7 +86,7 @@ class BookingManager
                     throw new HttpException(400, 'Invalid price range');
                 }
                 // check total price
-                if(round($total, 2) != $totalPrice){
+                if($formattedTotal != $totalPrice){
                     throw new HttpException(400, 'Invalid price range');
                 }
                 $commission = $this->functions->calculateCommission($totalPrice);
@@ -141,7 +141,7 @@ class BookingManager
         $totalPrice = $reservationData['totalPrice'];
 
         if($reservationData['type'] === 'day') {
-            $days = $data['days'];
+            $days = $reservationData['days'];
             $total = (float) $garage->getPricePerDay() * $days;
             // check date valid
             if($startDate <= $now){
@@ -158,6 +158,7 @@ class BookingManager
         } elseif ($reservationData['type'] === 'hour') {
             $hours = $this->functions->calculateHours($startDate, $endDate);
             $total = (float) $garage->getPricePerHour() * $hours;
+            $formattedTotal = floor($total * 100) / 100;
             // check date valid
             if($startDate <= $now){
                 throw new HttpException(400, 'Invalid date range');
@@ -167,7 +168,7 @@ class BookingManager
                 throw new HttpException(400, 'Invalid price range');
             }
             // check total price
-            if($total != $totalPrice){
+            if($formattedTotal != $totalPrice){
                 throw new HttpException(400, 'Invalid price range');
             }
         }

@@ -7,13 +7,12 @@ if ($('#calendar-book').length > 0) {
     document.addEventListener('DOMContentLoaded', function () {
         var calendarEl = document.getElementById('calendar-book');
 
-        // Charger les événements via AJAX
         $.ajax({
             url: '/proprietaire/reservation/reservations',
             method: 'GET',
             contentType: 'application/json',
             success: function (response) {
-                var events = []; // Définir les événements ici pour garantir la portée
+                var events = [];
                 response.reservations.forEach(v => {
                     let color = "#4c40ed1a"
                     let title = v.garage.name
@@ -21,7 +20,7 @@ if ($('#calendar-book').length > 0) {
                     let endAt = v.endAt
                     if(v.status === 1) {
                         color = '#FFE30F'
-                        title =  v.garage.name + ' (En attente) Accepter la demande avant le ' + startAt
+                        title =  v.garage.name + ' (En attente) Accepter la demande avant le ' + moment(startAt).format('DD-MM-YYYY HH:mm')
                     } else if(v.status === 2) {
                         color = '#6DCC76'
                         title =  v.garage.name + ' (Confirmer)'
@@ -35,8 +34,8 @@ if ($('#calendar-book').length > 0) {
                     events.push({
                         id: v.id,
                         title: title,
-                        start: startAt, // Utilisation du format ISO standard
-                        end: endAt,   // Utilisation du format ISO standard
+                        start: startAt,
+                        end: endAt,
                         color: color,
                         textColor: '#000000',
                         extendedProps: {
@@ -53,16 +52,16 @@ if ($('#calendar-book').length > 0) {
                         left: 'title, prev,today next',
                         right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
                     },
-                    initialView: isMobile ? 'timeGridWeek' : 'listMonth', // Appeler la fonction isMobile()
+                    initialView: isMobile ? 'timeGridWeek' : 'listMonth',
                     navLinks: true,
                     editable: false,
                     selectable: false,
+                    nowIndicator: true,
                     events: events,
                     eventClassNames: function(arg) {
                         return ['pointer'];
                     },
                     eventClick: function (event, calEvent, jsEvent, view) {
-                        console.log(event.event.id)
                         window.open('/proprietaire/reservation/' + event.event.id + "/info", '_blank');
                     }
                 });
@@ -84,7 +83,7 @@ if ($('#calendar-book').length > 0) {
 // Ajouter un jour
         day += 1;
 
-// Gérer le changement de mois et d'année
+    // Gérer le changement de mois et d'année
         let daysInMonth = new Date(year, month, 0).getDate(); // Nombre de jours dans le mois actuel
 
         if (day > daysInMonth) {

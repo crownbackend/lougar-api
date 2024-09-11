@@ -153,7 +153,7 @@
                                             <li>Loueur : <span>{{ garage.owner.firstName }} {{ garage.owner.lastName }}</span></li>
                                         </ul>
                                         <ul class="booking-date">
-                                            <li>Totale location<span>€{{ data['totalPrice'] }} ({{ data['days'] }}J)</span></li>
+                                            <li>Totale location<span>€{{ data['totalPrice'] }} ({{ data['days']|round }}J)</span></li>
                                             <li>Tarif journée <span>€{{ data['priceTaux'] }}</span></li>
                                             <li>Commission lougar <span>€{{ data['commission'] }}</span></li>
                                         </ul>
@@ -175,7 +175,7 @@
                                             <li>Loueur : <span>{{ garage.owner.firstName }} {{ garage.owner.lastName }}</span></li>
                                         </ul>
                                         <ul class="booking-date">
-                                            <li>Totale location<span>€{{ data['totalPrice'] }} ({{ data['hours'] }}H)</span></li>
+                                            <li>Totale location<span>€{{ data['totalPrice'] }} ({{ data['hours']|round }}H)</span></li>
                                             <li>Tarif horaires <span>€{{ data['priceTaux'] }}</span></li>
                                             <li>Commission lougar <span>€{{ data['commission'] }}</span></li>
                                         </ul>
