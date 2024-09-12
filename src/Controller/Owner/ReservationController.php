@@ -27,8 +27,10 @@ class ReservationController extends AbstractController
             throw $this->createAccessDeniedException();
         }
         $this->manager->cancelReservation($reservation);
+        $reservationOverlap = $this->manager->checkExistReservation($this->getUser(), $reservation);
         return $this->render('owner/reservation/reservation-show.html.twig', [
             'reservation' => $reservation,
+            'reservationOverlap' => $reservationOverlap,
         ]);
     }
 

@@ -47,6 +47,34 @@ readonly class OwnerManager
         return $this->reservationRepository->findByUser($user, $status, "owner");
     }
 
+    public function checkExistReservation(User $user, Reservation $newReservation): null|Reservation
+    {
+        $newStart = $newReservation->getStartAt()->format('Y-m-d');
+        $newEnd = $newReservation->getEndAt()->format('Y-m-d');
+        $reservationId = $newReservation->getId(); // ID de la réservation en cours
+
+        foreach ($user->getReservations() as $existingReservation) {
+            // Ignorer la réservation en cours
+            if ($reservationId === $existingReservation->getId()) {
+                continue;
+            }
+
+            if($existingReservation->getStatus() === Reservation::STATUS['Annuler']) {
+                continue;
+            }
+
+            $existingStart = $existingReservation->getStartAt()->format('Y-m-d');
+            $existingEnd = $existingReservation->getEndAt()->format('Y-m-d');
+
+            // Vérifier le chevauchement des dates uniquement
+            if ($newStart <= $existingEnd && $newEnd >= $existingStart) {
+                return $existingReservation;
+            }
+        }
+
+        return null;
+    }
+
     public function cancelReservation(Reservation $reservation): void
     {
         $now = new \DateTimeImmutable();

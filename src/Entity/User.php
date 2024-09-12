@@ -9,6 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\LessThan;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -22,6 +25,8 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         'Locataire' => 'ROLE_TENANT',
     ];
     #[ORM\Column(length: 180)]
+    #[NotBlank]
+    #[Email(message: "Cette valeur n'est pas une adresse e-mail valide.")]
     private ?string $email = null;
 
     /**
@@ -37,15 +42,20 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
+    #[NotBlank(message: "Ce champs est obligatoire.")]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
+    #[NotBlank(message: "Ce champs est obligatoire.")]
     private ?string $lastName = null;
 
     #[ORM\Column]
+    #[NotBlank(message: "Ce champs est obligatoire.")]
+    #[LessThan('-18 years', message: 'Vous devez avoir au moins 18 ans')]
     private ?\DateTimeImmutable $birthday = null;
 
     #[ORM\Column(length: 255)]
+    #[NotBlank(message: "Ce champs est obligatoire.")]
     private ?string $phone = null;
 
     /**
