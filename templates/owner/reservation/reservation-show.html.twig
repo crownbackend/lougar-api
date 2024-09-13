@@ -22,8 +22,16 @@
                         {% if reservation.status == 1 %}
                             <div class="col-md-8">
                                 <div class="book-id-action">
-                                        <a href="{{ path('owner_reservation_reservation_status', {'id': reservation.id, 'status': 2}) }}" class="btn btn-primary"><i class="feather-user"></i> Accepter</a>
-                                        <a href="{{ path('owner_reservation_reservation_status', {'id': reservation.id, 'status': 3}) }}" class="btn btn-secondary"><i class="feather-x-circle"></i> Annuler</a>
+                                        <a href="{{ path('owner_reservation_status', {'id': reservation.id, 'status': 2}) }}" class="btn btn-primary"><i class="feather-user"></i> Accepter</a>
+                                        <a href="{{ path('owner_reservation_status', {'id': reservation.id, 'status': 3}) }}" class="btn btn-secondary"><i class="feather-x-circle"></i> Annuler</a>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if reservation.status == 3 %}
+                            <div class="col-md-8">
+                                <div class="book-id-action">
+                                        <a href="{{ path('owner_reservation_delete', {'id': reservation.id}) }}" class="btn btn-danger"> Supprimer</a>
                                 </div>
                             </div>
                         {% endif %}

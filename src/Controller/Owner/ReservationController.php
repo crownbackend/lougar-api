@@ -51,7 +51,14 @@ class ReservationController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/{status}', name: 'reservation_status')]
+    #[Route('/{id}/delete', name: 'delete')]
+    public function deleteReservation(Reservation $reservation): RedirectResponse
+    {
+        $this->manager->deleteReservation($reservation);
+        return $this->redirectToRoute('owner_reservation_my_reservation');
+    }
+
+    #[Route('/{id}/{status}', name: 'status')]
     public function reservationStatus(Reservation $reservation, int $status): RedirectResponse
     {
         $this->manager->reservationStatus($reservation, $status);

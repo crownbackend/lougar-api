@@ -149,4 +149,11 @@ readonly class OwnerManager
             $this->eventDispatcher->dispatch($event, NotificationEvent::NAME);
         }
     }
+
+    public function deleteReservation(Reservation $reservation): void
+    {
+        $reservation->setDeletedAt(new \DateTimeImmutable());
+        $this->entityManager->persist($reservation);
+        $this->entityManager->flush();
+    }
 }
