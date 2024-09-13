@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Stripe\Customer;
 use Stripe\Exception\ApiErrorException;
+use Stripe\PaymentIntent;
 use Stripe\PaymentMethod;
 use Stripe\SetupIntent;
 use Stripe\StripeClient;
@@ -79,6 +80,25 @@ class StripeApi
         try {
             $stripe = new StripeClient($this->secretKey);
             return $stripe->paymentMethods->retrieve($infoPayment->getPaymentMethod());
+        } catch (ApiErrorException $e) {
+            $this->logger->error($e->getMessage());
+            throw new HttpException(400, 'Payment Error');
+        }
+    }
+
+    public function createPayment(InfoPayment $infoPayment, int $price): PaymentIntent
+    {
+        try {
+            $stripe = new StripeClient($this->secretKey);
+            return $stripe->paymentIntents->create([
+                'payment_method_types' => ['card'],
+                'amount' => $price,
+                'currency' => 'eur',
+                'customer' => $infoPayment->getCustomerId(),
+                'off_session' => true,
+                'confirm' => true,
+                'payment_method' => $infoPayment->getPaymentMethod(),
+            ]);
         } catch (ApiErrorException $e) {
             $this->logger->error($e->getMessage());
             throw new HttpException(400, 'Payment Error');

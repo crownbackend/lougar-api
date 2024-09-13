@@ -33,7 +33,7 @@ function performSearch(query) {
             document.getElementById('result_city').innerHTML = resultsHtml
             document.querySelector('#city_content').style.display = 'block'
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => alert('Erreur serveur'));
 }
 
 function selectCity(value) {

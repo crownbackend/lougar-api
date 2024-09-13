@@ -2,6 +2,8 @@ ENV_FILE=.env.local
 
 up:
 	docker compose --env-file ${ENV_FILE} up -d
+rebuild:
+	docker compose --env-file ${ENV_FILE} up -d --build
 down:
 	docker compose --env-file ${ENV_FILE} down
 logs:

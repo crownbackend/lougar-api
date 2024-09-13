@@ -3,19 +3,22 @@
 namespace App\Manager;
 
 use App\Entity\Garage;
-use App\Entity\Payment;
 use App\Entity\Reservation;
 use App\Entity\User;
+use App\Event\NotificationEvent;
 use App\Helpers\Functions;
+use App\Helpers\Messages;
 use App\Repository\GarageRepository;
 use App\Service\StripeApi;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class BookingManager
 {
     public function __construct(private StripeApi $stripeApi, private GarageRepository $garageRepository,
-                                private EntityManagerInterface $entityManager, private Functions $functions)
+                                private EntityManagerInterface $entityManager, private Functions $functions,
+                                private EventDispatcherInterface $eventDispatcher, private Messages $messages)
     {
     }
 
@@ -73,6 +76,7 @@ class BookingManager
                 $priceTaux = $data['priceTaux'];
                 $totalPrice = (float) $data['totalPrice'];
                 $total = (float) $garage->getPricePerHour() * $hours;
+                $formattedTotal = floor($total * 100) / 100;
 
                 if($startDate <= $now){
                     throw new HttpException(400, 'Invalid date range');
@@ -82,7 +86,7 @@ class BookingManager
                     throw new HttpException(400, 'Invalid price range');
                 }
                 // check total price
-                if(round($total, 2) != $totalPrice){
+                if($formattedTotal != $totalPrice){
                     throw new HttpException(400, 'Invalid price range');
                 }
                 $commission = $this->functions->calculateCommission($totalPrice);
@@ -129,14 +133,54 @@ class BookingManager
     public function createReservation(User $user, array $data): string
     {
         $reservationData = json_decode($data['reservationInfo'], true);
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+        $startDate = new \DateTimeImmutable($reservationData['startDate']["date"], new \DateTimeZone('UTC'));
+        $endDate = new \DateTimeImmutable($reservationData['endDate']["date"], new \DateTimeZone('UTC'));
         $garage = $this->garageRepository->findOneBy(["id" => $data["garageId"]]);
+        $priceTaux = $reservationData['priceTaux'];
+        $totalPrice = $reservationData['totalPrice'];
+
+        if($reservationData['type'] === 'day') {
+            $days = $reservationData['days'];
+            $total = (float) $garage->getPricePerDay() * $days;
+            // check date valid
+            if($startDate <= $now){
+                throw new HttpException(400, 'Invalid date range');
+            }
+            // check price
+            if((float)$priceTaux !== (float)$garage->getPricePerDay()){
+                throw new HttpException(400, 'Invalid price range');
+            }
+            // check total price
+            if($total != $totalPrice){
+                throw new HttpException(400, 'Invalid price range');
+            }
+        } elseif ($reservationData['type'] === 'hour') {
+            $hours = $this->functions->calculateHours($startDate, $endDate);
+            $total = (float) $garage->getPricePerHour() * $hours;
+            $formattedTotal = floor($total * 100) / 100;
+            // check date valid
+            if($startDate <= $now){
+                throw new HttpException(400, 'Invalid date range');
+            }
+            // check price
+            if((float)$priceTaux !== (float)$garage->getPricePerHour()){
+                throw new HttpException(400, 'Invalid price range');
+            }
+            // check total price
+            if($formattedTotal != $totalPrice){
+                throw new HttpException(400, 'Invalid price range');
+            }
+        }
+
+
         if($user->getInfoPayment() && $user->getInfoPayment()->getPaymentMethod() === null){
             $infoPayment = $user->getInfoPayment();
             $infoPayment->setPaymentMethod($data['methodPayment']);
             $this->entityManager->persist($infoPayment);
             $this->entityManager->flush();
         }
-
+        //create reservation
         $reservation = new Reservation();
         $reservation->setGarage($garage);
         $reservation->setRenter($garage->getOwner());
@@ -148,6 +192,15 @@ class BookingManager
         $reservation->setEndAt(new \DateTimeImmutable($reservationData["endDate"]["date"], new \DateTimeZone('UTC')));
         $this->entityManager->persist($reservation);
         $this->entityManager->flush();
+        //create notification
+        $event = new NotificationEvent(
+            $garage->getOwner(),
+            $this->messages->messageCreateReservation($reservation),
+            'reservation',
+            $reservation->getId(),
+        );
+        $this->eventDispatcher->dispatch($event, NotificationEvent::NAME);
+
         return $reservation->getId();
     }
 }

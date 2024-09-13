@@ -57,13 +57,13 @@
                             <div class="form-group" id="input_birthday">
                                 {{ form_label(form.birthday) }}
                                 {{ form_widget(form.birthday) }}
-                                {{ form_errors(form.birthday) }}
                             </div>
                              <div class="form-group">
                                 <div class="book-title">
                                     <label class="col-form-label required">Date de naissance*</label>
                                     <div id="datetimepickershow"></div>
                                 </div>
+                                {{ form_errors(form.birthday) }}
                              </div>
                             <div class="form-group">
                                 {{ form_label(form.phone) }}
@@ -118,10 +118,13 @@
         $(document).ready(function() {
             $('#input_birthday').hide()
             if ($('#datetimepickershow').length > 0) {
+                var today = new Date();
+                var majorityDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
                 $('#datetimepickershow').datetimepicker({
                     inline: true,
                     sideBySide: true,
                     format: 'yyyy-mm-dd',
+                    maxDate: majorityDate,
                     icons: {
                         up: "fas fa-angle-up",
                         down: "fas fa-angle-down",

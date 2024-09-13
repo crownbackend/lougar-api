@@ -1893,11 +1893,19 @@ Version      : 1.0
 		const daysEl = document.getElementById("days");
 		const hoursEl = document.getElementById("hours");
 		const minsEl = document.getElementById("mins");
+		const secsEl = document.getElementById("secs"); // Élément pour les secondes
+		const startAt = document.getElementById('startAt')
 
-		const newYears = "1 Jan 2023";
+		// Définir la date cible avec le format ISO 8601
+		const newYears = startAt.getAttribute('data-start-at');
 
 		function countdown() {
-			const newYearsDate = new Date(newYears);
+			// Crée un objet Date à partir de la chaîne ISO
+			let newYearsDate = new Date(newYears);
+
+			// Soustraire 2 heures (2 * 3600 * 1000 millisecondes)
+			newYearsDate.setHours(newYearsDate.getHours() - 2);
+
 			const currentDate = new Date();
 
 			const totalSeconds = (newYearsDate - currentDate) / 1000;
@@ -1905,19 +1913,22 @@ Version      : 1.0
 			const days = Math.floor(totalSeconds / 3600 / 24);
 			const hours = Math.floor(totalSeconds / 3600) % 24;
 			const mins = Math.floor(totalSeconds / 60) % 60;
+			const secs = Math.floor(totalSeconds) % 60; // Calcul des secondes
 
 			daysEl.innerHTML = days;
 			hoursEl.innerHTML = formatTime(hours);
 			minsEl.innerHTML = formatTime(mins);
+			secsEl.innerHTML = formatTime(secs); // Mise à jour des secondes
 		}
 
 		function formatTime(time) {
-			return time < 10 ? '0${time}' : time;
+			return time < 10 ? `0${time}` : time; // Ajoute un zéro devant les chiffres < 10
 		}
 
-		// initial call
+		// Initial call
 		countdown();
 
+		// Mise à jour chaque seconde
 		setInterval(countdown, 1000);
 	}
 
@@ -2012,83 +2023,83 @@ Version      : 1.0
 		});
 	}
 
-	// Calendar Booking
-
-	if ($('#calendar-book').length > 0) {
-		document.addEventListener('DOMContentLoaded', function () {
-			var calendarEl = document.getElementById('calendar-book');
-
-			var calendar = new FullCalendar.Calendar(calendarEl, {
-				themeSystem: 'bootstrap5',
-
-				headerToolbar: {
-					left: 'title, prev,today next',
-					//center: '',
-					right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-				},
-				initialDate: '2023-11-12',
-				navLinks: true, // can click day/week names to navigate views
-				// businessHours: true, // display business hours
-				editable: true,
-				selectable: true,
-				events: [
-					{
-						title: '12:30am Laptop serv...',
-						start: '2023-11-02',
-						end: '2023-11-02',
-						color: '#4c40ed1a',
-						textColor: '#4C40ED',
-						"className": "popup-toggle",
-					},
-					{
-						title: '10:00am House Clean..',
-						start: '2023-11-04',
-						end: '2023-11-04',
-						color: '#4c40ed1a',
-						textColor: '#4C40ED'
-					},
-					{
-						title: '11:00am Washing ...',
-						start: '2023-11-05',
-						end: '2023-11-05',
-						color: '#4c40ed1a',
-						textColor: '#4C40ED'
-					},
-					{
-						title: '02:00pm Toughened...',
-						start: '2023-11-10',
-						end: '2023-11-10',
-						color: '#4c40ed1a',
-						textColor: '#4C40ED'
-					},
-					{
-						title: '05:00pm Interior ...',
-						start: '2023-11-16',
-						end: '2023-11-16',
-						color: '#4c40ed1a',
-						textColor: '#4C40ED'
-					},
-					{
-						title: '01:00pm Building....',
-						start: '2023-11-18',
-						end: '2023-11-18',
-						color: '#4c40ed1a',
-						textColor: '#4C40ED'
-					},
-				],
-				eventClick: function (event, calEvent, jsEvent, view) {
-					$(".fc-event-title").on("click", function () {
-						$('.toggle-sidebar').addClass('sidebar-popup');
-					});
-					$(".sidebar-close").on("click", function () {
-						$('.toggle-sidebar').removeClass('sidebar-popup');
-					});
-				}
-			});
-
-			calendar.render();
-		});
-	}
+	// // Calendar Booking
+	//
+	// if ($('#calendar-book').length > 0) {
+	// 	document.addEventListener('DOMContentLoaded', function () {
+	// 		var calendarEl = document.getElementById('calendar-book');
+	//
+	// 		var calendar = new FullCalendar.Calendar(calendarEl, {
+	// 			themeSystem: 'bootstrap5',
+	//
+	// 			headerToolbar: {
+	// 				left: 'title, prev,today next',
+	// 				//center: '',
+	// 				right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+	// 			},
+	// 			initialDate: '2023-11-12',
+	// 			navLinks: true, // can click day/week names to navigate views
+	// 			// businessHours: true, // display business hours
+	// 			editable: true,
+	// 			selectable: true,
+	// 			events: [
+	// 				{
+	// 					title: '12:30am Laptop serv...',
+	// 					start: '2023-11-02',
+	// 					end: '2023-11-02',
+	// 					color: '#4c40ed1a',
+	// 					textColor: '#4C40ED',
+	// 					"className": "popup-toggle",
+	// 				},
+	// 				{
+	// 					title: '10:00am House Clean..',
+	// 					start: '2023-11-04',
+	// 					end: '2023-11-04',
+	// 					color: '#4c40ed1a',
+	// 					textColor: '#4C40ED'
+	// 				},
+	// 				{
+	// 					title: '11:00am Washing ...',
+	// 					start: '2023-11-05',
+	// 					end: '2023-11-05',
+	// 					color: '#4c40ed1a',
+	// 					textColor: '#4C40ED'
+	// 				},
+	// 				{
+	// 					title: '02:00pm Toughened...',
+	// 					start: '2023-11-10',
+	// 					end: '2023-11-10',
+	// 					color: '#4c40ed1a',
+	// 					textColor: '#4C40ED'
+	// 				},
+	// 				{
+	// 					title: '05:00pm Interior ...',
+	// 					start: '2023-11-16',
+	// 					end: '2023-11-16',
+	// 					color: '#4c40ed1a',
+	// 					textColor: '#4C40ED'
+	// 				},
+	// 				{
+	// 					title: '01:00pm Building....',
+	// 					start: '2023-11-18',
+	// 					end: '2023-11-18',
+	// 					color: '#4c40ed1a',
+	// 					textColor: '#4C40ED'
+	// 				},
+	// 			],
+	// 			eventClick: function (event, calEvent, jsEvent, view) {
+	// 				$(".fc-event-title").on("click", function () {
+	// 					$('.toggle-sidebar').addClass('sidebar-popup');
+	// 				});
+	// 				$(".sidebar-close").on("click", function () {
+	// 					$('.toggle-sidebar').removeClass('sidebar-popup');
+	// 				});
+	// 			}
+	// 		});
+	//
+	// 		calendar.render();
+	// 	});
+	// }
 
 	// Checkbox Select
 

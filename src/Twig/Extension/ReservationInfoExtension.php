@@ -2,7 +2,6 @@
 
 namespace App\Twig\Extension;
 
-use App\Twig\Runtime\ReservationInfoExtensionRuntime;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 

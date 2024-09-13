@@ -1,0 +1,201 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    {{ reservation.garage.name }}
+{% endblock %}
+{% block body %}
+
+    <div class="content">
+        <div class="container">
+            <div class="row">
+
+                <!-- Orders -->
+                <div class="col-lg-12 mx-auto">
+
+                    <!-- Bookeing Id -->
+                    <div class="row align-items-center">
+                        <div class="col-md-4">
+                            <div class="book-id">
+                                <h4>{{ reservation.garage.name }}</h4>
+                                <p><i class="feather-calendar"></i> {{ reservation.createdAt|date('d-m-Y H:i') }}</p>
+                            </div>
+                        </div>
+                        {% if reservation.status == 1 %}
+                            <div class="col-md-8">
+                                <div class="book-id-action">
+                                        <a href="{{ path('owner_reservation_status', {'id': reservation.id, 'status': 2}) }}" class="btn btn-primary"><i class="feather-user"></i> Accepter</a>
+                                        <a href="{{ path('owner_reservation_status', {'id': reservation.id, 'status': 3}) }}" class="btn btn-secondary"><i class="feather-x-circle"></i> Annuler</a>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if reservation.status == 3 %}
+                            <div class="col-md-8">
+                                <div class="book-id-action">
+                                        <a href="{{ path('owner_reservation_delete', {'id': reservation.id}) }}" class="btn btn-danger"> Supprimer</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% if reservationOverlap %}
+                        <div class="alert alert-warning" role="alert">
+                            Attention cette réservation a la même date avec une autre réservation
+                            <br>
+                            Réservation courante : {{ reservation.info|reservation_info }}
+                            <br>
+                            Réservation existante : {{ reservationOverlap.info|reservation_info }}
+                            <br>
+                            <a href="{{ path('owner_reservation_show', {"id": reservationOverlap.id}) }}" target="_blank" class="alert-link">Voir la réservation existante</a>
+                        </div>
+                    {% endif %}
+                    <!-- /Bookeing Id -->
+                    {% if reservation.status == 1 %}
+                        <hr>
+                        <h6>Réservation à confirmer avant : </h6>
+                        <div class="countdown-container" id="startAt" data-start-at="{{ reservation.startAt|date('c') }}">
+                            <div class="countdown-el days-c">
+                                <p id="days">90</p>
+                                <span>Jours</span>
+                            </div>
+                            <div class="countdown-el hours-c">
+                                <p id="hours">21</p>
+                                <span>Heures</span>
+                            </div>
+                            <div class="countdown-el mins-c">
+                                <p id="mins">30</p>
+                                <span>Minutes</span>
+                            </div>
+                            <div class="countdown-el secs-c">
+                                <p id="secs">00</p>
+                                <span>Secondes</span>
+                            </div>
+                        </div>
+                        <hr>
+                    {% endif %}
+
+
+                    <!-- Slot Booked -->
+                    <div class="slot-box">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="slot-booked">
+                                    <h6>Date de réservation</h6>
+                                    <ul>
+                                        <li><i class="feather-calendar"></i> {{ reservation.info|reservation_info }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="slot-user">
+                                    <h6>Contacter</h6>
+                                    <div class="slot-chat">
+
+                                        <div class="chat-item">
+                                            <div>
+                                                <a href="#" class="btn btn-primary"><img class="me-1" src="{{ asset('assets/img/icons/message.svg') }}" alt="image">Chat</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="slot-action">
+                                    <h6>Statut</h6>
+                                    {% if reservation.status == 1 %}
+                                        <span class="btn btn-light-warning">En attente</span>
+                                    {% endif %}
+                                    {% if reservation.status == 2 %}
+                                        <span class="badge badge-success">Confirmer</span>
+                                    {% endif %}
+                                    {% if reservation.status == 3 %}
+                                        <span class="badge badge-danger">Annuler</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Slot Booked -->
+
+                    <div class="payment-summary">
+                        <div class="row">
+
+                            <!-- Service Location -->
+                            <div class="col-md-6">
+                                <h6 class="order-title">Information du locataire</h6>
+                                <div class="slot-address">
+                                    <ul>
+                                        <li>
+                                            <span><i class="feather-user"></i></span>
+                                            <div>
+                                                <h6>Nom</h6>
+                                                <p>{{ reservation.tenant.firstName }} {{ reservation.tenant.lastName }}</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span><i class="feather-mail"></i></span>
+                                            <div>
+                                                <h6>Mail</h6>
+                                                <p>{{ reservation.tenant.email }}</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span><i class="feather-phone"></i></span>
+                                            <div>
+                                                <h6>Téléphone</h6>
+                                                <p>{{ reservation.tenant.phone }}</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- /Service Location -->
+
+                            <!-- Order Summary -->
+                            <div class="col-md-6">
+                                <h6 class="order-title">Récapitulatif</h6>
+                                {% if reservation.info['type'] == 'day' %}
+                                    <div class="ord-summary">
+                                        <div class="order-amt">
+                                            <div class="order-info">
+                                                <div class="order-profile">
+                                                    <h6>Totale location</h6>
+                                                </div>
+                                            </div>
+                                            <h5>€{{ reservation.info["total"] }}</h5>
+                                        </div>
+                                        <ul>
+                                            <li>Totale <span class="ord-amt">€{{ reservation.info['totalPrice'] }} ({{ reservation.info['days']|round }}J)</span></li>
+                                            <li>Tarif journée <span class="ord-amt">€{{ reservation.info['priceTaux'] }}</span></li>
+                                            <li>Commission lougar <span class="ord-amt">€{{ reservation.info["commission"] }}</span></li>
+                                        </ul>
+                                    </div>
+                                {% elseif reservation.info['type'] == 'hour' %}
+                                    <div class="ord-summary">
+                                        <div class="order-amt">
+                                            <div class="order-info">
+                                                <div class="order-profile">
+                                                    <h6>Totale location</h6>
+                                                </div>
+                                            </div>
+                                            <h5>€{{ reservation.info["total"] }}</h5>
+                                        </div>
+                                        <ul>
+                                            <li>Totale <span class="ord-amt">€{{ reservation.info['totalPrice'] }} ({{ reservation.info['hours']|round }}H)</span></li>
+                                            <li>Tarif horaires <span class="ord-amt">€{{ reservation.info['priceTaux'] }}</span></li>
+                                            <li>Commission lougar <span class="ord-amt">€{{ reservation.info["commission"] }}</span></li>
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <!-- /Order Summary -->
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /Orders -->
+
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

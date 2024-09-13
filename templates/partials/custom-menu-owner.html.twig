@@ -13,7 +13,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="customer-booking.html">
+                    <a href="{{ path('owner_reservation_my_reservation') }}" {% if app.request.attributes.get('_route') == 'owner_my_reservation' %}class="active"{% endif %}>
                         <i class="feather-smartphone"></i> <span>Réservation</span>
                     </a>
                 </li>

@@ -11,7 +11,6 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/proprietaire', name: 'owner_')]
 class OwnerController extends AbstractController
 {
-
     #[Route('/tableau-de-bord', name: 'dashboard', methods: ['GET', 'POST'])]
     public function dashboard(): Response
     {

@@ -4,6 +4,7 @@ namespace App\Manager\Tenant;
 
 use App\Entity\Reservation;
 use App\Entity\User;
+use App\Event\NotificationEvent;
 use App\Helpers\GenerateToken;
 use App\Helpers\Messages;
 use App\Repository\ReservationRepository;
@@ -11,21 +12,23 @@ use App\Service\Mailer;
 use App\Service\StripeApi;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 readonly class TenantManager
 {
     public function __construct(private readonly EntityManagerInterface $entityManager,
-                                private readonly GenerateToken $generateToken,
+                                private readonly GenerateToken $generateToken, private readonly Messages $messages,
                                 private readonly UserPasswordHasherInterface $passwordHasher,
                                 private readonly Mailer $mailer, private readonly StripeApi $stripeApi,
-                                private readonly ReservationRepository $reservationRepository)
+                                private readonly ReservationRepository $reservationRepository,
+                                private readonly EventDispatcherInterface $eventDispatcher)
     {
     }
 
     public function myReservations(User $user, ?int $status = null): Query
     {
-        return $this->reservationRepository->findByTenant($user, $status);
+        return $this->reservationRepository->findByUser($user, "tenant", $status);
     }
 
     public function create(User $tenant, string $plainPassword): void
@@ -43,8 +46,16 @@ readonly class TenantManager
 
     public function cancel(Reservation $reservation): void
     {
-        $reservation->setDeletedAt(new \DateTimeImmutable());
+        $reservation->setStatus(Reservation::STATUS['Annuler']);
+        $reservation->setUpdatedAt(new \DateTimeImmutable());
         $this->entityManager->persist($reservation);
         $this->entityManager->flush();
+        $event = new NotificationEvent(
+            $reservation->getRenter(),
+            $this->messages->messageCancelTenant($reservation),
+            'reservation',
+            $reservation->getId(),
+        );
+        $this->eventDispatcher->dispatch($event, NotificationEvent::NAME);
     }
 }

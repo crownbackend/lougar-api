@@ -49,86 +49,9 @@
             <ul class="nav header-navbar-rht">
                 {% if app.user %}
 
-                    <!-- Notifications -->
-                    <li class="nav-item dropdown logged-item noti-nav noti-wrapper">
-                        <a href="#" class="dropdown-toggle nav-link notify-link" data-bs-toggle="dropdown">
-                            <span class="noti-message">1</span>
-                            <img src="{{ asset('assets/img/icons/bell-icon.svg') }}" alt="Bell">
-                        </a>
-                        <div class="dropdown-menu notify-blk notifications">
-                            <div class="topnav-dropdown-header">
-                                <div>
-                                    <p class="notification-title">Notifications <span> 3 </span></p>
-                                </div>
-                                <a href="javascript:void(0)" class="clear-noti"><i class="fa-regular fa-circle-check"></i> Mark all as read </a>
-                            </div>
-                            <div class="noti-content">
-                                <ul class="notification-list">
-                                    <li class="notification-message">
-                                        <a href="notification.html">
-                                            <div class="media noti-img d-flex">
-													<span class="avatar avatar-sm flex-shrink-0">
-														<img class="avatar-img rounded-circle img-fluid" alt="User Image" src="{{ asset('assets/img/notifications/avatar-01.jpg') }}">
-													</span>
-                                                <div class="media-body flex-grow-1">
-                                                    <p class="noti-details">Lex Murphy left 6 comments on Isla Nublar SOC2 compliance report</p>
-                                                    <p class="noti-time"><span class="notification-time">1m ago</span></p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="notification-message">
-                                        <div class="media noti-img d-flex">
-                                            <a href="notification.html">
-													<span class="avatar avatar-sm flex-shrink-0">
-														<img class="avatar-img rounded-circle img-fluid" alt="User Image" src="{{ asset('assets/img/notifications/avatar-02.jpg') }}">
-													</span>
-                                            </a>
-                                            <div class="media-body flex-grow-1">
-                                                <a href="notification.html"><p class="noti-details">Ray Arnold requested access to UNIX directory tree hierarchy</p></a>
-                                                <p class="noti-time"><span class="notification-time">1 min</span></p>
-                                                <div class="notify-btns">
-                                                    <button class="btn btn-secondary">Decline</button>
-                                                    <button class="btn btn-primary">Accept</button>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="notification-message">
-                                        <a href="notification.html">
-                                            <div class="media noti-img d-flex">
-													<span class="avatar avatar-sm flex-shrink-0">
-														<img class="avatar-img rounded-circle img-fluid" alt="User Image" src="{{ asset('assets/img/notifications/avatar-03.jpg') }}">
-													</span>
-                                                <div class="media-body flex-grow-1">
-                                                    <p class="noti-details">Dennis Nedry commented on Isla Nublar SOC2 compliance report</p>
-                                                    <p class="noti-time"><span class="notification-time">1m ago</span></p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li class="notification-message">
-                                        <a href="notification.html">
-                                            <div class="media noti-img d-flex">
-													<span class="avatar avatar-sm flex-shrink-0">
-														<img class="avatar-img rounded-circle img-fluid" alt="User Image" src="{{ asset('assets/img/notifications/avatar-04.jpg') }}">
-													</span>
-                                                <div class="media-body flex-grow-1">
-                                                    <p class="noti-details">John Hammond created Isla Nublar SOC2 compliance report  </p>
-                                                    <p class="noti-time"><span class="notification-time">1m ago</span></p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="topnav-dropdown-footer">
-                                <a href="notification.html">View All Notifications <img src="{{ asset('assets/img/icons/arrow-right-01.svg') }}" alt="Arrow"></a>
-                            </div>
-                        </div>
-                    </li>
-                    <!-- /Notifications -->
+                    {{ render(controller(
+                        'App\\Controller\\NotificationController::index'
+                    )) }}
 
                     <!-- User Menu -->
                     <li class="nav-item dropdown has-arrow account-item">
