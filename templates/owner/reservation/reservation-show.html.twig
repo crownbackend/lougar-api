@@ -28,6 +28,17 @@
                             </div>
                         {% endif %}
                     </div>
+                    {% if reservationOverlap %}
+                        <div class="alert alert-warning" role="alert">
+                            Attention cette réservation a la même date avec une autre réservation
+                            <br>
+                            Réservation courante : {{ reservation.info|reservation_info }}
+                            <br>
+                            Réservation existante : {{ reservationOverlap.info|reservation_info }}
+                            <br>
+                            <a href="{{ path('owner_reservation_show', {"id": reservationOverlap.id}) }}" target="_blank" class="alert-link">Voir la réservation existante</a>
+                        </div>
+                    {% endif %}
                     <!-- /Bookeing Id -->
                     {% if reservation.status == 1 %}
                         <hr>

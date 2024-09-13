@@ -20,8 +20,10 @@ class ReservationRepository extends ServiceEntityRepository
 
     /**
      * @return Reservation[] Returns an array of Reservation objects
+     * @throws \DateMalformedStringException
      */
-    public function findByUser(User $user, ?int $status = null, string $typeUser): Query|array
+    public function findByUser(User $user, string $typeUser, ?int $status = null, ?string $startAt = null,
+                               ?string $endAt = null): Query|array
     {
         $query = $this->createQueryBuilder('r')
             ->select('r', 'g', 'p', 'city', "image")
@@ -50,6 +52,14 @@ class ReservationRepository extends ServiceEntityRepository
         if($status) {
             $query->andWhere('r.status = :status')
                 ->setParameter('status', $status);
+        }
+
+        if($startAt && $endAt) {
+            $start = new \DateTimeImmutable($startAt);
+            $end = new \DateTimeImmutable($endAt);
+            $query->andWhere("r.startAt BETWEEN :start AND :end")
+            ->setParameter('start', $start)
+            ->setParameter('end', $end);
         }
 
         if($typeUser === "owner") {

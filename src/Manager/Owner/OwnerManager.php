@@ -42,9 +42,12 @@ readonly class OwnerManager
         $this->mailer->send($tenant->getEmail(), Messages::EMAIL_REGISTER_SUBJECT, 'emails/register/confirm.html.twig', ['token' => $tenant->getValidationToken()]);
     }
 
-    public function getReservations(User $user, ?int $status = null): array
+    /**
+     * @throws \DateMalformedStringException
+     */
+    public function getReservations(User $user, ?int $status = null, ?string $startAt = null, ?string $endAt = null): array
     {
-        return $this->reservationRepository->findByUser($user, $status, "owner");
+        return $this->reservationRepository->findByUser($user, "owner", $status, $startAt, $endAt);
     }
 
     public function checkExistReservation(User $user, Reservation $newReservation): null|Reservation
@@ -60,6 +63,14 @@ readonly class OwnerManager
             }
 
             if($existingReservation->getStatus() === Reservation::STATUS['Annuler']) {
+                continue;
+            }
+
+            if($newReservation->getStatus() === Reservation::STATUS['Confirmer']) {
+                continue;
+            }
+
+            if($newReservation->getStatus() === Reservation::STATUS['Annuler']) {
                 continue;
             }
 
@@ -79,7 +90,7 @@ readonly class OwnerManager
     {
         $now = new \DateTimeImmutable();
         $newStartAt = $reservation->getStartAt()->modify('-2 hour');
-        if($newStartAt < $now ) {
+        if($reservation === Reservation::STATUS['En attente'] && $newStartAt < $now) {
             $reservation->setStatus(Reservation::STATUS['Annuler']);
             $reservation->setUpdatedAt(new \DateTimeImmutable());
             $this->entityManager->persist($reservation);

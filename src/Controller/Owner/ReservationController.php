@@ -20,6 +20,23 @@ class ReservationController extends AbstractController
     {
     }
 
+    #[Route('/mes-reservations', name: 'my_reservation')]
+    public function myReservation(): Response
+    {
+        return $this->render('owner/my-reservation.html.twig');
+    }
+
+    #[Route('/reservations', name: 'get_reservations')]
+    public function getReservations(
+        #[MapQueryParameter] ?int $status = null,
+        #[MapQueryParameter] ?string $startAt = null,
+        #[MapQueryParameter] ?string $endAt = null
+    ): JsonResponse
+    {
+        return $this->json(["reservations" => $this->manager->getReservations($this->getUser(), $status, $startAt, $endAt)],
+            200, [], ['groups' => 'list_reservation']);
+    }
+
     #[Route('/{id}/info', name: 'show')]
     public function show(Reservation $reservation): Response
     {
@@ -32,18 +49,6 @@ class ReservationController extends AbstractController
             'reservation' => $reservation,
             'reservationOverlap' => $reservationOverlap,
         ]);
-    }
-
-    #[Route('/mes-reservations', name: 'my_reservation')]
-    public function myReservation(): Response
-    {
-        return $this->render('owner/my-reservation.html.twig');
-    }
-
-    #[Route('/reservations', name: 'get_reservations')]
-    public function getReservations( #[MapQueryParameter] int $status = null): JsonResponse
-    {
-        return $this->json(["reservations" => $this->manager->getReservations($this->getUser(), $status)], 200, [], ['groups' => 'list_reservation']);
     }
 
     #[Route('/{id}/{status}', name: 'reservation_status')]
