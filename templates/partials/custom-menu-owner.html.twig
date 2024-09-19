@@ -23,7 +23,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="provider-payout.html"><i class="feather-credit-card"></i> <span>Paiement</span></a>
+                    <a href="{{ path('owner_payment_historique') }}" {% if app.request.attributes.get('_route') == 'owner_payment_historique' %}class="active"{% endif %}>
+                        <i class="feather-credit-card"></i> <span>Paiement</span>
+                    </a>
                 </li>
                 <li>
                     <a href="customer-reviews.html">

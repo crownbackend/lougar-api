@@ -109,6 +109,9 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'userId')]
     private Collection $notifications;
 
+    #[ORM\OneToOne(inversedBy: 'users', cascade: ['persist', 'remove'])]
+    private ?Wallet $wallet = null;
+
     public function __construct()
     {
         parent::__construct();
@@ -478,6 +481,18 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
                 $notification->setUserId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getWallet(): ?Wallet
+    {
+        return $this->wallet;
+    }
+
+    public function setWallet(?Wallet $wallet): static
+    {
+        $this->wallet = $wallet;
 
         return $this;
     }
