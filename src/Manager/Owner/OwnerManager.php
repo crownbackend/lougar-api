@@ -5,6 +5,7 @@ namespace App\Manager\Owner;
 use App\Entity\Payment;
 use App\Entity\Reservation;
 use App\Entity\User;
+use App\Entity\Wallet;
 use App\Event\NotificationEvent;
 use App\Helpers\Functions;
 use App\Helpers\GenerateToken;
@@ -110,6 +111,7 @@ readonly class OwnerManager
         if($status === 2) {
             $price = (float)$reservation->getTotalPrice();
             $priceStripe = $this->functions->transformPrice($price);
+            // create payment with stripe
             $data = $this->stripeApi->createPayment($reservation->getTenant()->getInfoPayment(), $priceStripe);
             if($data->status == 'succeeded') {
                 $payment = new Payment();
@@ -121,6 +123,11 @@ readonly class OwnerManager
                 $this->entityManager->persist($payment);
                 $reservation->setStatus($status);
                 $reservation->setPayment($payment);
+                // create wallet and add to balance
+                $wallet = new Wallet();
+                $wallet->setBalance($reservation->getTotalPrice());
+                $wallet->setUsers($reservation->getRenter());
+                $this->entityManager->persist($wallet);
             }
 
         } elseif ($status === 3) {
