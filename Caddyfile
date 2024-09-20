@@ -4,12 +4,11 @@ lougar.fr {
 
     php_fastcgi php-fpm:9000
     file_server
+}
 
-    # Accès à MinIO
-    reverse_proxy /minio/* minio:9000 {
+minio.lougar.fr {
+    reverse_proxy minio:9000 {
         header_up X-Forwarded-Host {host}
         header_up X-Forwarded-Proto {scheme}
     }
-
-    # Optionnel : ajouter des règles pour les redirections ou les erreurs personnalisées
 }
