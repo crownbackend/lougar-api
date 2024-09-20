@@ -1,5 +1,4 @@
 ENV_FILE=.env.local
-ENV_FILE_PROD=.env.prod
 COMPOSE_FILE=compose-prod.yaml
 
 up:
@@ -16,4 +15,4 @@ db:
 	docker exec -it api-database-1 bash
 
 prod:
-	docker compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE_PROD) up -d
+	docker compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE) up -d

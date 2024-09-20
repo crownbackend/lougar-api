@@ -1,20 +1,9 @@
-# Domaine principal en production
 lougar.fr {
-    # Répertoire racine pour les fichiers
-    root * /var/www/html
+    root * /var/www/html/public
+    encode gzip zstd
 
-    # Traitement PHP via PHP-FPM
     php_fastcgi php-fpm:9000
-
-    # Activer la compression des fichiers
-    encode gzip
-
-    # Activer le serveur de fichiers statiques
     file_server
 
-    # Redirection des requêtes HTTP vers HTTPS
-    @http {
-        protocol http
-    }
-    redir @http https://{host}{uri}
+    # Optionnel : ajouter des règles pour les redirections ou les erreurs personnalisées
 }
