@@ -16,4 +16,4 @@ db:
 	docker exec -it api-database-1 bash
 
 prod:
-	docker-compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE_PROD) up -d
+	docker compose -f $(COMPOSE_FILE) --env-file $(ENV_FILE_PROD) up -d
