@@ -1,6 +1,6 @@
 ENV_FILE=.env.local
 ENV_FILE_PROD=.env.prod
-COMPOSE_FILE=compose-prod.yml
+COMPOSE_FILE=compose-prod.yaml
 
 up:
 	docker compose --env-file ${ENV_FILE} up -d
