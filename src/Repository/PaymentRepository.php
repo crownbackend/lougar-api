@@ -19,12 +19,17 @@ class PaymentRepository extends ServiceEntityRepository
 
     public function findByUser(User $user): array
     {
-        return $this->createQueryBuilder('p')
+        $query = $this->createQueryBuilder('p')
             ->select('p', 'r')
-            ->join('p.reservation', 'r')
-            ->where('r.renter = :user')
-            ->setParameter('user', $user)
-            ->getQuery()
-            ->getResult();
+            ->join('p.reservation', 'r');
+
+        if(in_array('ROLE_TENANT', $user->getRoles())) {
+            $query->where('r.tenant = :user');
+        } else if(in_array('ROLE_OWNER', $user->getRoles())) {
+            $query->where('r.renter = :user');
+        }
+        $query->setParameter('user', $user);
+
+        return $query->getQuery()->getResult();
     }
 }

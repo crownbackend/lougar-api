@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Paiement historique
+{% endblock %}
+
+{% block stylesheets %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/fontawesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
+
+    <!-- Fearther CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/feather.css') }}">
+
+    <!-- select CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/css/select2.min.css') }}">
+
+    <!-- Datetimepicker CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datetimepicker.min.css') }}">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+{% endblock %}
+{% block body %}
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+
+                {{ include('partials/custom-menu-tenant.html.twig') }}
+
+                <div class="col-lg-9">
+                    <!-- Dashboard Widget -->
+
+                    <!-- Wallet Transactions -->
+                    <h6 class="user-title">Historique de paiement</h6>
+
+                    <div class="table-responsive">
+                        <table class="table mb-0 custom-table">
+                            <thead class="thead-light">
+                            <tr>
+                                <th>Montant</th>
+                                <th>Commission</th>
+                                <th>Date</th>
+                                <th>Réservation</th>
+                                <th>Statut</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for payment in payments %}
+                                <tr>
+                                    <td class="text-light-danger">-€{{ payment.amount }}</td>
+                                    <td>€{{ payment.commission }}</td>
+                                    <td class="text-body">{{ payment.createdAt|date('d-m-Y H:i') }}</td>
+                                    <td>
+                                        <a class="link-info" href="{{ path('owner_reservation_show', {'id': payment.reservation.id}) }}" target="_blank">{{ payment.reservation.info|reservation_info }}</a>
+                                    </td>
+                                    <td>
+                                        {% if payment.reservation.status == 1 %}
+                                            <span class="badge-warning">En attente</span>
+                                        {% elseif payment.reservation.status == 2 %}
+                                            <span class="badge-success">Complet</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /Wallet Transactions -->
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <!-- jQuery -->
+    <script src="{{ asset('assets/js/jquery-3.7.0.min.js') }}"></script>
+
+    <!-- Bootstrap Core JS -->
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Fearther JS -->
+    <script src="{{ asset('assets/js/feather.min.js') }}"></script>
+
+    <!-- select CSS -->
+    <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}"></script>
+
+    <script src="{{ asset('assets/plugins/aos/aos.js') }}"></script>
+
+    <!-- Datetimepicker JS -->
+    <script src="{{ asset('assets/js/moment.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap-datetimepicker.min.js') }}"></script>
+
+    <!-- Sticky Sidebar JS -->
+    <script src="{{ asset('assets/plugins/theia-sticky-sidebar/ResizeSensor.js') }}"></script>
+    <script src="{{ asset('assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js') }}"></script>
+
+    <!-- Custom JS -->
+    <script src="{{ asset('assets/js/script.js') }}"></script>
+{% endblock %}
+
+
+

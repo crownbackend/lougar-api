@@ -19,16 +19,16 @@
                     </a>
                 </li>
                 <li>
-                    <a href="provider-payout.html"><i class="feather-credit-card"></i> <span>Paiement</span></a>
-                </li>
-                <li>
-                    <a href="customer-reviews.html">
-                        <i class="feather-star"></i> <span>Avis</span>
-                    </a>
+                    <a href="{{ path('payment_tenant_index') }}" {% if app.request.attributes.get('_route') == 'payment_tenant_index' %}class="active"{% endif %}><i class="feather-credit-card"></i> <span>Paiement</span></a>
                 </li>
                 <li>
                     <a href="customer-chat.html">
                         <i class="feather-message-circle"></i> <span>Chat</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="customer-reviews.html">
+                        <i class="feather-star"></i> <span>Avis</span>
                     </a>
                 </li>
                 <li>
