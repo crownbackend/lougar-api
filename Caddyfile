@@ -1,14 +1,6 @@
-lougar.fr {
+:80 {
     root * /var/www/html/public
     encode gzip zstd
-
     php_fastcgi php-fpm:9000
     file_server
-}
-
-minio.lougar.fr {
-    reverse_proxy minio:9000 {
-        header_up X-Forwarded-Host {host}
-        header_up X-Forwarded-Proto {scheme}
-    }
 }
