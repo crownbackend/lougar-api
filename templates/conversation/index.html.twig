@@ -8,9 +8,13 @@
     <div class="content">
         <div class="container-fluid">
             <div class="row">
+                {% if is_granted('ROLE_OWNER') %}
+                    {{ include('partials/custom-menu-owner.html.twig') }}
+                {% endif %}
 
-                {{ include('partials/custom-menu-owner.html.twig') }}
-
+                {% if is_granted('ROLE_TENANT') %}
+                    {{ include('partials/custom-menu-tenant.html.twig') }}
+                {% endif %}
                 <div class="col-lg-10">
                     <div class="container-fluid">
                         <div class="customer-chat">
@@ -24,8 +28,8 @@
                                     <div class="card mb-sm-3 mb-md-0 contacts_card flex-fill">
                                         <div class="chat-header">
                                             <div>
-                                                <h6>Chats</h6>
-                                                <p>Start New Conversation</p>
+                                                <h6>Contacts</h6>
+                                                <p>Mes conversations</p>
                                             </div>
                                             <!-- <a href="javascript:void(0)" class="chat-compose">
                                                 <i class="feather-plus"></i>
@@ -40,34 +44,32 @@
                                             </div>
                                         </div>
                                         <div class="card-body contacts_body chat-users-list chat-scroll">
-                                            <div class="chat-header inner-chat-header pt-0">
-                                                <div>
-                                                    <h6>Recent</h6>
-                                                </div>
-                                            </div>
-                                            <a href="javascript:void(0);" class="media d-flex active">
-                                                <div class="media-body flex-grow-1">
-                                                    <div>
-                                                        <div class="user-name">Hendrita</div>
-                                                        <div class="user-last-chat">Lorem ipsum dolor</div>
+                                            {% for chat in conversations %}
+                                                {{ dump(chat) }}
+                                                <a href="javascript:void(0);" class="media d-flex active">
+                                                    <div class="media-body flex-grow-1">
+                                                        <div>
+                                                            <div class="user-name"></div>
+                                                            <div class="user-last-chat">Lorem ipsum dolor</div>
+                                                        </div>
+                                                        <div>
+                                                            <div class="last-chat-time">10:12 AM</div>
+                                                        </div>
                                                     </div>
-                                                    <div>
-                                                        <div class="last-chat-time">10:12 AM</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="javascript:void(0);" class="media d-flex read-chat">
-                                                <div class="media-body flex-grow-1">
-                                                    <div>
-                                                        <div class="user-name">John Smith</div>
-                                                        <div class="user-last-chat"><i class="feather-image"></i> Image</div>
-                                                    </div>
-                                                    <div>
-                                                        <div class="last-chat-time">10:19 AM</div>
-                                                        <div class="badge badge-primary badge-pill">2</div>
-                                                    </div>
-                                                </div>
-                                            </a>
+                                                </a>
+                                            {% endfor %}
+{#                                            <a href="javascript:void(0);" class="media d-flex read-chat">#}
+{#                                                <div class="media-body flex-grow-1">#}
+{#                                                    <div>#}
+{#                                                        <div class="user-name">John Smith</div>#}
+{#                                                        <div class="user-last-chat"><i class="feather-image"></i> Image</div>#}
+{#                                                    </div>#}
+{#                                                    <div>#}
+{#                                                        <div class="last-chat-time">10:19 AM</div>#}
+{#                                                        <div class="badge badge-primary badge-pill">2</div>#}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            </a>#}
                                         </div>
                                     </div>
                                 </div>

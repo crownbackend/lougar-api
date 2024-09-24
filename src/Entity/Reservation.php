@@ -41,6 +41,9 @@ class Reservation extends BaseEntity
     #[ORM\Column]
     private array $info = [];
 
+    #[ORM\OneToOne(mappedBy: 'reservation', cascade: ['persist', 'remove'])]
+    private ?Conversation $conversation = null;
+
     public function getStartAt(): ?\DateTimeImmutable
     {
         return $this->startAt;
@@ -155,6 +158,28 @@ class Reservation extends BaseEntity
     public function setInfo(array $info): static
     {
         $this->info = $info;
+
+        return $this;
+    }
+
+    public function getConversation(): ?Conversation
+    {
+        return $this->conversation;
+    }
+
+    public function setConversation(?Conversation $conversation): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($conversation === null && $this->conversation !== null) {
+            $this->conversation->setReservation(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($conversation !== null && $conversation->getReservation() !== $this) {
+            $conversation->setReservation($this);
+        }
+
+        $this->conversation = $conversation;
 
         return $this;
     }

@@ -22,6 +22,9 @@ class Conversation extends BaseEntity
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'conversations')]
     private Collection $users;
 
+    #[ORM\OneToOne(inversedBy: 'conversation', cascade: ['persist', 'remove'])]
+    private ?Reservation $reservation = null;
+
     public function __construct()
     {
         parent::__construct();
@@ -79,6 +82,18 @@ class Conversation extends BaseEntity
     public function removeUser(User $user): static
     {
         $this->users->removeElement($user);
+
+        return $this;
+    }
+
+    public function getReservation(): ?Reservation
+    {
+        return $this->reservation;
+    }
+
+    public function setReservation(?Reservation $reservation): static
+    {
+        $this->reservation = $reservation;
 
         return $this;
     }
