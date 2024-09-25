@@ -26,6 +26,17 @@ services:
     networks:
       - app-network
 
+  minio:
+    image: minio/minio:latest
+    environment:
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+    volumes:
+      - minio_data:/data
+    networks:
+      - app-network
+    command: server /data
+
   caddy:
     image: caddy:2
     ports:
@@ -38,11 +49,13 @@ services:
       - caddy_config:/config
     depends_on:
       - php-fpm
+      - minio  # Assure que MinIO soit démarré avant Caddy
     networks:
       - app-network
 
 volumes:
   database_data:
+  minio_data:  # Volume pour MinIO
   caddy_data:
   caddy_config:
 
