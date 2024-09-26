@@ -15,3 +15,5 @@ db:
 
 prod:
 	docker compose --env-file .env.local -f compose.prod.yaml up -d --build
+prod-down:
+	docker compose --env-file .env.local -f compose.prod.yaml down
