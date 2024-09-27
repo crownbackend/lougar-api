@@ -35,25 +35,34 @@
                                                 <i class="feather-plus"></i>
                                             </a> -->
                                         </div>
-                                        <div class="chat-search chat-search-head">
-                                            <div class="input-group">
-                                                <input type="text" placeholder="Search" class="form-control search-chat chat-search">
-                                                <div class="search-icon-right">
-                                                    <span class="search_btn"><i class="feather-search"></i></span>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="card-body contacts_body chat-users-list chat-scroll">
+                                            {% set messages = null %}
+                                            {% set user = null %}
                                             {% for chat in conversations %}
-                                                {{ dump(chat) }}
-                                                <a href="javascript:void(0);" class="media d-flex active">
+
+                                                {% if app.user.id != chat.reservation.tenant.id %}
+                                                    {% set user = chat.reservation.tenant %}
+                                                {% endif %}
+
+                                                {% if app.user.id != chat.reservation.renter.id %}
+                                                    {% set user = chat.reservation.renter %}
+                                                {% endif %}
+
+                                                {% if conversation.id is defined %}
+                                                    {% if conversation.id == chat.id %}
+                                                        {% set messages = chat.messages %}
+                                                    {% endif %}
+                                                {% endif %}
+
+                                                <a href="{{ path('my_conversation_index', {'id': chat.id}) }}"
+                                                   class="media d-flex {% if conversation.id is defined %}{% if conversation.id == chat.id %}active{% endif %}{% endif %}">
                                                     <div class="media-body flex-grow-1">
                                                         <div>
-                                                            <div class="user-name"></div>
+                                                            <div class="user-name">{{ user.firstName }} {{ user.lastName }}</div>
                                                             <div class="user-last-chat">Lorem ipsum dolor</div>
                                                         </div>
                                                         <div>
-                                                            <div class="last-chat-time">10:12 AM</div>
+                                                            <div class="last-chat-time">{{ chat.createdAt|date('d/m/Y - H:i') }}</div>
                                                         </div>
                                                     </div>
                                                 </a>
@@ -77,17 +86,16 @@
 
                                 <!-- Chat Content -->
                                 <div class="col-lg-9 chat-cont-right chat-window-long">
-
+                                    {% if messages is not null %}
                                     <!-- Chat History -->
                                     <div class="card chat-window mb-0">
                                         <div class="card-header msg_head">
                                             <div class="d-flex bd-highlight">
-                                                <a id="back_user_list" href="javascript:void(0)" class="back-user-list">
+                                                <a id="back_user_list" href="" class="back-user-list">
                                                     <i class="fas fa-chevron-left"></i>
                                                 </a>
                                                 <div class="user_info">
-                                                    <span>Hendrita</span>
-                                                    <p class="mb-0 active">Online</p>
+                                                    <span>{{ user.firstName }} {{ user.lastName }}</span>
                                                 </div>
                                             </div>
                                             <div class="chat-options">
@@ -98,77 +106,84 @@
                                                 </ul>
                                             </div>
                                         </div>
-
                                         <div class="card-body msg_card_body chat-scroll pt-0">
                                             <ul class="list-unstyled">
-                                                <li class="chat-date mt-0"><span>Yesterday</span></li>
-                                                <li class="media received d-flex">
-                                                    <div class="media-body flex-grow-1">
-                                                        <div class="msg-box">
-                                                            <div>
-                                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, incididunt ut labore et dolore magna aliqua. </p>
-                                                            </div>
-                                                            <span class="drop-item message-more-option">
-														<a href="#" class="more-vertical-bar" data-bs-toggle="dropdown" aria-expanded="false">
-															<i class="feather-more-vertical"></i>
-														</a>
-														<small class="dropdown-menu">
-															<a class="dropdown-item" href="#"><i class="feather-copy me-2"></i>Copy</a>
-															<a class="dropdown-item" href="#"><i class="feather-trash-2 me-2"></i>Delete</a>
-														</small>
-													</span>
-                                                            <ul class="chat-msg-info name-date">
-                                                                <li>Hendrita</li>
-                                                                <li>
-                                                                    <span class="chat-time">09:30 am<i class="fa-solid fa-check-double read"></i></span>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="media sent d-flex">
-                                                    <div class="media-body flex-grow-1">
-                                                        <div class="msg-box">
-                                                            <div>
-                                                                <p>Sed ut perspiciatis unde omnis iste natus error accusantium doloremque laudantium</p>
-                                                            </div>
-                                                            <span class="drop-item message-more-option">
-														<a href="#" class="more-vertical-bar" data-bs-toggle="dropdown" aria-expanded="false">
-															<i class="feather-more-vertical"></i>
-														</a>
-														<small class="dropdown-menu">
-															<a class="dropdown-item" href="#"><i class="feather-copy me-2"></i>Copy</a>
-															<a class="dropdown-item" href="#"><i class="feather-trash-2 me-2"></i>Delete</a>
-														</small>
-													</span>
-                                                            <ul class="chat-msg-info name-date">
-                                                                <li>
-                                                                    <span class="chat-time">10:45 am<i class="fa-solid fa-check"></i></span>
-                                                                </li>
-                                                                <li>John Steven</li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="chat-date"><span>Today</span></li>
-                                            </ul>
+                                                {% if messages|length != 0 %}
+                                                    {% for message in messages %}
 
+                                                        {% if app.user.id == message.senderId %}
+                                                            <li class="media sent d-flex">
+                                                                <div class="media-body flex-grow-1">
+                                                                    <div class="msg-box">
+                                                                        <div>
+                                                                            <p>{{ message.content|nl2br }}</p>
+                                                                        </div>
+                                                                        <span class="drop-item message-more-option">
+														<a href="#" class="more-vertical-bar" data-bs-toggle="dropdown" aria-expanded="false">
+															<i class="feather-more-vertical"></i>
+														</a>
+														<small class="dropdown-menu">
+															<a class="dropdown-item" href="#"><i class="feather-copy me-2"></i>Copy</a>
+															<a class="dropdown-item" href="#"><i class="feather-trash-2 me-2"></i>Delete</a>
+														</small>
+													</span>
+                                                                        <ul class="chat-msg-info name-date">
+                                                                            <li>
+                                                                                <span class="chat-time">10:45 am<i class="fa-solid fa-check"></i></span>
+                                                                            </li>
+                                                                            <li>John Steven</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        {% else  %}
+                                                            <li class="media received d-flex">
+                                                                <div class="media-body flex-grow-1">
+                                                                    <div class="msg-box">
+                                                                        <div>
+                                                                            <p>{{ message.content|nl2br }} </p>
+                                                                        </div>
+                                                                        <span class="drop-item message-more-option">
+														<a href="#" class="more-vertical-bar" data-bs-toggle="dropdown" aria-expanded="false">
+															<i class="feather-more-vertical"></i>
+														</a>
+														<small class="dropdown-menu">
+															<a class="dropdown-item" href="#"><i class="feather-copy me-2"></i>Copy</a>
+															<a class="dropdown-item" href="#"><i class="feather-trash-2 me-2"></i>Delete</a>
+														</small>
+													</span>
+                                                                        <ul class="chat-msg-info name-date">
+                                                                            <li>Hendrita</li>
+                                                                            <li>
+                                                                                <span class="chat-time">09:30 am<i class="fa-solid fa-check-double read"></i></span>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        {% endif %}
+
+                                                    {% endfor %}
+
+
+                                                {% else %}
+                                                    <li class="chat-date mt-0"><span>Aucun message.</span></li>
+                                                {% endif %}
+
+                                            </ul>
                                         </div>
 
-                                        <div class="card-footer">
-                                            <div class="input-group">
-                                                <div class="btn-file btn">
-                                                    <i class="feather-plus"></i>
-                                                    <input type="file">
-                                                </div>
-                                                <input class="form-control type_msg mh-auto empty_check" placeholder="Write your message...">
-                                                <div class="send-action">
-                                                    <a href="javascript:void(0);"><i class="fa-solid fa-face-smile"></i></a>
-                                                    <a href="javascript:void(0);"><i class="feather-mic"></i></a>
-                                                    <button class="btn btn-primary btn_send"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                                        <form action="{{ path('my_conversation_create_message', {'id': conversation.id}) }}" method="post">
+                                            <div class="card-footer">
+                                                <div class="input-group">
+                                                    <input class="form-control type_msg mh-auto" name="content" placeholder="Écrivez votre message......">
+                                                    <div class="send-action">
+                                                        <button type="submit" class="btn btn-primary btn_send"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </form>
+
                                     </div>
 
                                     <!-- Chat Profile -->
@@ -257,6 +272,7 @@
                                         </div>
                                     </div>
                                     <!-- /Chat Content -->
+                                    {% endif %}
                                 </div>
                                 <!-- /Chat Content -->
                             </div>

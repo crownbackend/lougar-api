@@ -3,6 +3,7 @@
 namespace App\Manager;
 
 use App\Entity\Conversation;
+use App\Entity\Message;
 use App\Entity\Reservation;
 use App\Entity\User;
 use App\Repository\ConversationRepository;
@@ -17,6 +18,18 @@ class ConversationManager
     public function index(User $user): array
     {
         return $this->conversationRepository->findByUser($user);
+    }
+
+    public function createMessage(Conversation $conversation, User $user, array $data): Conversation
+    {
+        // TODO check validator message
+        $message = new Message();
+        $message->setConversation($conversation);
+        $message->setSenderId($user->getId());
+        $message->setContent($data['content']);
+        $this->entityManager->persist($message);
+        $this->entityManager->flush();
+        return $conversation;
     }
 
     public function create(Reservation $reservation, User $user): Conversation|null

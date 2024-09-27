@@ -9,6 +9,7 @@ use App\Entity\Reservation;
 use App\Manager\ConversationManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -19,7 +20,7 @@ class ConversationController extends AbstractController
     {
     }
 
-    #[Route('/{id}', name: 'index', defaults: ["id" => null])]
+    #[Route('/{id}', name: 'index', defaults: ["id" => null], methods: ["GET", "POST"])]
     public function index(?Conversation $conversation = null): Response
     {
         $conversations = $this->manager->index($this->getUser());
@@ -28,10 +29,20 @@ class ConversationController extends AbstractController
             'conversation' => $conversation,
         ]);
     }
-    #[Route('/create/{id}/conversation', name: 'create')]
-    public function create(Reservation $reservation): RedirectResponse
+    #[Route('/create/{id}/conversation', name: 'create_conversation')]
+    public function createConversation(Reservation $reservation): RedirectResponse
     {
         $conversation = $this->manager->create($reservation, $this->getUser());
+        return $this->redirectToRoute('my_conversation_index', [
+            'id' => $conversation?->getId(),
+        ]);
+    }
+
+    #[Route('/create/{id}/message', name: 'create_message')]
+    public function createMessage(Conversation $conversation, Request $request): RedirectResponse
+    {
+        $data = $request->request->all();
+        $conversation = $this->manager->createMessage($conversation, $this->getUser(), $data);
         return $this->redirectToRoute('my_conversation_index', [
             'id' => $conversation?->getId(),
         ]);
