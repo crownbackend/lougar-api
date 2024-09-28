@@ -20,7 +20,9 @@ class ConversationRepository extends ServiceEntityRepository
     public function findByUser(User $user): array
     {
         return $this->createQueryBuilder('c')
-            ->innerJoin('c.users', 'u')
+            ->select("c", "u", "r")
+            ->leftJoin('c.users', 'u')
+            ->leftJoin("c.reservation", "r")
             ->where('u.id = :userId')
             ->setParameter('userId', $user->getId())
             ->getQuery()

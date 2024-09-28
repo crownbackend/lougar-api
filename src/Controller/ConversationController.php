@@ -8,6 +8,7 @@ use App\Entity\Conversation;
 use App\Entity\Reservation;
 use App\Manager\ConversationManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,5 +47,16 @@ class ConversationController extends AbstractController
         return $this->redirectToRoute('my_conversation_index', [
             'id' => $conversation?->getId(),
         ]);
+    }
+    #[Route('/messages/read', name: 'read_messages', methods: ['POST'])]
+    public function readMessages(Request $request): JsonResponse
+    {
+        if ($request->getContent()) {
+            $data = json_decode($request->getContent(), true);
+        } else {
+            $data = $request->request->all();
+        }
+        $this->manager->readMessages($data);
+        return $this->json('success', 201);
     }
 }

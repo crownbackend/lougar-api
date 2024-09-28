@@ -7,17 +7,26 @@ use App\Entity\Message;
 use App\Entity\Reservation;
 use App\Entity\User;
 use App\Repository\ConversationRepository;
+use App\Repository\MessageRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Uid\Uuid;
 
 class ConversationManager
 {
-    public function __construct(private EntityManagerInterface $entityManager, private ConversationRepository $conversationRepository)
+    public function __construct(private EntityManagerInterface $entityManager,
+                                private ConversationRepository $conversationRepository,
+                                private MessageRepository $messageRepository)
     {
     }
 
     public function index(User $user): array
     {
         return $this->conversationRepository->findByUser($user);
+    }
+
+    public function messagesCount(Conversation $conversation, Uuid $uuid): int
+    {
+        return $this->messageRepository->findByCount($conversation, $uuid);
     }
 
     public function createMessage(Conversation $conversation, User $user, array $data): Conversation
@@ -50,5 +59,16 @@ class ConversationManager
             return $reservation->getConversation();
         }
         return null;
+    }
+
+    public function readMessages(array $data): void
+    {
+        $messages = $this->messageRepository->findBy(["id" => $data]);
+        foreach ($messages as $message) {
+            $message->setReadAt(new \DateTimeImmutable());
+            $message->setUpdatedAt(new \DateTimeImmutable());
+            $this->entityManager->persist($message);
+        }
+        $this->entityManager->flush();
     }
 }
