@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/mes-conversation', name: 'my_conversation_')]
@@ -58,5 +60,17 @@ class ConversationController extends AbstractController
         }
         $this->manager->readMessages($data);
         return $this->json('success', 201);
+    }
+
+    public function publish(HubInterface $hub): Response
+    {
+        $update = new Update(
+            'https://example.com/books/1',
+            json_encode(['status' => 'OutOfStock'])
+        );
+
+        $hub->publish($update);
+
+        return new Response('published!');
     }
 }
