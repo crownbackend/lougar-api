@@ -75,14 +75,14 @@ services:
     restart: unless-stopped
     environment:
       # Uncomment the following line to disable HTTPS,
-      #SERVER_NAME: ':80'
+      SERVER_NAME: ':80'
       MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_JWT_SECRET}
       MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_JWT_SECRET}
       # Set the URL of your Symfony project (without trailing slash!) as value of the cors_origins directive
       MERCURE_EXTRA_DIRECTIVES: |
-        cors_origins http://127.0.0.1:8090
+        cors_origins http://localhost:8080
     ports:
-      - "8090:80"
+      - "3000:80"
     # Comment the following line to disable the development mode
     command: /usr/bin/caddy run --config /etc/caddy/dev.Caddyfile
     healthcheck:
@@ -90,6 +90,8 @@ services:
       timeout: 5s
       retries: 5
       start_period: 60s
+    networks:
+      - app-network
     volumes:
       - mercure_data:/data
       - mercure_config:/config

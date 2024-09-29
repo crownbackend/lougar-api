@@ -42,9 +42,18 @@ class ConversationController extends AbstractController
     }
 
     #[Route('/create/{id}/message', name: 'create_message')]
-    public function createMessage(Conversation $conversation, Request $request): RedirectResponse
+    public function createMessage(Conversation $conversation, Request $request, HubInterface $hub): RedirectResponse
     {
         $data = $request->request->all();
+
+        $topic = 'http://example.com/chat/' . $conversation->getId();
+        // Publier un message sur ce topic
+        $update = new Update(
+            $topic,
+            json_encode(['message' => $data['content'], 'sender' => $this->getUser()->getId()])
+        );
+
+        $hub->publish($update);
         $conversation = $this->manager->createMessage($conversation, $this->getUser(), $data);
         return $this->redirectToRoute('my_conversation_index', [
             'id' => $conversation?->getId(),
@@ -60,17 +69,5 @@ class ConversationController extends AbstractController
         }
         $this->manager->readMessages($data);
         return $this->json('success', 201);
-    }
-
-    public function publish(HubInterface $hub): Response
-    {
-        $update = new Update(
-            'https://example.com/books/1',
-            json_encode(['status' => 'OutOfStock'])
-        );
-
-        $hub->publish($update);
-
-        return new Response('published!');
     }
 }

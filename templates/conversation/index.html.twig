@@ -351,10 +351,15 @@
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="{{ asset('assets/js/chat.js') }}"></script>
     <script>
-        const eventSource = new EventSource("{{ mercure('https://example.com/books/1')|escape('js') }}");
+        {% if conversation %}
+        // Si vous avez accès à l'objet Conversation
+        const eventSource = new EventSource(`{{ mercure('http://example.com/chat/'~conversation.id)|escape('js') }}`);
+
         eventSource.onmessage = event => {
-            // Will be called every time an update is published by the server
-            console.log(JSON.parse(event.data));
-        }
+            const data = JSON.parse(event.data);
+            console.log(data);
+            // Vous pouvez mettre à jour l'interface utilisateur ici avec le message reçu
+        };
+        {% endif %}
     </script>
 {% endblock %}

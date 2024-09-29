@@ -8,7 +8,7 @@ input.addEventListener("click", function(e) {
     unreadMessagesIcons.forEach(icon => {
         const messageId = icon.getAttribute('data-id-message');
     });
-
+    console.log(unreadMessageIds)
 // Afficher ou utiliser le tableau des IDs
     if(unreadMessageIds.length > 0) {
         fetch('/mes-conversation/messages/read', {
