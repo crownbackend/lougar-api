@@ -29,7 +29,7 @@ class ConversationManager
         return $this->messageRepository->findByCount($conversation, $uuid);
     }
 
-    public function createMessage(Conversation $conversation, User $user, array $data): Conversation
+    public function createMessage(Conversation $conversation, User $user, array $data): Message
     {
         // TODO check validator message
         $message = new Message();
@@ -38,7 +38,7 @@ class ConversationManager
         $message->setContent($data['content']);
         $this->entityManager->persist($message);
         $this->entityManager->flush();
-        return $conversation;
+        return $message;
     }
 
     public function create(Reservation $reservation, User $user): Conversation|null

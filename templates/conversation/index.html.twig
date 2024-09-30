@@ -70,18 +70,6 @@
                                                     </div>
                                                 </a>
                                             {% endfor %}
-                                            {#                                            <a href="javascript:void(0);" class="media d-flex read-chat"> #}
-                                            {#                                                <div class="media-body flex-grow-1"> #}
-                                            {#                                                    <div> #}
-                                            {#                                                        <div class="user-name">John Smith</div> #}
-                                            {#                                                        <div class="user-last-chat"><i class="feather-image"></i> Image</div> #}
-                                            {#                                                    </div> #}
-                                            {#                                                    <div> #}
-                                            {#                                                        <div class="last-chat-time">10:19 AM</div> #}
-                                            {#                                                        <div class="badge badge-primary badge-pill">2</div> #}
-                                            {#                                                    </div> #}
-                                            {#                                                </div> #}
-                                            {#                                            </a> #}
                                         </div>
                                     </div>
                                 </div>
@@ -116,7 +104,6 @@
                                                 <ul class="list-unstyled" id="list-messages">
                                                     {% if messages|length != 0 %}
                                                         {% for message in messages %}
-
                                                             {% if app.user.id == message.senderId %}
                                                                 <li class="media sent d-flex">
                                                                     <div class="media-body flex-grow-1">
@@ -173,7 +160,7 @@
                                                                             </small>
 													                    </span>
                                                                             <ul class="chat-msg-info name-date">
-                                                                                <li>Hendrita</li>
+                                                                                <li>{{ user.firstName }} {{ user.lastName }}</li>
                                                                                 <li>
                                                                                     <span class="chat-time">
                                                                                         {{ message.createdAt|date('d/m/Y - H:i') }}
@@ -185,16 +172,14 @@
                                                                     </div>
                                                                 </li>
                                                             {% endif %}
-
                                                         {% endfor %}
                                                     {% else %}
                                                         <li class="chat-date mt-0"><span>Aucun message.</span></li>
                                                     {% endif %}
-
                                                 </ul>
                                             </div>
 
-                                            <form action="{{ path('my_conversation_create_message', {'id': conversation.id}) }}" method="post">
+                                            <form id="form-submit-message" action="{{ path('my_conversation_create_message', {'id': conversation.id}) }}" method="post">
                                                 <div class="card-footer">
                                                     <div class="input-group">
                                                         <input id="send-message-input" class="form-control type_msg mh-auto" name="content"
@@ -203,6 +188,7 @@
                                                             <button type="submit" class="btn btn-primary btn_send"><i class="fa fa-paper-plane" aria-hidden="true"></i>
                                                             </button>
                                                         </div>
+                                                        <input type="hidden" name="token" value="{{ csrf_token('send-message') }}">
                                                     </div>
                                                 </div>
                                             </form>
@@ -353,12 +339,47 @@
     <script>
         {% if conversation %}
         // Si vous avez accès à l'objet Conversation
-        const eventSource = new EventSource(`{{ mercure('http://example.com/chat/'~conversation.id)|escape('js') }}`);
+        const eventSource = new EventSource(`{{ mercure('https://lougar.fr/chat/'~conversation.id)|escape('js') }}`);
 
         eventSource.onmessage = event => {
             const data = JSON.parse(event.data);
             console.log(data);
-            // Vous pouvez mettre à jour l'interface utilisateur ici avec le message reçu
+
+            // Créer un nouvel élément de message reçu
+            const receivedMessage = document.createElement('li');
+            receivedMessage.classList.add('media', 'received', 'd-flex');
+            receivedMessage.innerHTML = `
+            <div class="media-body flex-grow-1">
+                <div class="msg-box">
+                    <div>
+                        <p>${data.message}</p>
+                    </div>
+                    <span class="drop-item message-more-option">
+                        <a href="#" class="more-vertical-bar" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="feather-more-vertical"></i>
+                        </a>
+                        <small class="dropdown-menu">
+                            <a class="dropdown-item" href="#"><i class="feather-copy me-2"></i>Copy</a>
+                            <a class="dropdown-item" href="#"><i class="feather-trash-2 me-2"></i>Delete</a>
+                        </small>
+                    </span>
+                    <ul class="chat-msg-info name-date">
+                        <li>
+                            <span class="chat-time">
+                                ${new Date(data.createdAt).toLocaleString('fr-FR')}
+                                ${data.readAt ?
+                `<i title="message vu le ${new Date(data.readAt).toLocaleString('fr-FR')}" class="fa-solid fa-check-double read"></i>` :
+                `<i class="fa-solid fa-check"></i>`}
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        `;
+
+            // Ajoute le message reçu à la liste des messages
+            const listMessages = document.querySelector("#list-messages");
+            listMessages.appendChild(receivedMessage);
         };
         {% endif %}
     </script>

@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Attribute\Route;
@@ -42,21 +43,33 @@ class ConversationController extends AbstractController
     }
 
     #[Route('/create/{id}/message', name: 'create_message')]
-    public function createMessage(Conversation $conversation, Request $request, HubInterface $hub): RedirectResponse
+    public function createMessage(Conversation $conversation, Request $request, HubInterface $hub): JsonResponse
     {
         $data = $request->request->all();
+        if (!$this->isCsrfTokenValid('send-message', $data['token'])) {
+            throw new NotFoundHttpException('Error csrf token');
+        }
 
-        $topic = 'http://example.com/chat/' . $conversation->getId();
-        // Publier un message sur ce topic
+        $message = $this->manager->createMessage($conversation, $this->getUser(), $data);
+        // Publier un message via Mercure
         $update = new Update(
-            $topic,
-            json_encode(['message' => $data['content'], 'sender' => $this->getUser()->getId()])
+            'https://lougar.fr/chat/' . $conversation->getId(),
+            json_encode([
+                'message' => $message->getContent(),
+                'senderId' => $this->getUser()->getId(),
+                'createdAt' => $message->getCreatedAt()->format('Y-m-d H:i'),
+                'readAt' => $message->getReadAt()?->format('Y-m-d H:i'),
+            ])
         );
-
         $hub->publish($update);
-        $conversation = $this->manager->createMessage($conversation, $this->getUser(), $data);
-        return $this->redirectToRoute('my_conversation_index', [
-            'id' => $conversation?->getId(),
+        // Renvoie une réponse JSON
+        return $this->json([
+            'success' => true,
+            'message' => [
+                'content' => $message->getContent(),
+                'createdAt' => $message->getCreatedAt()->format('Y-m-d H:i:s'),
+                'senderId' => $this->getUser()->getId()
+            ]
         ]);
     }
     #[Route('/messages/read', name: 'read_messages', methods: ['POST'])]
