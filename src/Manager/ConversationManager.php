@@ -10,12 +10,14 @@ use App\Repository\ConversationRepository;
 use App\Repository\MessageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ConversationManager
 {
     public function __construct(private EntityManagerInterface $entityManager,
                                 private ConversationRepository $conversationRepository,
-                                private MessageRepository $messageRepository)
+                                private MessageRepository $messageRepository, private ValidatorInterface $validator)
     {
     }
 
@@ -29,9 +31,37 @@ class ConversationManager
         return $this->messageRepository->findByCount($conversation, $uuid);
     }
 
-    public function createMessage(Conversation $conversation, User $user, array $data): Message
+    public function createMessage(Conversation $conversation, User $user, array $data): Message|array
     {
-        // TODO check validator message
+        $constraints = new Assert\Collection([
+            'content' => [
+                new Assert\NotBlank(['message' => 'Le message ne peut pas être vide.']),
+                new Assert\Length([
+                    'max' => 1000,
+                    'maxMessage' => 'Le message ne peut pas dépasser {{ limit }} caractères.'
+                ]),
+                new Assert\Type([
+                    'type' => 'string',
+                    'message' => 'Le message doit être une chaîne de caractères valide.'
+                ]),
+                new Assert\Regex([
+                    'pattern' => '/^[\w\s,.!?éèêëàâäôöîïùûüç\'-]*$/iu', // Facultatif : seulement lettres, chiffres, espaces et certains signes de ponctuation
+                    'message' => 'Le message contient des caractères non valides.',
+                ]),
+            ]
+        ]);
+
+        // Valider le contenu
+        $violations = $this->validator->validate(['content' => $data['content']], $constraints);
+
+        if (count($violations) > 0) {
+            // Retourner les erreurs si validation échoue
+            $errors = [];
+            foreach ($violations as $violation) {
+                $errors[] = $violation->getMessage();
+            }
+            return ['success' => false, 'errors' => $errors];
+        }
         $message = new Message();
         $message->setConversation($conversation);
         $message->setSenderId($user->getId());

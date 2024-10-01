@@ -59,41 +59,48 @@ if (formMessage) {
             .then(data => {
                 // Vérifiez si la réponse contient le message
                 if (data.success) {
-                    // Créez un nouvel élément de message
+                    // Crée un nouvel élément de message
                     const newMessage = document.createElement('li');
-                    newMessage.classList.add('media', 'sent', 'd-flex');
+                    const senderId = document.querySelector('#send_id').getAttribute('data-sendId')
+                    // Vérifie si le message a été envoyé par l'utilisateur actuel
+                    if (data.message.senderId === senderId) {
+                        newMessage.classList.add('media', 'sent', 'd-flex');
+                    } else {
+                        newMessage.classList.add('media', 'received', 'd-flex');
+                    }
+
                     newMessage.innerHTML = `
-                    <div class="media-body flex-grow-1">
-                        <div class="msg-box">
-                            <div>
-                                <p>${data.message.content.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p> <!-- Échapper les balises HTML -->
+                        <div class="media-body flex-grow-1">
+                            <div class="msg-box">
+                                <div>
+                                    <p>${data.message.content}</p>
+                                </div>
+                                <span class="drop-item message-more-option">
+                                    <a href="#" class="more-vertical-bar" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="feather-more-vertical"></i>
+                                    </a>
+                                    <small class="dropdown-menu">
+                                        <a class="dropdown-item" href="#"><i class="feather-copy me-2"></i>Copy</a>
+                                        <a class="dropdown-item" href="#"><i class="feather-trash-2 me-2"></i>Delete</a>
+                                    </small>
+                                </span>
+                                <ul class="chat-msg-info name-date">
+                                    <li>
+                                        <span class="chat-time">
+                                            ${new Date(data.message.createdAt).toLocaleString()}
+                                            ${data.message.readAt ? '<i title="message lu le ${new Date(data.message.readAt).toLocaleString()}" class="fa-solid fa-check-double read"></i>' : '<i class="fa-solid fa-check"></i>'}
+                                        </span>
+                                    </li>
+                                </ul>
                             </div>
-                            <span class="drop-item message-more-option">
-                                <a href="#" class="more-vertical-bar" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="feather-more-vertical"></i>
-                                </a>
-                                <small class="dropdown-menu">
-                                    <a class="dropdown-item" href="#"><i class="feather-copy me-2"></i>Copy</a>
-                                    <a class="dropdown-item" href="#"><i class="feather-trash-2 me-2"></i>Delete</a>
-                                </small>
-                            </span>
-                            <ul class="chat-msg-info name-date">
-                                <li>
-                                    <span class="chat-time">
-                                        ${new Date(data.message.createdAt).toLocaleString('fr-FR')}
-                                        ${data.message.readAt ?
-                        `<i title="message vu le ${new Date(data.message.readAt).toLocaleString('fr-FR')}" class="fa-solid fa-check-double read"></i>` :
-                        `<i class="fa-solid fa-check"></i>`}
-                                    </span>
-                                </li>
-                            </ul>
                         </div>
-                    </div>
-                `;
-                    listMessages.appendChild(newMessage); // Ajouter le nouveau message à la liste
-                    formMessage.reset(); // Réinitialiser le formulaire
+                    `;
+
+                    // Ajoute le message à la liste des messages
+                    listMessages.appendChild(newMessage);
+                    formMessage.reset();  // Réinitialise le formulaire
                 } else {
-                    alert("Erreur d'envoi : " + (data.error || "Erreur inconnue")); // Afficher l'erreur si présente
+                    alert("Erreur d'envoi");
                 }
             })
             .catch(error => {

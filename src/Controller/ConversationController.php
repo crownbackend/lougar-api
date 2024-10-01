@@ -51,6 +51,12 @@ class ConversationController extends AbstractController
         }
 
         $message = $this->manager->createMessage($conversation, $this->getUser(), $data);
+        if (is_array($message) && !$message['success']) {
+            return $this->json([
+                'success' => false,
+                'errors' => $message['errors']
+            ], 400);
+        }
         // Publier un message via Mercure
         $update = new Update(
             'https://lougar.fr/chat/' . $conversation->getId(),

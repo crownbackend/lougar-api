@@ -36,10 +36,8 @@
                                             </a> -->
                                         </div>
                                         <div class="card-body contacts_body chat-users-list chat-scroll">
-                                            {% set messages = null %}
-                                            {% set user = null %}
                                             {% for chat in conversations %}
-
+                                                {% set user = null %}
                                                 {% if app.user.id != chat.reservation.tenant.id %}
                                                     {% set user = chat.reservation.tenant %}
                                                 {% endif %}
@@ -48,18 +46,16 @@
                                                     {% set user = chat.reservation.renter %}
                                                 {% endif %}
 
-                                                {% if conversation.id is defined %}
-                                                    {% if conversation.id == chat.id %}
-                                                        {% set messages = chat.messages %}
-                                                    {% endif %}
-                                                {% endif %}
-
                                                 <a href="{{ path('my_conversation_index', {'id': chat.id}) }}"
                                                    class="media d-flex {% if conversation.id is defined %}{% if conversation.id == chat.id %}active{% endif %}{% endif %}">
                                                     <div class="media-body flex-grow-1">
                                                         <div>
                                                             <div class="user-name">{{ user.firstName }} {{ user.lastName }}</div>
-                                                            <div class="user-last-chat">Lorem ipsum dolor</div>
+                                                            <div class="user-last-chat">
+                                                                {% if chat.messages.last != false %}
+                                                                    {{ chat.messages.last.content|e }}
+                                                                {% endif %}
+                                                            </div>
                                                         </div>
                                                         <div>
                                                             <div class="last-chat-time">{{ chat.createdAt|date('d/m/Y - H:i') }}</div>
@@ -77,16 +73,26 @@
 
                                 <!-- Chat Content -->
                                 <div class="col-lg-9 chat-cont-right chat-window-long">
-                                    {% if messages is not null %}
+                                    {% if conversation is not null %}
+                                        {% set user = null %}
+                                        {% if app.user.id != conversation.reservation.tenant.id %}
+                                            {% set user = conversation.reservation.tenant %}
+                                        {% endif %}
+
+                                        {% if app.user.id != conversation.reservation.renter.id %}
+                                            {% set user = conversation.reservation.renter %}
+                                        {% endif %}
                                         <!-- Chat History -->
-                                        <div class="card chat-window mb-0">
+                                        <div class="card chat-window mb-0" id="send_id" data-sendId="{{ app.user.id }}">
                                             <div class="card-header msg_head">
                                                 <div class="d-flex bd-highlight">
                                                     <a id="back_user_list" href="" class="back-user-list">
                                                         <i class="fas fa-chevron-left"></i>
                                                     </a>
                                                     <div class="user_info">
-                                                        <span>{{ user.firstName }} {{ user.lastName }}</span>
+                                                        <span>
+                                                            {{ user.firstName }} {{ user.lastName }}
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 <div class="chat-options">
@@ -102,14 +108,14 @@
                                             </div>
                                             <div class="card-body msg_card_body chat-scroll pt-0">
                                                 <ul class="list-unstyled" id="list-messages">
-                                                    {% if messages|length != 0 %}
-                                                        {% for message in messages %}
+                                                    {% if conversation.messages|length != 0 %}
+                                                        {% for message in conversation.messages %}
                                                             {% if app.user.id == message.senderId %}
                                                                 <li class="media sent d-flex">
                                                                     <div class="media-body flex-grow-1">
                                                                         <div class="msg-box">
                                                                             <div>
-                                                                                <p>{{ message.content|nl2br }}</p>
+                                                                                <p>{{ message.content|e }}</p>
                                                                             </div>
                                                                             <span class="drop-item message-more-option">
                                                                             <a href="#" class="more-vertical-bar"
@@ -144,7 +150,7 @@
                                                                     <div class="media-body flex-grow-1">
                                                                         <div class="msg-box">
                                                                             <div>
-                                                                                <p>{{ message.content|nl2br }} </p>
+                                                                                <p>{{ message.content|e }} </p>
                                                                             </div>
                                                                             <span class="drop-item message-more-option">
                                                                             <a href="#" class="more-vertical-bar"
@@ -160,7 +166,9 @@
                                                                             </small>
 													                    </span>
                                                                             <ul class="chat-msg-info name-date">
-                                                                                <li>{{ user.firstName }} {{ user.lastName }}</li>
+                                                                                <li>
+                                                                                    {{ user.firstName }} {{ user.lastName }}
+                                                                                </li>
                                                                                 <li>
                                                                                     <span class="chat-time">
                                                                                         {{ message.createdAt|date('d/m/Y - H:i') }}
@@ -343,13 +351,13 @@
 
         eventSource.onmessage = event => {
             const data = JSON.parse(event.data);
-            console.log(data);
 
-            // Créer un nouvel élément de message reçu
-            const receivedMessage = document.createElement('li');
-            receivedMessage.classList.add('media', 'received', 'd-flex');
-            receivedMessage.innerHTML = `
-            <div class="media-body flex-grow-1">
+            if(data.senderId !== "{{ app.user.id }}") {
+                // Créer un nouvel élément de message reçu
+                const receivedMessage = document.createElement('li');
+                receivedMessage.classList.add('media', 'received', 'd-flex');
+                receivedMessage.innerHTML = `
+                <div class="media-body flex-grow-1">
                 <div class="msg-box">
                     <div>
                         <p>${data.message}</p>
@@ -368,18 +376,19 @@
                             <span class="chat-time">
                                 ${new Date(data.createdAt).toLocaleString('fr-FR')}
                                 ${data.readAt ?
-                `<i title="message vu le ${new Date(data.readAt).toLocaleString('fr-FR')}" class="fa-solid fa-check-double read"></i>` :
-                `<i class="fa-solid fa-check"></i>`}
+                    `<i title="message vu le ${new Date(data.readAt).toLocaleString('fr-FR')}" class="fa-solid fa-check-double read"></i>` :
+                    `<i class="fa-solid fa-check"></i>`}
                             </span>
                         </li>
                     </ul>
                 </div>
-            </div>
-        `;
+            </div>`;
 
-            // Ajoute le message reçu à la liste des messages
-            const listMessages = document.querySelector("#list-messages");
-            listMessages.appendChild(receivedMessage);
+                // Ajoute le message reçu à la liste des messages
+                const listMessages = document.querySelector("#list-messages");
+                listMessages.appendChild(receivedMessage);
+            }
+
         };
         {% endif %}
     </script>

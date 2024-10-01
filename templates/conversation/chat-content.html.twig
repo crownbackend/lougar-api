@@ -1,204 +1,239 @@
-<div class="col-lg-9 chat-cont-right chat-window-long">
-    {% if messages is not null %}
-        <!-- Chat History -->
-        <div class="card chat-window mb-0">
-            <div class="card-header msg_head">
-                <div class="d-flex bd-highlight">
-                    <a id="back_user_list" href="" class="back-user-list">
-                        <i class="fas fa-chevron-left"></i>
-                    </a>
-                    <div class="user_info">
-                        <span>{{ user.firstName }} {{ user.lastName }}</span>
-                    </div>
+
+
+{% if conversation is not null %}
+    {% set user = null %}
+    {% if app.user.id != conversation.reservation.tenant.id %}
+        {% set user = conversation.reservation.tenant %}
+    {% endif %}
+
+    {% if app.user.id != conversation.reservation.renter.id %}
+        {% set user = conversation.reservation.renter %}
+    {% endif %}
+    <!-- Chat History -->
+    <div class="card chat-window mb-0">
+        <div class="card-header msg_head">
+            <div class="d-flex bd-highlight">
+                <a id="back_user_list" href="" class="back-user-list">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+                <div class="user_info">
+                                                        <span>
+                                                            {{ user.firstName }} {{ user.lastName }}
+                                                        </span>
                 </div>
-                <div class="chat-options">
+            </div>
+            <div class="chat-options">
+                <ul>
+                    <li><a href="#"><i class="feather-search"></i></a></li>
+                    <li><a href="#" class="chat-profile-open"><i
+                                    class="feather-user" id="task_chat"></i></a>
+                    </li>
+                    <li><a href="#" class="with-bg"><i
+                                    class="feather-more-horizontal"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="card-body msg_card_body chat-scroll pt-0">
+            <ul class="list-unstyled">
+                {% if conversation.messages|length != 0 %}
+                    {% for message in conversation.messages %}
+                        {% if app.user.id == message.senderId %}
+                            <li class="media sent d-flex">
+                                <div class="media-body flex-grow-1">
+                                    <div class="msg-box">
+                                        <div>
+                                            <p>{{ message.content|nl2br }}</p>
+                                        </div>
+                                        <span class="drop-item message-more-option">
+                                                                            <a href="#" class="more-vertical-bar"
+                                                                               data-bs-toggle="dropdown"
+                                                                               aria-expanded="false">
+                                                                                <i class="feather-more-vertical"></i>
+                                                                            </a>
+                                                                            <small class="dropdown-menu">
+                                                                                <a class="dropdown-item" href="#"><i
+                                                                                            class="feather-copy me-2"></i>Copy</a>
+                                                                                <a class="dropdown-item" href="#"><i
+                                                                                            class="feather-trash-2 me-2"></i>Delete</a>
+                                                                            </small>
+													                    </span>
+                                        <ul class="chat-msg-info name-date">
+                                            <li>
+                                                                                    <span class="chat-time">
+                                                                                        {{ message.createdAt|date('d/m/Y - H:i') }}
+                                                                                        {% if message.readAt is null %}
+                                                                                            <i class="fa-solid fa-check"></i>
+                                                                                        {% else %}
+                                                                                            <i title="message vue le {{ message.readAt|date('d/m/Y - H:i') }}" class="fa-solid fa-check-double read"></i>
+                                                                                        {% endif %}
+                                                                                    </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        {% else %}
+                            <li class="media received d-flex">
+                                <div class="media-body flex-grow-1">
+                                    <div class="msg-box">
+                                        <div>
+                                            <p>{{ message.content|nl2br }} </p>
+                                        </div>
+                                        <span class="drop-item message-more-option">
+                                            <a href="#" class="more-vertical-bar"
+                                               data-bs-toggle="dropdown"
+                                               aria-expanded="false">
+                                                <i class="feather-more-vertical"></i>
+                                            </a>
+                                            <small class="dropdown-menu">
+                                                <a class="dropdown-item" href="#"><i
+                                                            class="feather-copy me-2"></i>Copy</a>
+                                                <a class="dropdown-item" href="#"><i
+                                                            class="feather-trash-2 me-2"></i>Delete</a>
+                                            </small>
+                                        </span>
+                                        <ul class="chat-msg-info name-date">
+                                            <li>
+                                                {{ user.firstName }} {{ user.lastName }}
+                                            </li>
+                                            <li>
+                                                <span class="chat-time">
+                                                    {{ message.createdAt|date('d/m/Y - H:i') }}
+                                                    <div class="message_id" {% if message.readAt is null %} data-id-message="{{ message.id }}" {% endif %}></div>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <li class="chat-date mt-0"><span>Aucun message.</span></li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <form id="form-submit-message" action="{{ path('my_conversation_create_message', {'id': conversation.id}) }}" method="post">
+            <div class="card-footer">
+                <div class="input-group">
+                    <input id="send-message-input" class="form-control type_msg mh-auto" name="content"
+                           placeholder="Écrivez votre message......">
+                    <div class="send-action">
+                        <button type="submit" class="btn btn-primary btn_send"><i class="fa fa-paper-plane" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <input type="hidden" name="token" value="{{ csrf_token('send-message') }}">
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+    <!-- Chat Profile -->
+    <div class="chat-cont-profile chat-profile-right" id="task_window">
+        <div class="card mb-sm-3 mb-md-0 flex-fill">
+            <div class="card-header">
+                <div class="profile-wrap">
+                    <div class="chat-profile">
+                        <a id="back_user_lists" href="javascript:void(0)"
+                           class="back-user-list">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                        <div class="chat-profile-info">
+                            <h6>Hendrita</h6>
+                            <p>Newyork</p>
+                        </div>
+                    </div>
                     <ul>
-                        <li><a href="#"><i class="feather-search"></i></a></li>
-                        <li><a href="#" class="chat-profile-open"><i class="feather-user" id="task_chat"></i></a></li>
-                        <li><a href="#" class="with-bg"><i class="feather-more-horizontal"></i></a></li>
+                        <li>
+                            <a href="javascript:void(0);"><i
+                                        class="feather-mail"></i></a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);"><i
+                                        class="feather-phone"></i></a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);"><i
+                                        class="feather-map-pin"></i></a>
+                        </li>
                     </ul>
                 </div>
             </div>
-            <div class="card-body msg_card_body chat-scroll pt-0">
-                <ul class="list-unstyled">
-                    {% if messages|length != 0 %}
-                        <li class="media received d-flex">
-                            <div class="media-body flex-grow-1">
-                                <div class="msg-box">
-                                    <div>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, incididunt ut labore et dolore magna aliqua. </p>
-                                    </div>
-                                    <span class="drop-item message-more-option">
-														<a href="#" class="more-vertical-bar" data-bs-toggle="dropdown" aria-expanded="false">
-															<i class="feather-more-vertical"></i>
-														</a>
-														<small class="dropdown-menu">
-															<a class="dropdown-item" href="#"><i class="feather-copy me-2"></i>Copy</a>
-															<a class="dropdown-item" href="#"><i class="feather-trash-2 me-2"></i>Delete</a>
-														</small>
-													</span>
-                                    <ul class="chat-msg-info name-date">
-                                        <li>Hendrita</li>
-                                        <li>
-                                            <span class="chat-time">09:30 am<i class="fa-solid fa-check-double read"></i></span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+            <div class="card-body">
+                <div class="chat-pro-list">
+                    <ul>
+                        <li>
+                                                                <span class="role-title"><i
+                                                                            class="fa-solid fa-briefcase"></i>Company</span><span
+                                    class="role-info">Company Name</span>
                         </li>
-                        <li class="media sent d-flex">
-                            <div class="media-body flex-grow-1">
-                                <div class="msg-box">
-                                    <div>
-                                        <p>Sed ut perspiciatis unde omnis iste natus error accusantium doloremque laudantium</p>
-                                    </div>
-                                    <span class="drop-item message-more-option">
-														<a href="#" class="more-vertical-bar" data-bs-toggle="dropdown" aria-expanded="false">
-															<i class="feather-more-vertical"></i>
-														</a>
-														<small class="dropdown-menu">
-															<a class="dropdown-item" href="#"><i class="feather-copy me-2"></i>Copy</a>
-															<a class="dropdown-item" href="#"><i class="feather-trash-2 me-2"></i>Delete</a>
-														</small>
-													</span>
-                                    <ul class="chat-msg-info name-date">
-                                        <li>
-                                            <span class="chat-time">10:45 am<i class="fa-solid fa-check"></i></span>
-                                        </li>
-                                        <li>John Steven</li>
-                                    </ul>
-                                </div>
-                            </div>
+                        <li>
+                                                                <span class="role-title"><i
+                                                                            class="fa-solid fa-user"></i>Role</span><span
+                                    class="role-info">Co-founder</span>
                         </li>
-                        <li class="media received d-flex">
-                            <div class="media-body flex-grow-1">
-                                <div class="msg-box">
-                                    <div>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, incididunt ut labore et dolore magna aliqua. </p>
-                                    </div>
-                                    <span class="drop-item message-more-option">
-														<a href="#" class="more-vertical-bar" data-bs-toggle="dropdown" aria-expanded="false">
-															<i class="feather-more-vertical"></i>
-														</a>
-														<small class="dropdown-menu">
-															<a class="dropdown-item" href="#"><i class="feather-copy me-2"></i>Copy</a>
-															<a class="dropdown-item" href="#"><i class="feather-trash-2 me-2"></i>Delete</a>
-														</small>
-													</span>
-                                    <ul class="chat-msg-info name-date">
-                                        <li>Hendrita</li>
-                                        <li>
-                                            <span class="chat-time">09:30 am<i class="fa-solid fa-check-double read"></i></span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                        <li>
+                                                                <span class="role-title"><i
+                                                                            class="fa-solid fa-phone"></i>Phone</span><span
+                                    class="role-info">+1 123 456 7890</span>
                         </li>
-                    {% else %}
-                        <li class="chat-date mt-0"><span>Aucun message.</span></li>
-                    {% endif %}
-
-                </ul>
-            </div>
-
-            <div class="card-footer">
-                <div class="input-group">
-                    {{ form_start(form) }}
-                    {{ form_widget(form.content) }}
-                    {{ form_errors(form.content) }}
-                    <div class="send-action">
-                        <button type="submit" class="btn btn-primary btn_send"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-                    </div>
-                    {{ form_end(form) }}
+                        <li>
+                                                                <span class="role-title"><i
+                                                                            class="fa-solid fa-envelope"></i>Email</span><span
+                                    class="role-info">info@johnsteven.com</span>
+                        </li>
+                    </ul>
                 </div>
-            </div>
-        </div>
-
-        <!-- Chat Profile -->
-        <div class="chat-cont-profile chat-profile-right"  id="task_window">
-            <div class="card mb-sm-3 mb-md-0 flex-fill">
-                <div class="card-header">
-                    <div class="profile-wrap">
-                        <div class="chat-profile">
-                            <a id="back_user_lists" href="javascript:void(0)" class="back-user-list">
-                                <i class="fas fa-chevron-left"></i>
-                            </a>
-                            <div class="chat-profile-info">
-                                <h6>Hendrita</h6>
-                                <p>Newyork</p>
-                            </div>
-                        </div>
+                <div class="chat-media">
+                    <div class="chat-media-title">
+                        <h6>Shared Media</h6>
+                        <span>(3475 items)</span>
+                    </div>
+                    <div class="chat-notification">
                         <ul>
                             <li>
-                                <a href="javascript:void(0);"><i class="feather-mail"></i></a>
+                                <p><i class="fa-solid fa-bell"></i> Notifications
+                                </p>
+                                <div class="status-toggle blue-tog d-flex justify-content-sm-end align-items-center">
+                                    <input type="checkbox" id="status_1"
+                                           class="check" checked="">
+                                    <label for="status_1" class="checktoggle">checkbox</label>
+                                </div>
                             </li>
                             <li>
-                                <a href="javascript:void(0);"><i class="feather-phone"></i></a>
+                                <p><i class="fa-solid fa-star"></i> Add To
+                                    Favourites</p>
+                                <div class="status-toggle blue-tog d-flex justify-content-sm-end align-items-center">
+                                    <input type="checkbox" id="status_2"
+                                           class="check" checked="">
+                                    <label for="status_2" class="checktoggle">checkbox</label>
+                                </div>
                             </li>
                             <li>
-                                <a href="javascript:void(0);"><i class="feather-map-pin"></i></a>
+                                <p><i class="fa-solid fa-volume-xmark"></i> Mute</p>
+                                <div class="status-toggle blue-tog d-flex justify-content-sm-end align-items-center">
+                                    <input type="checkbox" id="status_3"
+                                           class="check">
+                                    <label for="status_3" class="checktoggle">checkbox</label>
+                                </div>
                             </li>
                         </ul>
                     </div>
-                </div>
-                <div class="card-body">
-                    <div class="chat-pro-list">
+                    <div class="clear-list">
                         <ul>
-                            <li>
-                                <span class="role-title"><i class="fa-solid fa-briefcase"></i>Company</span><span class="role-info">Company Name</span>
-                            </li>
-                            <li>
-                                <span class="role-title"><i class="fa-solid fa-user"></i>Role</span><span class="role-info">Co-founder</span>
-                            </li>
-                            <li>
-                                <span class="role-title"><i class="fa-solid fa-phone"></i>Phone</span><span class="role-info">+1 123 456 7890</span>
-                            </li>
-                            <li>
-                                <span class="role-title"><i class="fa-solid fa-envelope"></i>Email</span><span class="role-info">info@johnsteven.com</span>
-                            </li>
+                            <li><a href="#"><i class="feather-trash-2"></i>Clear
+                                    Chat</a></li>
+                            <li><a href="#"><i class="feather-external-link"></i>Export
+                                    Chat</a></li>
+                            <li><a href="#"><i class="feather-alert-circle"></i>Report
+                                    Contact</a></li>
                         </ul>
-                    </div>
-                    <div class="chat-media">
-                        <div class="chat-media-title">
-                            <h6>Shared Media</h6>
-                            <span>(3475 items)</span>
-                        </div>
-                        <div class="chat-notification">
-                            <ul>
-                                <li>
-                                    <p><i class="fa-solid fa-bell"></i> Notifications</p>
-                                    <div class="status-toggle blue-tog d-flex justify-content-sm-end align-items-center">
-                                        <input type="checkbox" id="status_1" class="check" checked="">
-                                        <label for="status_1" class="checktoggle">checkbox</label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <p><i class="fa-solid fa-star"></i> Add To Favourites</p>
-                                    <div class="status-toggle blue-tog d-flex justify-content-sm-end align-items-center">
-                                        <input type="checkbox" id="status_2" class="check" checked="">
-                                        <label for="status_2" class="checktoggle">checkbox</label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <p><i class="fa-solid fa-volume-xmark"></i> Mute</p>
-                                    <div class="status-toggle blue-tog d-flex justify-content-sm-end align-items-center">
-                                        <input type="checkbox" id="status_3" class="check">
-                                        <label for="status_3" class="checktoggle">checkbox</label>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="clear-list">
-                            <ul>
-                                <li><a href="#"><i class="feather-trash-2"></i>Clear Chat</a></li>
-                                <li><a href="#"><i class="feather-external-link"></i>Export Chat</a></li>
-                                <li><a href="#"><i class="feather-alert-circle"></i>Report Contact</a></li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- /Chat Content -->
-    {% endif %}
-</div>
+    </div>
+    <!-- /Chat Content -->
+{% endif %}
