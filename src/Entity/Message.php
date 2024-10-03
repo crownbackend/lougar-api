@@ -8,7 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
-#[ORM\Index( name: 'content_idx', columns: ['content'])]
+#[ORM\Index( name: 'send_id_idx', columns: ['sender_id'])]
+#[ORM\Index( name: 'read_at_idx', columns: ['read_at'])]
 class Message extends BaseEntity
 {
     #[ORM\Column(type: Types::TEXT)]

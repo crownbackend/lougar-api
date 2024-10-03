@@ -14,8 +14,6 @@ if (input) {
             }
         });
 
-        // Afficher ou utiliser le tableau des IDs
-        console.log(unreadMessageIds);
         if (unreadMessageIds.length > 0) {
             fetch('/mes-conversation/messages/read', {
                 method: 'POST',
