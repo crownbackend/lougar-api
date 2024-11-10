@@ -1,6 +1,6 @@
 
 <!-- Customer Menu -->
-<div class="col-lg-3 theiaStickySidebar">
+<div class="col-lg-2 theiaStickySidebar">
     <div class="settings-widget">
         <div class="settings-header">
             <h6>{{ app.user.firstName }} {{ app.user.lastName }}</h6>
@@ -22,7 +22,7 @@
                     <a href="{{ path('payment_tenant_index') }}" {% if app.request.attributes.get('_route') == 'payment_tenant_index' %}class="active"{% endif %}><i class="feather-credit-card"></i> <span>Paiement</span></a>
                 </li>
                 <li>
-                    <a href="customer-chat.html">
+                    <a href="{{ path('my_conversation_index') }}" {% if app.request.attributes.get('_route') == 'my_conversation_index' %}class="active"{% endif %}>
                         <i class="feather-message-circle"></i> <span>Chat</span>
                     </a>
                 </li>

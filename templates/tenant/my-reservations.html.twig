@@ -92,7 +92,7 @@ Mes réservations
                             </div>
                         </div>
                         <div class="booking-action action-popup-btn">
-                            <a href="customer-chat.html" class="btn btn-secondary"><i class="fa-brands fa-rocketchat"></i> Contact</a>
+                            <a href="{{ path('my_conversation_create_conversation', {'id': reservation.id}) }}" class="btn btn-secondary"><i class="fa-brands fa-rocketchat"></i> Contact</a>
                             {% if reservation.status == 1 %}
                                 <a href="{{ path('tenant_cancel_reservation', {'id': reservation.id}) }}"
                                    class="btn btn-danger"

@@ -49,6 +49,10 @@ security:
          - { path: ^/locataire, roles: ROLE_TENANT }
          - { path: ^/proprietaire, roles: ROLE_OWNER }
          - { path: ^/reservation, roles: ROLE_TENANT }
+         - { path: ^/mes-conversation, roles: [ROLE_TENANT, ROLE_OWNER] }
+         - { path: ^/notification, roles: [ROLE_TENANT, ROLE_OWNER] }
+         - { path: ^/paiement, roles: [ROLE_TENANT, ROLE_OWNER] }
+         - { path: ^/utilisateurs, roles: [ROLE_ADMIN, ROLE_TENANT, ROLE_OWNER] }
 
 when@test:
     security:
