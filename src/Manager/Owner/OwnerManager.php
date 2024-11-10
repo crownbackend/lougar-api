@@ -91,7 +91,7 @@ readonly class OwnerManager
     {
         $now = new \DateTimeImmutable();
         $newStartAt = $reservation->getStartAt()->modify('-2 hour');
-        if($reservation === Reservation::STATUS['En attente'] && $newStartAt < $now) {
+        if($reservation->getStatus() === Reservation::STATUS['En attente'] && $newStartAt < $now) {
             $reservation->setStatus(Reservation::STATUS['Annuler']);
             $reservation->setUpdatedAt(new \DateTimeImmutable());
             $this->entityManager->persist($reservation);
